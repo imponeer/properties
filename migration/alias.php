@@ -1,4 +1,4 @@
 <?php
 return array(
-    'icms_properties_Handler' => '\ImpressCMS\Properties'
+    'icms_properties_Handler' => '\\ImpressCMS\\Properties'
 );
