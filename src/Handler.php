@@ -2,11 +2,10 @@
 /**
  * Contains methods for dealing with object properties
  *
- * @copyright           The ImpressCMS Project http://www.impresscms.org/
- * @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
- * @since		2.0
- * @author		i.know@mekdrop.name
- * @package		ICMS\Properties
+ * @copyright   The ImpressCMS Project http://www.impresscms.org/
+ * @license		https://opensource.org/licenses/MIT MIT
+ * @author		mekdrop@impresscms.org
+ *
  * @todo		Properly identify and declare the visibility of vars and functions
  */
 abstract class icms_properties_Handler implements Serializable {
