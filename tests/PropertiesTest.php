@@ -1,7 +1,5 @@
 <?php
 
-namespace ImpressCMS\Tests\Libraries\ICMS;
-
 /**
 * @backupGlobals disabled
 * @backupStaticAttributes disabled
@@ -12,7 +10,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase {
      * Does icms_properties_Handler exists and it's usable?
      */
     public function testExists() {
-        $this->assertTrue(class_exists('icms_properties_Handler', false), 'icms_properties_Handler class doesn exist');
+        $this->assertTrue(class_exists('icms_properties_Handler'), 'icms_properties_Handler class doesn exist');
         $mock = $this->getMockForAbstractClass('icms_properties_Handler');
         $this->assertTrue($mock instanceof \icms_properties_Handler, 'Can\'t extend icms_properties_Handler with class');
     }
