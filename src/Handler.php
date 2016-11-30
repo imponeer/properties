@@ -1,4 +1,9 @@
 <?php
+
+namespace ImpressCMS;
+
+use Serializable;
+
 /**
  * Contains methods for dealing with object properties
  *
@@ -8,7 +13,7 @@
  *
  * @todo		Properly identify and declare the visibility of vars and functions
  */
-abstract class icms_properties_Handler implements Serializable {
+abstract class Properties implements Serializable {
 
     /**
      * Specifies property that a property stores a string
