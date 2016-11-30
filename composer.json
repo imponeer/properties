@@ -23,7 +23,7 @@
    },
    "extra":{  
       "typo3/class-alias-loader":{  
-         "autoload-case-sensitivity":true,
+         "autoload-case-sensitivity":false,
          "always-add-alias-loader":true,
          "class-alias-maps":[  
             "./migration/alias.php"
