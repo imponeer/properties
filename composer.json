@@ -1,33 +1,33 @@
-{
-    "name": "impresscms/properties",
-    "description": "Ads possibility to define class variables with a strict type",
-    "type": "library",
-    "require-dev": {
-        "phpunit/phpunit": "*"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Raimondas Rimkevicius",
-            "email": "mekdrop@impresscms.org"
-        }
-    ],
-    "require": {
-        "php": ">=5.4",
-        "typo3/class-alias-loader": "^1.0"
-    },
-    "autoload": {
-	"classmap": [
-            "./src/Handler.php"
-	]
-    },
-    "extra": {
-        "typo3/class-alias-loader": {
-	    "autoload-case-sensitivity": true,
-	    "always-add-alias-loader": true,
-            "class-alias-maps": [
-                "./migration/alias.php"
-            ]
-        }
-    },
+{  
+   "name":"impresscms/properties",
+   "description":"Ads possibility to define class variables with a strict type",
+   "type":"library",
+   "require-dev":{  
+      "phpunit/phpunit":"*"
+   },
+   "license":"MIT",
+   "authors":[  
+      {  
+         "name":"Raimondas Rimkevicius",
+         "email":"mekdrop@impresscms.org"
+      }
+   ],
+   "require":{  
+      "php":">=5.4",
+      "typo3/class-alias-loader":"^1.0"
+   },
+   "autoload":{  
+      "classmap":[  
+         "./src/Handler.php"
+      ]
+   },
+   "extra":{  
+      "typo3/class-alias-loader":{  
+         "autoload-case-sensitivity":true,
+         "always-add-alias-loader":true,
+         "class-alias-maps":[  
+            "./migration/alias.php"
+         ]
+      }
+   }
 }
