@@ -20,5 +20,14 @@
 	"classmap": [
             "./src/Handler.php"
 	]
-    }
+    },
+    "extra": {
+        "typo3/class-alias-loader": {
+	    "autoload-case-sensitivity": true,
+	    "always-add-alias-loader": true,
+            "class-alias-maps": [
+                "./migration/alias.php"
+            ]
+        }
+    },
 }
