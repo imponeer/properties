@@ -2,8 +2,6 @@
 
 namespace ImpressCMS;
 
-use Serializable;
-
 /**
  * Contains methods for dealing with object properties
  *
@@ -13,7 +11,7 @@ use Serializable;
  *
  * @todo		Properly identify and declare the visibility of vars and functions
  */
-abstract class Properties implements Serializable {
+abstract class Properties implements \Serializable {
 
     /**
      * Specifies property that a property stores a string
@@ -63,98 +61,98 @@ abstract class Properties implements Serializable {
     /**
      * Specifies property that a property stores a unknown format data
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_OTHER = 7; // XOBJ_DTYPE_OTHER
 
     /**
      * Specifies property that a property stores a file (old format)
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_FILE = 204; //XOBJ_DTYPE_FILE
 
     /**
      * Specifies property that a property stores a long string)
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_TXTBOX = 1; // XOBJ_DTYPE_TXTBOX
 
     /**
      * Specifies property that a property stores a url string
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_URL = 4; // XOBJ_DTYPE_URL
 
     /**
      * Specifies property that a property stores a email address
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_EMAIL = 5; // XOBJ_DTYPE_EMAIL
 
     /**
      * Specifies property that a property stores a source code
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_SOURCE = 8; // XOBJ_DTYPE_SOURCE
 
     /**
      * Specifies property that a property stores a short time
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_STIME = 9; // XOBJ_DTYPE_STIME
 
     /**
      * Specifies property that a property stores a middle time
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_MTIME = 10; // XOBJ_DTYPE_MTIME
 
     /**
      * Specifies property that a property stores a currency
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_CURRENCY = 200; // XOBJ_DTYPE_CURRENCY
 
     /**
      * Specifies property that a property stores a time only data
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_TIME_ONLY = 202; // XOBJ_DTYPE_TIME_ONLY
 
     /**
      * Specifies property that a property stores a urllink
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_URLLINK = 203; // XOBJ_DTYPE_URLLINK
 
     /**
      * Specifies property that a property stores a image
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_IMAGE = 205; // XOBJ_DTYPE_IMAGE
 
     /**
      * Specifies property that a property stores a form section opening
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_FORM_SECTION = 210; // XOBJ_DTYPE_FORM_SECTION
 
     /**
      * Specifies property that a property stores a form section closing
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     const DTYPE_DEP_FORM_SECTION_CLOSE = 211; // XOBJ_DTYPE_FORM_SECTION_CLOSE
 
@@ -308,6 +306,13 @@ abstract class Properties implements Serializable {
      */
     const VALIDATE_RULE_LINKS = '#^http(s)?://[a-z0-9-_.]+\.[a-z]{2,4}#i';
 
+	/**
+	 * Default upload path
+	 *
+	 * @var string
+	 */
+	public static $default_upload_path = './uploads';
+
     /**
      * Vars configuration
      *
@@ -341,10 +346,10 @@ abstract class Properties implements Serializable {
      * @param	bool            $displayOnForm      Display on form
      * @param	string		$default            Default value
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     public function initCommonVar($varname, $displayOnForm = true, $default = 'notdefined') {
-        icms_core_Debug::setDeprecated('', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+        trigger_error('initCommonVar() -> initVar()', E_USER_DEPRECATED);
         switch ($varname) {
             case 'docxode':
                 trigger_error('You should use doxcode in code. Not docxode.', E_USER_WARNING);
@@ -369,11 +374,11 @@ abstract class Properties implements Serializable {
                 if (isset($this->_vars[$name])) {
                     return $this->_vars[$name][self::VARCFG_VALUE];
                 } else {
-                    icms_core_Debug::setDeprecated('getVars()', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                    trigger_error('$_vars/$vars -> getVars()', E_USER_DEPRECATED);
                     return $this->_vars;
                 }
             case 'cleanVars':
-                icms_core_Debug::setDeprecated('toArray()', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('$cleanVars -> toArray()', E_USER_DEPRECATED);
                 return $this->toArray();
             default:
                 if (!isset($this->_vars[$name])) {
@@ -692,7 +697,7 @@ abstract class Properties implements Serializable {
                     $this->_vars[$key][self::VARCFG_MAX_HEIGHT] = intval($this->_vars[$key][self::VARCFG_MAX_HEIGHT]);
                 }
                 if (!isset($this->_vars[$key][self::VARCFG_PATH]) || empty($this->_vars[$key][self::VARCFG_PATH])) {
-                    $this->_vars[$key][self::VARCFG_PATH] = ICMS_UPLOAD_PATH;
+                    $this->_vars[$key][self::VARCFG_PATH] = static::$default_upload_path;
                 }
                 if (!isset($this->_vars[$key][self::VARCFG_PREFIX])) {
                     $this->_vars[$key][self::VARCFG_PREFIX] = str_replace(array('icms_ipf_', 'mod_'), '', get_class($this));
@@ -707,51 +712,51 @@ abstract class Properties implements Serializable {
                 }
                 break;
             case self::DTYPE_DEP_CURRENCY:
-                icms_core_Debug::setDeprecated('DTYPE_FLOAT with VARCFG_FORMAT "%01.2f"', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_CURRENCY -> DTYPE_FLOAT with VARCFG_FORMAT "%01.2f"', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_FORMAT] = '%01.2f';
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
                 $dataType = self::DTYPE_FLOAT;
                 break;
             case self::DTYPE_DEP_MTIME:
-                icms_core_Debug::setDeprecated('DTYPE_DATETIME with VARCFG_FORMAT _MEDIUMDATESTRING', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_MTIME -> DTYPE_DATETIME with VARCFG_FORMAT _MEDIUMDATESTRING', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_FORMAT] = _MEDIUMDATESTRING;
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
                 $dataType = self::DTYPE_DATETIME;
                 break;
             case self::DTYPE_DEP_STIME:
-                icms_core_Debug::setDeprecated('DTYPE_DATETIME with VARCFG_FORMAT _SHORTDATESTRING', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_STIME -> DTYPE_DATETIME with VARCFG_FORMAT _SHORTDATESTRING', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_FORMAT] = _SHORTDATESTRING;
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
                 $dataType = self::DTYPE_DATETIME;
                 break;
             case self::DTYPE_DEP_TIME_ONLY:
-                icms_core_Debug::setDeprecated('DTYPE_DATETIME with VARCFG_FORMAT "s:i"', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_TIME_ONLY -> DTYPE_DATETIME with VARCFG_FORMAT "s:i"', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_FORMAT] = 's:i';
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
                 $dataType = self::DTYPE_DATETIME;
                 break;
             case self::DTYPE_DEP_FORM_SECTION:
             case self::DTYPE_DEP_FORM_SECTION_CLOSE:
-                icms_core_Debug::setDeprecated('', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_FORM_SECTION/DTYPE_DEP_FORM_SECTION_CLOSE', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
                 $dataType = self::DTYPE_OTHER;
                 break;
             case self::DTYPE_DEP_SOURCE:
-                icms_core_Debug::setDeprecated('DTYPE_STRING with specified VARCFG_SOURCE_FORMATING', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_SOURCE -> DTYPE_STRING with specified VARCFG_SOURCE_FORMATING', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_SOURCE_FORMATING] = 'php';
                 $this->_vars[$key][self::VARCFG_AF_DISABLED] = true;
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
                 $dataType = self::DTYPE_STRING;
                 break;
             case self::DTYPE_DEP_URL:
-                icms_core_Debug::setDeprecated('DTYPE_STRING with specified VARCFG_VALIDATE_RULE VALIDATE_RULE_LINKS', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_URL -> DTYPE_STRING with specified VARCFG_VALIDATE_RULE VALIDATE_RULE_LINKS', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_VALIDATE_RULE] = self::VALIDATE_RULE_LINKS;
                 $this->_vars[$key][self::VARCFG_AF_DISABLED] = true;
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
                 $dataType = self::DTYPE_STRING;
                 break;
             case self::DTYPE_DEP_URLLINK:
-                icms_core_Debug::setDeprecated('DTYPE_INTEGER with VARCFG_DATA_HANDLER = "link"', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_URLLINK -> DTYPE_INTEGER with VARCFG_DATA_HANDLER = "link"', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_VALIDATE_RULE] = self::VALIDATE_RULE_LINKS;
                 $this->_vars[$key][self::VARCFG_AF_DISABLED] = true;
                 $this->_vars[$key][self::VARCFG_DATA_HANDLER] = 'link';
@@ -759,28 +764,28 @@ abstract class Properties implements Serializable {
                 $dataType = self::DTYPE_INTEGER;
                 break;
             case self::DTYPE_DEP_EMAIL:
-                icms_core_Debug::setDeprecated('DTYPE_STRING with specified VARCFG_VALIDATE_RULE VALIDATE_RULE_EMAIL', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_EMAIL -> DTYPE_STRING with specified VARCFG_VALIDATE_RULE VALIDATE_RULE_EMAIL', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_VALIDATE_RULE] = self::VALIDATE_RULE_EMAIL;
                 $this->_vars[$key][self::VARCFG_AF_DISABLED] = true;
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
                 $dataType = self::DTYPE_STRING;
                 break;
             case self::DTYPE_DEP_TXTBOX:
-                icms_core_Debug::setDeprecated('DTYPE_STRING with specified VARCFG_MAX_LENGTH = 255', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_TXTBOX -> DTYPE_STRING with specified VARCFG_MAX_LENGTH = 255', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_MAX_LENGTH] = 255;
                 $this->_vars[$key][self::VARCFG_AF_DISABLED] = true;
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
                 $dataType = self::DTYPE_STRING;
                 break;
             case self::DTYPE_DEP_IMAGE:
-                icms_core_Debug::setDeprecated('DTYPE_INTEGER with VARCFG_DATA_HANDLER = "image"', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_IMAGE -> DTYPE_INTEGER with VARCFG_DATA_HANDLER = "image"', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_ALLOWED_MIMETYPES] = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/svg+xml', 'image/tiff', 'image/vnd.microsoft.icon');
                 $this->_vars[$key][self::VARCFG_DATA_HANDLER] = 'image';
                 $this->_vars[$key][self::VARCFG_AF_DISABLED] = true;
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
                 $dataType = self::DTYPE_INTEGER;
             case self::DTYPE_DEP_FILE:
-                icms_core_Debug::setDeprecated('DTYPE_INTEGER with VARCFG_DATA_HANDLER = "file"', sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+                trigger_error('DTYPE_DEP_FILE -> DTYPE_INTEGER with VARCFG_DATA_HANDLER = "file"', E_USER_DEPRECATED);
                 $this->_vars[$key][self::VARCFG_DATA_HANDLER] = 'file';
                 $this->_vars[$key][self::VARCFG_AF_DISABLED] = true;
                 $this->_vars[$key][self::VARCFG_DEP_DATA_TYPE] = $dataType;
@@ -1103,10 +1108,10 @@ abstract class Properties implements Serializable {
      * @param string $key   Var name
      * @param int $type     Type
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     public function setType($key, $type) {
-        icms_core_Debug::setDeprecated("setVarInfo", sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+        trigger_error("setType() -> setVarInfo()", E_USER_DEPRECATED);
         $this->setVarInfo($key, self::VARCFG_TYPE, $type);
     }
 
@@ -1116,10 +1121,10 @@ abstract class Properties implements Serializable {
      * @param string $key   Var name
      * @param bool $is_required     Is required?
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     public function doSetFieldAsRequired($key, $is_required = true) {
-         icms_core_Debug::setDeprecated("setVarInfo", sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+         trigger_error("doSetFieldAsRequired() -> setVarInfo()", E_USER_DEPRECATED);
          $this->setVarInfo($key, self::VARCFG_REQUIRED, $is_required);
     }
 
@@ -1128,10 +1133,10 @@ abstract class Properties implements Serializable {
      *
      * @return array
      *
-     * @deprecated since version 2.0
+     * @deprecated
      */
     public function cleanVars() {
-        icms_core_Debug::setDeprecated("toArray", sprintf(_CORE_REMOVE_IN_VERSION, '2.1'));
+        trigger_error("cleanVars() -> toArray()", E_USER_DEPRECATED);
         return $this->toArray();
     }
 
