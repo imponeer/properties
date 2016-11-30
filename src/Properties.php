@@ -606,7 +606,8 @@ abstract class Properties implements Serializable {
      * @return bool
      */
     public function isChanged() {
-        return empty($this->getChangedVars()) === false;
+		$changedVars = $this->getChangedVars();
+        return empty($changedVars) === false;
     }
 
     /**
