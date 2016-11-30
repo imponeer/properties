@@ -17,8 +17,7 @@
    },
    "autoload":{  
       "classmap":[  
-         "./src/Properties.php",
-	 "./src/icms_properties_Handler.php"
+         "./src/Properties.php"
       ]
    }
 }
