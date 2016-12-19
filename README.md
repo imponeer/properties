@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/github/license/MekDrop/impresscms-library-properties.svg?maxAge=2592000)](License.txt) [![GitHub release](https://img.shields.io/github/release/MekDrop/impresscms-library-properties.svg?maxAge=2592000)](https://github.com/ImpressCMS/impresscms/releases) [![Build Status](https://travis-ci.org/MekDrop/impresscms-library-properties.svg?branch=master)](https://travis-ci.org/MekDrop/impresscms-library-properties)
+[![License](https://img.shields.io/github/license/IPFLibraries/properties.svg?maxAge=2592000)](License.txt) [![GitHub release](https://img.shields.io/github/release/IPFLibraries/properties.svg?maxAge=2592000)](https://github.com/ImpressCMS/impresscms/releases) [![Build Status](https://travis-ci.org/IPFLibraries/properties.svg?branch=master)](https://travis-ci.org/IPFLibraries/properties)
 
 # Properties
 
@@ -6,7 +6,7 @@ PHP library for handling strict type class variables. This package can be used o
 
 ##Installation
 
-`composer require impresscms/properties`
+`composer require ipf-libraries/properties`
 
 ## Usage
 
