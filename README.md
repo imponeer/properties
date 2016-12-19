@@ -46,8 +46,7 @@ $obj->varB = 58;
 $obj->varC = 59;
 var_dump($obj->toArray());
 
-// Modify vars with some string9g
-values and prints
+// Modify vars with some string values and prints
 $obj->varA = "A";
 $obj->varB = "B";
 $obj->varC = "C";
