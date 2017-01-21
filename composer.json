@@ -1,23 +1,23 @@
-{  
-   "name":"impresscms/properties",
+{
+   "name":"IPFLibraries/properties",
    "description":"Add a possibility to define class variables with strict data type behaviors",
    "type":"library",
-   "require-dev":{  
+   "require-dev":{
       "phpunit/phpunit":"*"
    },
    "license":"MIT",
-   "authors":[  
-      {  
+   "authors":[
+      {
          "name":"Raimondas Rimkevicius",
          "email":"mekdrop@impresscms.org"
       }
    ],
-   "require":{  
+   "require":{
       "php":">=5.4"
    },
-   "autoload":{  
-      "classmap":[  
-         "./src/Properties.php"
-      ]
+   "autoload":{
+	   "psr-4": {
+		   "IPFLibraries\\Properties\\": "src/"
+	   }
    }
 }
