@@ -7,7 +7,7 @@
 class PropertiesTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * Does icms_properties_Handler exists and it's usable?
+     * Does \IPFLibraries\Properties\PropertiesSupport exists and it's usable?
      */
     public function testExists() {
         $this->assertTrue(class_exists('\\IPFLibraries\\Properties\\PropertiesSupport'), '\\IPFLibraries\\Properties\\PropertiesSupport class doesn exist');
@@ -62,7 +62,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertCount(0, $mock->getVars(), 'Properties creates object with existing vars. This must not be possible for new objects.');
 
-        $reflection_method->invoke($mock, 'var_array', \icms_properties_Handler::DTYPE_ARRAY, array(), false);
+        $reflection_method->invoke($mock, 'var_array', \IPFLibraries\Properties\PropertiesSupport::DTYPE_ARRAY, array(), false);
 
         $vars = $mock->getVars();
         $this->assertCount(1, $vars, 'Couln\'t init var');
@@ -79,8 +79,8 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase {
      */
     public function testTypeFile() {
         $mock = $this->createMockWithInitVar('v', \IPFLibraries\Properties\PropertiesSupport::DTYPE_FILE, null, [
-            \icms_properties_Handler::VARCFG_PATH => sys_get_temp_dir(),
-            \icms_properties_Handler::VARCFG_PREFIX => crc32(microtime(true))
+			\IPFLibraries\Properties\PropertiesSupport::VARCFG_PATH => sys_get_temp_dir(),
+			\IPFLibraries\Properties\PropertiesSupport::VARCFG_PREFIX => crc32(microtime(true))
         ]);
 
         $this->assertInternalType('null', $mock->v, 'DTYPE_FILE must have null uncoverted');
