@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/github/license/IPFLibraries/properties.svg?maxAge=2592000)](License.txt) [![GitHub release](https://img.shields.io/github/release/IPFLibraries/properties.svg?maxAge=2592000)](https://github.com/ImpressCMS/impresscms/releases) [![Build Status](https://travis-ci.org/IPFLibraries/properties.svg?branch=master)](https://travis-ci.org/IPFLibraries/properties)
+[![License](https://img.shields.io/github/license/IPFLibraries/properties.svg?maxAge=2592000)](License.txt) [![GitHub release](https://img.shields.io/github/release/IPFLibraries/properties.svg?maxAge=2592000)](https://github.com/ImpressCMS/impresscms/releases) [![Build Status](https://travis-ci.org/IPFLibraries/properties.svg?branch=master)](https://travis-ci.org/IPFLibraries/properties) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/IPFLibraries/properties/badges/quality-score.png)](https://scrutinizer-ci.com/g/IPFLibraries/properties/)
 
 # Properties
 
