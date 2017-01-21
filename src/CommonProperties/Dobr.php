@@ -1,16 +1,18 @@
 <?php
 
-namespace IPFLibraries\Properties\CommonVariables;
+namespace IPFLibraries\Properties\CommonProperties;
 
-use IPFLibraries\Properties\CommonVariableInterface;
-use IPFLibraries\Properties\PropertiesSupport as Properties;
+use IPFLibraries\Properties\CommonPropertyInterface;
+use IPFLibraries\Properties\ConfigOption;
+use IPFLibraries\Properties\DataType;
 
 /**
- * Meta description field type
+ * Do br field type
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class MetaDescription implements CommonVariableInterface {
+class Dobr implements CommonPropertyInterface
+{
 	/**
 	 * @inheritDoc
 	 */
@@ -24,7 +26,7 @@ class MetaDescription implements CommonVariableInterface {
 	 */
 	public function getDataType()
 	{
-		return Properties::DTYPE_STRING;
+		return DataType::INTEGER;
 	}
 
 	/**
@@ -40,12 +42,15 @@ class MetaDescription implements CommonVariableInterface {
 	 */
 	public function getOtherConfig()
 	{
+		if (!defined('_CM_DOAUTOWRAP')) {
+			icms_loadLanguageFile('core', 'comment');
+		}
 		return [
-			'form_caption' => _CO_ICMS_META_DESCRIPTION,
-			Properties::VARCFG_MAX_LENGTH => 160,
+			ConfigOption::FORM_CAPTION => _CM_DOAUTOWRAP,
+			ConfigOption::MAX_LENGTH => null,
 			'options' => '',
 			'multilingual' => false,
-			'form_dsc' => _CO_ICMS_META_DESCRIPTION_DSC,
+			ConfigOption::FORM_DESC => '',
 			'sortby' => false,
 			'persistent' => true
 		];
@@ -57,8 +62,7 @@ class MetaDescription implements CommonVariableInterface {
 	public function getControl()
 	{
 		return [
-			'name' => 'textarea',
-			'form_editor'=>'textarea'
+			'name' => 'yesno'
 		];
 	}
 

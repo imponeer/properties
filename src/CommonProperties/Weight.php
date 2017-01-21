@@ -1,15 +1,18 @@
 <?php
 
-namespace IPFLibraries\Properties\CommonVariables;
+namespace IPFLibraries\Properties\CommonProperties;
 
-use IPFLibraries\Properties\CommonVariableInterface;
-use IPFLibraries\Properties\PropertiesSupport as Properties;
+use IPFLibraries\Properties\CommonPropertyInterface;
+use IPFLibraries\Properties\ConfigOption;
+use IPFLibraries\Properties\DataType;
+
 /**
- * Do HTML field type
+ * Weight field type
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class Dohtml implements CommonVariableInterface {
+class Weight implements CommonPropertyInterface
+{
 	/**
 	 * @inheritDoc
 	 */
@@ -23,7 +26,7 @@ class Dohtml implements CommonVariableInterface {
 	 */
 	public function getDataType()
 	{
-		return Properties::DTYPE_INTEGER;
+		return DataType::INTEGER;
 	}
 
 	/**
@@ -39,16 +42,13 @@ class Dohtml implements CommonVariableInterface {
 	 */
 	public function getOtherConfig()
 	{
-		if (!defined('_CM_DOAUTOWRAP')) {
-			icms_loadLanguageFile('core', 'comment');
-		}
 		return [
-			'form_caption' => _CM_DOHTML,
-			Properties::VARCFG_MAX_LENGTH => null,
+			ConfigOption::FORM_CAPTION => _CO_ICMS_WEIGHT_FORM_CAPTION,
+			ConfigOption::MAX_LENGTH => null,
 			'options' => '',
 			'multilingual' => false,
-			'form_dsc' => '',
-			'sortby' => false,
+			ConfigOption::FORM_DESC => '',
+			'sortby' => true,
 			'persistent' => true
 		];
 	}
@@ -58,9 +58,7 @@ class Dohtml implements CommonVariableInterface {
 	 */
 	public function getControl()
 	{
-		return [
-			'name' => 'yesno'
-		];
+		return null;
 	}
 
 }

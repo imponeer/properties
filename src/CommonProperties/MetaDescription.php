@@ -1,16 +1,18 @@
 <?php
 
-namespace IPFLibraries\Properties\CommonVariables;
+namespace IPFLibraries\Properties\CommonProperties;
 
-use IPFLibraries\Properties\CommonVariableInterface;
-use IPFLibraries\Properties\PropertiesSupport as Properties;
+use IPFLibraries\Properties\CommonPropertyInterface;
+use IPFLibraries\Properties\ConfigOption;
+use IPFLibraries\Properties\DataType;
 
 /**
- * Short URL field type
+ * Meta description field type
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class ShortUrl implements CommonVariableInterface {
+class MetaDescription implements CommonPropertyInterface
+{
 	/**
 	 * @inheritDoc
 	 */
@@ -24,7 +26,7 @@ class ShortUrl implements CommonVariableInterface {
 	 */
 	public function getDataType()
 	{
-		return Properties::DTYPE_STRING;
+		return DataType::STRING;
 	}
 
 	/**
@@ -41,11 +43,11 @@ class ShortUrl implements CommonVariableInterface {
 	public function getOtherConfig()
 	{
 		return [
-			'form_caption' => _CO_ICMS_SHORT_URL,
-			Properties::VARCFG_MAX_LENGTH => 255,
+			ConfigOption::FORM_CAPTION => _CO_ICMS_META_DESCRIPTION,
+			ConfigOption::MAX_LENGTH => 160,
 			'options' => '',
 			'multilingual' => false,
-			'form_dsc' => _CO_ICMS_SHORT_URL_DSC,
+			ConfigOption::FORM_DESC => _CO_ICMS_META_DESCRIPTION_DSC,
 			'sortby' => false,
 			'persistent' => true
 		];
@@ -56,7 +58,10 @@ class ShortUrl implements CommonVariableInterface {
 	 */
 	public function getControl()
 	{
-		return null;
+		return [
+			'name' => 'textarea',
+			'form_editor'=>'textarea'
+		];
 	}
 
 }

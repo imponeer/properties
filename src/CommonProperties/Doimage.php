@@ -1,16 +1,18 @@
 <?php
 
-namespace IPFLibraries\Properties\CommonVariables;
+namespace IPFLibraries\Properties\CommonProperties;
 
-use IPFLibraries\Properties\CommonVariableInterface;
-use IPFLibraries\Properties\PropertiesSupport as Properties;
+use IPFLibraries\Properties\CommonPropertyInterface;
+use IPFLibraries\Properties\ConfigOption;
+use IPFLibraries\Properties\DataType;
 
 /**
- * Custom CSS field type
+ * Do Image field type
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class CustomCss implements CommonVariableInterface {
+class Doimage implements CommonPropertyInterface
+{
 	/**
 	 * @inheritDoc
 	 */
@@ -24,7 +26,7 @@ class CustomCss implements CommonVariableInterface {
 	 */
 	public function getDataType()
 	{
-		return Properties::DTYPE_STRING;
+		return DataType::INTEGER;
 	}
 
 	/**
@@ -41,11 +43,11 @@ class CustomCss implements CommonVariableInterface {
 	public function getOtherConfig()
 	{
 		return [
-			'form_caption' => _CO_ICMS_CUSTOM_CSS,
-			Properties::VARCFG_MAX_LENGTH => null,
+			ConfigOption::FORM_CAPTION => _CO_ICMS_DOIMAGE_FORM_CAPTION,
+			ConfigOption::MAX_LENGTH => null,
 			'options' => '',
 			'multilingual' => false,
-			'form_dsc' => _CO_ICMS_CUSTOM_CSS_DSC,
+			ConfigOption::FORM_DESC => '',
 			'sortby' => false,
 			'persistent' => true
 		];
@@ -57,8 +59,7 @@ class CustomCss implements CommonVariableInterface {
 	public function getControl()
 	{
 		return [
-			'name' => 'textarea',
-			'form_editor'=>'textarea'
+			'name' => 'yesno'
 		];
 	}
 

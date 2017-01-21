@@ -13,7 +13,8 @@
       }
    ],
    "require":{
-      "php":">=5.4"
+	   "php": ">=5.4",
+	   "myclabs/php-enum": "1.5.0"
    },
    "autoload":{
 	   "psr-4": {

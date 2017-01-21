@@ -1,16 +1,18 @@
 <?php
 
-namespace IPFLibraries\Properties\CommonVariables;
+namespace IPFLibraries\Properties\CommonProperties;
 
-use IPFLibraries\Properties\CommonVariableInterface;
-use IPFLibraries\Properties\PropertiesSupport as Properties;
+use IPFLibraries\Properties\CommonPropertyInterface;
+use IPFLibraries\Properties\ConfigOption;
+use IPFLibraries\Properties\DataType;
 
 /**
- * Weight field type
+ * Custom CSS field type
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class Weight implements CommonVariableInterface {
+class CustomCss implements CommonPropertyInterface
+{
 	/**
 	 * @inheritDoc
 	 */
@@ -24,7 +26,7 @@ class Weight implements CommonVariableInterface {
 	 */
 	public function getDataType()
 	{
-		return Properties::DTYPE_INTEGER;
+		return DataType::STRING;
 	}
 
 	/**
@@ -41,12 +43,12 @@ class Weight implements CommonVariableInterface {
 	public function getOtherConfig()
 	{
 		return [
-			'form_caption' => _CO_ICMS_WEIGHT_FORM_CAPTION,
-			Properties::VARCFG_MAX_LENGTH => null,
+			ConfigOption::FORM_CAPTION => _CO_ICMS_CUSTOM_CSS,
+			ConfigOption::MAX_LENGTH => null,
 			'options' => '',
 			'multilingual' => false,
-			'form_dsc' => '',
-			'sortby' => true,
+			ConfigOption::FORM_DESC => _CO_ICMS_CUSTOM_CSS_DSC,
+			'sortby' => false,
 			'persistent' => true
 		];
 	}
@@ -56,7 +58,10 @@ class Weight implements CommonVariableInterface {
 	 */
 	public function getControl()
 	{
-		return null;
+		return [
+			'name' => 'textarea',
+			'form_editor'=>'textarea'
+		];
 	}
 
 }

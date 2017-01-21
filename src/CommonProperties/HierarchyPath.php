@@ -1,16 +1,18 @@
 <?php
 
-namespace IPFLibraries\Properties\CommonVariables;
+namespace IPFLibraries\Properties\CommonProperties;
 
-use IPFLibraries\Properties\CommonVariableInterface;
-use IPFLibraries\Properties\PropertiesSupport as Properties;
+use IPFLibraries\Properties\CommonPropertyInterface;
+use IPFLibraries\Properties\ConfigOption;
+use IPFLibraries\Properties\DataType;
 
 /**
  * Hierarchy path field type
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class HierarchyPath implements CommonVariableInterface {
+class HierarchyPath implements CommonPropertyInterface
+{
 	/**
 	 * @inheritDoc
 	 */
@@ -24,7 +26,7 @@ class HierarchyPath implements CommonVariableInterface {
 	 */
 	public function getDataType()
 	{
-		return Properties::DTYPE_ARRAY;
+		return DataType::ARRAY;
 	}
 
 	/**
@@ -41,11 +43,11 @@ class HierarchyPath implements CommonVariableInterface {
 	public function getOtherConfig()
 	{
 		return [
-			'form_caption' => _CO_ICMS_HIERARCHY_PATH,
-			Properties::VARCFG_MAX_LENGTH => null,
+			ConfigOption::FORM_CAPTION => _CO_ICMS_HIERARCHY_PATH,
+			ConfigOption::MAX_LENGTH => null,
 			'options' => '',
 			'multilingual' => false,
-			'form_dsc' => _CO_ICMS_HIERARCHY_PATH_DSC,
+			ConfigOption::FORM_DESC => _CO_ICMS_HIERARCHY_PATH_DSC,
 			'sortby' => false,
 			'persistent' => true
 		];

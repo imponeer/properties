@@ -13,7 +13,7 @@ namespace IPFLibraries\Properties;
  *
  * @package IPFLibraries\Properties
  */
-interface CommonVariableInterface
+interface CommonPropertyInterface
 {
 
 	/**

@@ -1,16 +1,18 @@
 <?php
 
-namespace IPFLibraries\Properties\CommonVariables;
+namespace IPFLibraries\Properties\CommonProperties;
 
-use IPFLibraries\Properties\CommonVariableInterface;
-use IPFLibraries\Properties\PropertiesSupport as Properties;
+use IPFLibraries\Properties\CommonPropertyInterface;
+use IPFLibraries\Properties\ConfigOption;
+use IPFLibraries\Properties\DataType;
 
 /**
- * Do Image field type
+ * Meta keywords field type
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class Doimage implements CommonVariableInterface {
+class MetaKeywords implements CommonPropertyInterface
+{
 	/**
 	 * @inheritDoc
 	 */
@@ -24,7 +26,7 @@ class Doimage implements CommonVariableInterface {
 	 */
 	public function getDataType()
 	{
-		return Properties::DTYPE_INTEGER;
+		return DataType::STRING;
 	}
 
 	/**
@@ -41,11 +43,11 @@ class Doimage implements CommonVariableInterface {
 	public function getOtherConfig()
 	{
 		return [
-			'form_caption' => _CO_ICMS_DOIMAGE_FORM_CAPTION,
-			Properties::VARCFG_MAX_LENGTH => null,
+			ConfigOption::FORM_CAPTION => _CO_ICMS_META_KEYWORDS,
+			ConfigOption::MAX_LENGTH => 255,
 			'options' => '',
 			'multilingual' => false,
-			'form_dsc' => '',
+			ConfigOption::FORM_DESC => _CO_ICMS_META_KEYWORDS_DSC,
 			'sortby' => false,
 			'persistent' => true
 		];
@@ -57,7 +59,8 @@ class Doimage implements CommonVariableInterface {
 	public function getControl()
 	{
 		return [
-			'name' => 'yesno'
+			'name' => 'textarea',
+			'form_editor'=>'textarea'
 		];
 	}
 

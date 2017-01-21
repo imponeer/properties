@@ -1,16 +1,18 @@
 <?php
 
-namespace IPFLibraries\Properties\CommonVariables;
+namespace IPFLibraries\Properties\CommonProperties;
 
-use IPFLibraries\Properties\CommonVariableInterface;
-use IPFLibraries\Properties\PropertiesSupport as Properties;
+use IPFLibraries\Properties\CommonPropertyInterface;
+use IPFLibraries\Properties\ConfigOption;
+use IPFLibraries\Properties\DataType;
 
 /**
- * Do br field type
+ * Do x code field type
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class Dobr implements CommonVariableInterface {
+class Doxcode implements CommonPropertyInterface
+{
 	/**
 	 * @inheritDoc
 	 */
@@ -24,7 +26,7 @@ class Dobr implements CommonVariableInterface {
 	 */
 	public function getDataType()
 	{
-		return Properties::DTYPE_INTEGER;
+		return DataType::INTEGER;
 	}
 
 	/**
@@ -40,15 +42,12 @@ class Dobr implements CommonVariableInterface {
 	 */
 	public function getOtherConfig()
 	{
-		if (!defined('_CM_DOAUTOWRAP')) {
-			icms_loadLanguageFile('core', 'comment');
-		}
 		return [
-			'form_caption' => _CM_DOAUTOWRAP,
-			Properties::VARCFG_MAX_LENGTH => null,
+			ConfigOption::FORM_CAPTION => _CO_ICMS_DOXCODE_FORM_CAPTION,
+			ConfigOption::MAX_LENGTH => null,
 			'options' => '',
 			'multilingual' => false,
-			'form_dsc' => '',
+			ConfigOption::FORM_DESC => '',
 			'sortby' => false,
 			'persistent' => true
 		];

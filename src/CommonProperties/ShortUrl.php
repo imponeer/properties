@@ -1,16 +1,18 @@
 <?php
 
-namespace IPFLibraries\Properties\CommonVariables;
+namespace IPFLibraries\Properties\CommonProperties;
 
-use IPFLibraries\Properties\CommonVariableInterface;
-use IPFLibraries\Properties\PropertiesSupport as Properties;
+use IPFLibraries\Properties\CommonPropertyInterface;
+use IPFLibraries\Properties\ConfigOption;
+use IPFLibraries\Properties\DataType;
 
 /**
- * Counter field type
+ * Short URL field type
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class Counter implements CommonVariableInterface {
+class ShortUrl implements CommonPropertyInterface
+{
 	/**
 	 * @inheritDoc
 	 */
@@ -24,7 +26,7 @@ class Counter implements CommonVariableInterface {
 	 */
 	public function getDataType()
 	{
-		return Properties::DTYPE_INTEGER;
+		return DataType::STRING;
 	}
 
 	/**
@@ -41,11 +43,11 @@ class Counter implements CommonVariableInterface {
 	public function getOtherConfig()
 	{
 		return [
-			'form_caption' => _CO_ICMS_COUNTER_FORM_CAPTION,
-			Properties::VARCFG_MAX_LENGTH => null,
+			ConfigOption::FORM_CAPTION => _CO_ICMS_SHORT_URL,
+			ConfigOption::MAX_LENGTH => 255,
 			'options' => '',
 			'multilingual' => false,
-			'form_dsc' => '',
+			ConfigOption::FORM_DESC => _CO_ICMS_SHORT_URL_DSC,
 			'sortby' => false,
 			'persistent' => true
 		];
@@ -58,4 +60,5 @@ class Counter implements CommonVariableInterface {
 	{
 		return null;
 	}
+
 }
