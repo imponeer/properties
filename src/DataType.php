@@ -51,7 +51,6 @@ class DataType extends Enum
 	/**
 	 * Specifies property that a property stores an array
 	 */
-
 	const ARRAY = 6; // XOBJ_ARRAY
 	/**
 	 * Specifies property that a property stores a list

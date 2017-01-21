@@ -551,7 +551,7 @@ trait PropertiesSupport
 	 * Returns a specific variable for the object in a proper format
 	 *
 	 * @access public
-	 * @param string $key key of the object's variable to be returned
+	 * @param string $name key of the object's variable to be returned
 	 * @param string $format format to use for the output
 	 * @return mixed formatted value of the variable
 	 */
@@ -601,10 +601,10 @@ trait PropertiesSupport
 					if ($html) {
 						return $ts->displayTarea($this->_vars[$name][ConfigOption::VALUE], $html, $smiley, $xcode, $image, $br);
 					} else {
-						return $this->_vars[$name][ConfigOption::VALUE]; //icms_core_DataFilter::checkVar($this->_vars[$name][ConfigOption::VALUE], 'text', 'output');
+						return $this->_vars[$name][ConfigOption::VALUE];
 					}
 				} else {
-					$ret = str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->_vars[$name][ConfigOption::VALUE], ENT_QUOTES, _CHARSET)); //icms_core_DataFilter::htmlSpecialchars($this->_vars[$name][ConfigOption::VALUE]);
+					$ret = str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->_vars[$name][ConfigOption::VALUE], ENT_QUOTES, _CHARSET));
 					if (method_exists($this, 'formatForML')) {
 						return $this->formatForML($ret);
 					} else {
@@ -624,8 +624,8 @@ trait PropertiesSupport
 				return date(isset($this->_vars[$name][ConfigOption::FORMAT]) ? $this->_vars[$name][ConfigOption::FORMAT] : 'r', $this->_vars[$name][ConfigOption::VALUE]);
 			case DataType::ARRAY: // XOBJ_DTYPE_ARRAY
 				return $this->_vars[$name][ConfigOption::VALUE];
-			case DataType::LIST; // XOBJ_DTYPE_SIMPLE_ARRAY
-				return $this->_vars[$name][ConfigOption::VALUE];//nl2br(implode("\n", $this->_vars[$name][ConfigOption::VALUE]));
+			case DataType::LIST: // XOBJ_DTYPE_SIMPLE_ARRAY
+				return $this->_vars[$name][ConfigOption::VALUE];
 			default:
 				return (string)$this->_vars[$name][ConfigOption::VALUE];
 		}
