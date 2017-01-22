@@ -18,7 +18,7 @@ define('XOBJ_DTYPE_INTEGER', \IPFLibraries\Properties\PropertiesInterface::DTYPE
 define('XOBJ_DTYPE_URL', \IPFLibraries\Properties\PropertiesInterface::DTYPE_DEP_URL);
 define('XOBJ_DTYPE_EMAIL', \IPFLibraries\Properties\PropertiesInterface::DTYPE_DEP_EMAIL);
 define('XOBJ_DTYPE_ARRAY', \IPFLibraries\Properties\PropertiesInterface::DTYPE_ARRAY);
-define('XOBJ_DTYPE_OTHER', \IPFLibraries\Properties\PropertiesInterface::DTYPE_DEP_OTHER);
+define('XOBJ_DTYPE_OTHER', \IPFLibraries\Properties\PropertiesInterface::DTYPE_OTHER);
 define('XOBJ_DTYPE_SOURCE', \IPFLibraries\Properties\PropertiesInterface::DTYPE_DEP_SOURCE);
 define('XOBJ_DTYPE_STIME', \IPFLibraries\Properties\PropertiesInterface::DTYPE_DEP_STIME);
 define('XOBJ_DTYPE_MTIME', \IPFLibraries\Properties\PropertiesInterface::DTYPE_DEP_MTIME);
