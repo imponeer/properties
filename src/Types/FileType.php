@@ -66,12 +66,12 @@ class FileType extends AbstractType
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct($parent, $defaultValue, $required, $otherCfg)
+	public function __construct(&$parent, $defaultValue, $required, $otherCfg)
 	{
 		if (!isset($otherCfg['prefix'])) {
-			$otherCfg['prefix'] = end(
-				explode('//', str_replace(array('icms_ipf_', 'mod_'), '', get_class($parent)))
-			);
+			$parts = explode('//', str_replace(['icms_ipf_', 'mod_'], '', get_class($parent)));
+			$otherCfg['prefix'] = $parts[count($parts) - 1];
+			unset($parts);
 		}
 		if (!isset($otherCfg['path']) && defined('ICMS_UPLOAD_PATH')) {
 			$otherCfg['path'] = ICMS_UPLOAD_PATH;

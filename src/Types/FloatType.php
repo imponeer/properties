@@ -58,6 +58,9 @@ class FloatType extends AbstractType
 	 */
 	protected function clean($value)
 	{
+		if (is_object($value)) {
+			return 0.00;
+		}
 		return (float)$value;
 	}
 

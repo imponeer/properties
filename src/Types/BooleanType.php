@@ -56,6 +56,11 @@ class BooleanType extends AbstractType
 			return $value;
 		}
 		if (!is_string($value)) {
+			if (is_object($value)) {
+				return true;
+			} elseif (is_null($value)) {
+				return false;
+			}
 			return (bool)intval($value);
 		}
 		$value = strtolower($value);
