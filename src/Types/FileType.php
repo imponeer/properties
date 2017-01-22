@@ -112,31 +112,32 @@ class FileType extends AbstractType
 	}
 
 	/**
+	 * Set var from request
+	 *
+	 * @param mixed $key Key to read
+	 *
+	 * @throws PropertyIsLockedException
+	 * @throws ValueIsNotInPossibleValuesListException
+	 */
+	public function setFromRequest($key)
+	{
+		if (is_array($key)) {
+			$value = &$_FILES;
+			foreach ($key as $k) {
+				$value = &$value[$k];
+			}
+			$this->set($value);
+		} else {
+			$this->set($_FILES[$key]);
+		}
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	protected function clean($value)
 	{
-		if (isset($_FILES[$key])) {
-			$uploader = new icms_file_MediaUploadHandler($this->path, $this->allowedMimeTypes, $this->maxFileSize, $this->maxWidth, $this->maxHeight);
-			if ($uploader->fetchMedia($key)) {
-				if (is_callable($this->filenameGenerator)) {
-					$filename = call_user_func($this->filenameGenerator, 'post', $uploader->getMediaType(), $uploader->getMediaName());
-					if (!empty($this->prefix)) {
-						$filename = $this->prefix . $filename;
-					}
-					$uploader->setTargetFileName($filename);
-				} elseif (!empty($this->prefix)) {
-					$uploader->setPrefix($this->prefix);
-				}
-				if ($uploader->upload()) {
-					return array(
-						'filename' => $uploader->getSavedFileName(),
-						'mimetype' => $uploader->getMediaType(),
-					);
-				}
-				return null;
-			}
-		} elseif (is_string($value)) {
+		if (is_string($value)) {
 			if (file_exists($value)) {
 				return array(
 					'filename' => $value,

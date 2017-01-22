@@ -110,6 +110,53 @@ abstract class AbstractType
 	abstract protected function clean($value);
 
 	/**
+	 * Set var from request
+	 *
+	 * @param mixed $key Key to read
+	 *
+	 * @throws PropertyIsLockedException
+	 * @throws ValueIsNotInPossibleValuesListException
+	 */
+	public function setFromRequest($key)
+	{
+		if (is_array($key)) {
+			$value = &$_REQUEST;
+			foreach ($key as $k) {
+				$value = &$value[$k];
+			}
+			$this->set($value);
+		} else {
+			$this->set($_REQUEST[$key]);
+		}
+	}
+
+	/**
+	 * Set value
+	 *
+	 * @param $value Value to set
+	 */
+	public function set($value)
+	{
+		if ($this->locked) {
+			throw new PropertyIsLockedException();
+		}
+		if (!empty($this->possibleOptions) && !in_array($value, $this->possibleOptions)) {
+			throw new ValueIsNotInPossibleValuesListException();
+		}
+
+		$clean = $this->clean($value);
+
+		if ($clean === $this->value) {
+			return;
+		}
+		$this->value = $clean;
+		$this->changed = true;
+		if ($this->not_loaded) {
+			$this->not_loaded = false;
+		}
+	}
+
+	/**
 	 * Returns if current type is one of deprecated types
 	 *
 	 * @return bool
@@ -169,32 +216,6 @@ abstract class AbstractType
 	public function get()
 	{
 		return $this->value;
-	}
-
-	/**
-	 * Set value
-	 *
-	 * @param $value Value to set
-	 */
-	public function set($value)
-	{
-		if ($this->locked) {
-			throw new PropertyIsLockedException();
-		}
-		if (!empty($this->possibleOptions) && !in_array($value, $this->possibleOptions)) {
-			throw new ValueIsNotInPossibleValuesListException();
-		}
-
-		$clean = $this->clean($value);
-
-		if ($clean === $this->value) {
-			return;
-		}
-		$this->value = $clean;
-		$this->changed = true;
-		if ($this->not_loaded) {
-			$this->not_loaded = false;
-		}
 	}
 
 }
