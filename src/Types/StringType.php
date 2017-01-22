@@ -110,6 +110,8 @@ class StringType extends AbstractType
 		if (!is_string($value)) {
 			if (is_array($value)) {
 				$value = json_encode($value, JSON_PRETTY_PRINT);
+			} elseif ($value instanceof \stdClass) {
+				$value = json_encode((array)$value, JSON_PRETTY_PRINT);
 			} else {
 				$value = strval($value);
 			}
