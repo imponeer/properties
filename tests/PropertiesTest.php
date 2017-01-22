@@ -1,6 +1,6 @@
 <?php
 
-namespace \IPFLibraries\Properties\Tests;
+namespace IPFLibraries\Properties\Tests;
 
 use IPFLibraries\Properties\PropertiesInterface;
 
