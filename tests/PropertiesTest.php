@@ -2,7 +2,7 @@
 
 namespace \IPFLibraries\Properties\Tests;
 
-use PropertiesInterface;
+use IPFLibraries\Properties\PropertiesInterface;
 
 /**
 * @backupGlobals disabled
