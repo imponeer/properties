@@ -51,7 +51,7 @@ class IntegerType extends AbstractType
 	protected function clean($value)
 	{
 		if (is_object($value)) {
-			return 0.00;
+			return 0;
 		}
 		return (int)$value;
 	}
