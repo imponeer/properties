@@ -52,31 +52,6 @@ class StringType extends AbstractType
 	/**
 	 * @inheritDoc
 	 */
-	public function clean($value)
-	{
-		if (!is_string($value)) {
-			$value = strval($value);
-		}
-		if (!$this->not_gpc && get_magic_quotes_gpc()) {
-			$value = stripslashes($value);
-		}
-		if (!empty($this->value) && !empty($this->validateRule)) {
-			if (!preg_match($this->validateRule, $value)) {
-				throw new ValidationRuleNotPassedException($value);
-			} elseif (empty($this->sourceFormating)) {
-				$value = icms_core_DataFilter::censorString($value);
-			}
-		}
-		if (($this->maxLength > 0) && (mb_strlen($value) > $this->maxLength)) {
-			trigger_error('Value was shortered', E_USER_WARNING);
-			$value = mb_substr($value, 0, $this->maxLength);
-		}
-		return $value;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function isDefined()
 	{
 		return strlen($this->value) > 0;
@@ -125,5 +100,30 @@ class StringType extends AbstractType
 	public function getForForm()
 	{
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function clean($value)
+	{
+		if (!is_string($value)) {
+			$value = strval($value);
+		}
+		if (!$this->not_gpc && get_magic_quotes_gpc()) {
+			$value = stripslashes($value);
+		}
+		if (!empty($this->value) && !empty($this->validateRule)) {
+			if (!preg_match($this->validateRule, $value)) {
+				throw new ValidationRuleNotPassedException($value);
+			} elseif (empty($this->sourceFormating)) {
+				$value = icms_core_DataFilter::censorString($value);
+			}
+		}
+		if (($this->maxLength > 0) && (mb_strlen($value) > $this->maxLength)) {
+			trigger_error('Value was shortered', E_USER_WARNING);
+			$value = mb_substr($value, 0, $this->maxLength);
+		}
+		return $value;
 	}
 }
