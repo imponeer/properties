@@ -451,9 +451,6 @@ trait PropertiesSupport
 	 */
 	public function &getVars()
 	{
-		foreach (array_keys($this->_vars) as $key) {
-			$this->_vars[$key]->defaultValue = $this->_vars[$key]->clean($this->_vars[$key]->defaultValue) ? $this->_vars[$key]->defaultValue : null;
-		}
 		return $this->_vars;
 	}
 

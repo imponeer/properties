@@ -97,10 +97,17 @@ abstract class AbstractType
 				$this->possibleOptions = explode('|', $this->possibleOptions);
 			}
 		}
-		$this->defaultValue = $defaultValue;
+		$this->defaultValue = $this->clean($defaultValue);
 		$this->required = $required;
 		$this->value = $defaultValue;
 	}
+
+	/**
+	 * Cleans current value
+	 *
+	 * @param mixed $value Value to clean
+	 */
+	abstract protected function clean($value);
 
 	/**
 	 * Returns if current type is one of deprecated types
@@ -189,12 +196,5 @@ abstract class AbstractType
 			$this->not_loaded = false;
 		}
 	}
-
-	/**
-	 * Cleans current value
-	 *
-	 * @param mixed $value Value to clean
-	 */
-	abstract protected function clean($value);
 
 }
