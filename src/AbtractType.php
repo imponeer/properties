@@ -51,6 +51,18 @@ abstract class AbstractType
 	 */
 	public $required = false;
 	/**
+	 * Data handler (used for linking data with database)
+	 *
+	 * @var string|null
+	 */
+	public $data_handler;
+	/**
+	 * Hide from user?
+	 *
+	 * @var bool
+	 */
+	public $hide = false;
+	/**
 	 * Current value
 	 *
 	 * @var mixed
@@ -88,6 +100,21 @@ abstract class AbstractType
 		$this->defaultValue = $defaultValue;
 		$this->required = $required;
 		$this->value = $defaultValue;
+	}
+
+	/**
+	 * Returns if current type is one of deprecated types
+	 *
+	 * @return bool
+	 */
+	public function isDeprecatedType()
+	{
+		$namespace = '\\IPFLibraries\\Properties\\DeprecatedTypes\\';
+		$l = strlen($namespace);
+		if (strlen(static::class) < $l) {
+			return false;
+		}
+		return substr(static::class, 0, $l) == $namespace;
 	}
 
 	/**

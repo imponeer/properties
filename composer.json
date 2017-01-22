@@ -13,12 +13,14 @@
       }
    ],
    "require":{
-	   "php": ">=5.4",
-	   "myclabs/php-enum": "1.5.0"
+	   "php": ">=5.4"
    },
    "autoload":{
 	   "psr-4": {
 		   "IPFLibraries\\Properties\\": "src/"
-	   }
+	   },
+	   "files": [
+		   "src/old-constants.php"
+	   ]
    }
 }
