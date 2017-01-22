@@ -5,6 +5,7 @@ namespace IPFLibraries\Properties\CommonProperties;
 use IPFLibraries\Properties\CommonPropertyInterface;
 use IPFLibraries\Properties\ConfigOption;
 use IPFLibraries\Properties\DataType;
+use IPFLibraries\Properties\Types\IntegerType;
 
 /**
  * Counter field type
@@ -26,7 +27,7 @@ class Counter implements CommonPropertyInterface
 	 */
 	public function getDataType()
 	{
-		return DataType::INTEGER;
+		return IntegerType::class;
 	}
 
 	/**
@@ -43,11 +44,11 @@ class Counter implements CommonPropertyInterface
 	public function getOtherConfig()
 	{
 		return [
-			ConfigOption::FORM_CAPTION => _CO_ICMS_COUNTER_FORM_CAPTION,
-			ConfigOption::MAX_LENGTH => null,
+			'form_caption' => _CO_ICMS_COUNTER_FORM_CAPTION,
+			'maxLength' => null,
 			'options' => '',
 			'multilingual' => false,
-			ConfigOption::FORM_DESC => '',
+			'form_desc' => '',
 			'sortby' => false,
 			'persistent' => true
 		];

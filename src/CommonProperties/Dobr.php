@@ -5,6 +5,7 @@ namespace IPFLibraries\Properties\CommonProperties;
 use IPFLibraries\Properties\CommonPropertyInterface;
 use IPFLibraries\Properties\ConfigOption;
 use IPFLibraries\Properties\DataType;
+use IPFLibraries\Properties\Types\IntegerType;
 
 /**
  * Do br field type
@@ -26,7 +27,7 @@ class Dobr implements CommonPropertyInterface
 	 */
 	public function getDataType()
 	{
-		return DataType::INTEGER;
+		return IntegerType::class;
 	}
 
 	/**
@@ -46,11 +47,11 @@ class Dobr implements CommonPropertyInterface
 			icms_loadLanguageFile('core', 'comment');
 		}
 		return [
-			ConfigOption::FORM_CAPTION => _CM_DOAUTOWRAP,
-			ConfigOption::MAX_LENGTH => null,
+			'form_caption' => _CM_DOAUTOWRAP,
+			'maxLength' => null,
 			'options' => '',
 			'multilingual' => false,
-			ConfigOption::FORM_DESC => '',
+			'form_desc' => '',
 			'sortby' => false,
 			'persistent' => true
 		];

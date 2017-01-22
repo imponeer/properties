@@ -5,6 +5,7 @@ namespace IPFLibraries\Properties\CommonProperties;
 use IPFLibraries\Properties\CommonPropertyInterface;
 use IPFLibraries\Properties\ConfigOption;
 use IPFLibraries\Properties\DataType;
+use IPFLibraries\Properties\Types\ArrayType;
 
 /**
  * Hierarchy path field type
@@ -26,7 +27,7 @@ class HierarchyPath implements CommonPropertyInterface
 	 */
 	public function getDataType()
 	{
-		return DataType::ARRAY;
+		return ArrayType::class;
 	}
 
 	/**
@@ -43,11 +44,11 @@ class HierarchyPath implements CommonPropertyInterface
 	public function getOtherConfig()
 	{
 		return [
-			ConfigOption::FORM_CAPTION => _CO_ICMS_HIERARCHY_PATH,
-			ConfigOption::MAX_LENGTH => null,
+			'form_caption' => _CO_ICMS_HIERARCHY_PATH,
+			'maxLength' => null,
 			'options' => '',
 			'multilingual' => false,
-			ConfigOption::FORM_DESC => _CO_ICMS_HIERARCHY_PATH_DSC,
+			'form_desc' => _CO_ICMS_HIERARCHY_PATH_DSC,
 			'sortby' => false,
 			'persistent' => true
 		];

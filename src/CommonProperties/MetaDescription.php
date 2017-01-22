@@ -5,6 +5,7 @@ namespace IPFLibraries\Properties\CommonProperties;
 use IPFLibraries\Properties\CommonPropertyInterface;
 use IPFLibraries\Properties\ConfigOption;
 use IPFLibraries\Properties\DataType;
+use IPFLibraries\Properties\Types\StringType;
 
 /**
  * Meta description field type
@@ -26,7 +27,7 @@ class MetaDescription implements CommonPropertyInterface
 	 */
 	public function getDataType()
 	{
-		return DataType::STRING;
+		return StringType::class;
 	}
 
 	/**
@@ -43,11 +44,11 @@ class MetaDescription implements CommonPropertyInterface
 	public function getOtherConfig()
 	{
 		return [
-			ConfigOption::FORM_CAPTION => _CO_ICMS_META_DESCRIPTION,
-			ConfigOption::MAX_LENGTH => 160,
+			'form_caption' => _CO_ICMS_META_DESCRIPTION,
+			'maxLength' => 160,
 			'options' => '',
 			'multilingual' => false,
-			ConfigOption::FORM_DESC => _CO_ICMS_META_DESCRIPTION_DSC,
+			'form_desc' => _CO_ICMS_META_DESCRIPTION_DSC,
 			'sortby' => false,
 			'persistent' => true
 		];

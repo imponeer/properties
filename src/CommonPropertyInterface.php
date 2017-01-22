@@ -28,7 +28,7 @@ interface CommonPropertyInterface
 	/**
 	 * Gets datatype
 	 *
-	 * @return mixed
+	 * @return string|int
 	 */
 	public function getDataType();
 

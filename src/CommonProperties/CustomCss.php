@@ -5,6 +5,7 @@ namespace IPFLibraries\Properties\CommonProperties;
 use IPFLibraries\Properties\CommonPropertyInterface;
 use IPFLibraries\Properties\ConfigOption;
 use IPFLibraries\Properties\DataType;
+use IPFLibraries\Properties\Types\StringType;
 
 /**
  * Custom CSS field type
@@ -26,7 +27,7 @@ class CustomCss implements CommonPropertyInterface
 	 */
 	public function getDataType()
 	{
-		return DataType::STRING;
+		return StringType::class;
 	}
 
 	/**
@@ -43,11 +44,11 @@ class CustomCss implements CommonPropertyInterface
 	public function getOtherConfig()
 	{
 		return [
-			ConfigOption::FORM_CAPTION => _CO_ICMS_CUSTOM_CSS,
-			ConfigOption::MAX_LENGTH => null,
+			'form_caption' => _CO_ICMS_CUSTOM_CSS,
+			'maxLength' => null,
 			'options' => '',
 			'multilingual' => false,
-			ConfigOption::FORM_DESC => _CO_ICMS_CUSTOM_CSS_DSC,
+			'form_desc' => _CO_ICMS_CUSTOM_CSS_DSC,
 			'sortby' => false,
 			'persistent' => true
 		];

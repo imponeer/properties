@@ -5,6 +5,7 @@ namespace IPFLibraries\Properties\CommonProperties;
 use IPFLibraries\Properties\CommonPropertyInterface;
 use IPFLibraries\Properties\ConfigOption;
 use IPFLibraries\Properties\DataType;
+use IPFLibraries\Properties\Types\StringType;
 
 /**
  * Meta keywords field type
@@ -26,7 +27,7 @@ class MetaKeywords implements CommonPropertyInterface
 	 */
 	public function getDataType()
 	{
-		return DataType::STRING;
+		return StringType::class;
 	}
 
 	/**
@@ -43,11 +44,11 @@ class MetaKeywords implements CommonPropertyInterface
 	public function getOtherConfig()
 	{
 		return [
-			ConfigOption::FORM_CAPTION => _CO_ICMS_META_KEYWORDS,
-			ConfigOption::MAX_LENGTH => 255,
+			'form_caption' => _CO_ICMS_META_KEYWORDS,
+			'maxLength' => 255,
 			'options' => '',
 			'multilingual' => false,
-			ConfigOption::FORM_DESC => _CO_ICMS_META_KEYWORDS_DSC,
+			'form_desc' => _CO_ICMS_META_KEYWORDS_DSC,
 			'sortby' => false,
 			'persistent' => true
 		];

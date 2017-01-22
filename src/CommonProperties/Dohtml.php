@@ -5,6 +5,7 @@ namespace IPFLibraries\Properties\CommonProperties;
 use IPFLibraries\Properties\CommonPropertyInterface;
 use IPFLibraries\Properties\ConfigOption;
 use IPFLibraries\Properties\DataType;
+use IPFLibraries\Properties\Types\IntegerType;
 
 /**
  * Do HTML field type
@@ -26,7 +27,7 @@ class Dohtml implements CommonPropertyInterface
 	 */
 	public function getDataType()
 	{
-		return DataType::INTEGER;
+		return IntegerType::class;
 	}
 
 	/**
@@ -46,11 +47,11 @@ class Dohtml implements CommonPropertyInterface
 			icms_loadLanguageFile('core', 'comment');
 		}
 		return [
-			ConfigOption::FORM_CAPTION => _CM_DOHTML,
-			ConfigOption::MAX_LENGTH => null,
+			'form_caption' => _CM_DOHTML,
+			'maxLength' => null,
 			'options' => '',
 			'multilingual' => false,
-			ConfigOption::FORM_DESC => '',
+			'form_desc' => '',
 			'sortby' => false,
 			'persistent' => true
 		];
