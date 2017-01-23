@@ -11,8 +11,7 @@ namespace IPFLibraries\Properties\Types;
 
 use IPFLibraries\Properties\AbstractType;
 
-class FileType extends AbstractType
-{
+class FileType extends AbstractType {
 
 	/**
 	 * File save path
@@ -66,8 +65,7 @@ class FileType extends AbstractType
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(&$parent, $defaultValue, $required, $otherCfg)
-	{
+	public function __construct(&$parent, $defaultValue, $required, $otherCfg) {
 		if (!isset($otherCfg['prefix'])) {
 			$parts = explode('//', str_replace(['icms_ipf_', 'mod_'], '', get_class($parent)));
 			$otherCfg['prefix'] = $parts[count($parts) - 1];
@@ -82,32 +80,28 @@ class FileType extends AbstractType
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined()
-	{
+	public function isDefined() {
 		return (isset($this->value['filename']) && !empty($this->value['filename']));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay()
-	{
+	public function getForDisplay() {
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit()
-	{
+	public function getForEdit() {
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm()
-	{
+	public function getForForm() {
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
@@ -119,8 +113,7 @@ class FileType extends AbstractType
 	 * @throws PropertyIsLockedException
 	 * @throws ValueIsNotInPossibleValuesListException
 	 */
-	public function setFromRequest($key)
-	{
+	public function setFromRequest($key) {
 		if (is_array($key)) {
 			$value = &$_FILES;
 			foreach ($key as $k) {
@@ -135,8 +128,7 @@ class FileType extends AbstractType
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value)
-	{
+	protected function clean($value) {
 		if (is_string($value)) {
 			if (file_exists($value)) {
 				return array(
@@ -181,8 +173,7 @@ class FileType extends AbstractType
 	 *
 	 * @return string
 	 */
-	private function getFileMimeType($filename)
-	{
+	private function getFileMimeType($filename) {
 		if (function_exists('finfo_open')) {
 			$info = finfo_open(FILEINFO_MIME_TYPE);
 			$rez = finfo_file($info, $filename);

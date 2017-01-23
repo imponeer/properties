@@ -63,12 +63,12 @@ class StringType extends AbstractType
 	public function getForDisplay()
 	{
 		if (!$this->autoFormatingDisabled) {
-			$html = (isset($this->parent->html) && $this->parent->html) ? 1 : 0;
+			$html = (isset($this->parent->html) && $this->parent->html)?1:0;
 			if ($html) {
-				$xcode = (!isset($this->parent->doxcode) || $this->parent->doxcode) ? 1 : 0;
-				$smiley = (!isset($this->parent->dosmiley) || $this->parent->dosmiley) ? 1 : 0;
-				$image = (!isset($this->parent->doimage) || $this->parent->doimage) ? 1 : 0;
-				$br = (!isset($this->parent->dobr) || $this->parent->dobr) ? 1 : 0;
+				$xcode = (!isset($this->parent->doxcode) || $this->parent->doxcode)?1:0;
+				$smiley = (!isset($this->parent->dosmiley) || $this->parent->dosmiley)?1:0;
+				$image = (!isset($this->parent->doimage) || $this->parent->doimage)?1:0;
+				$br = (!isset($this->parent->dobr) || $this->parent->dobr)?1:0;
 
 				$ts = icms_core_Textsanitizer::getInstance();
 				return $ts->displayTarea($this->value, $html, $smiley, $xcode, $image, $br);
@@ -111,7 +111,7 @@ class StringType extends AbstractType
 			if (is_array($value)) {
 				$value = json_encode($value, JSON_PRETTY_PRINT);
 			} elseif ($value instanceof \stdClass) {
-				$value = json_encode((array)$value, JSON_PRETTY_PRINT);
+				$value = json_encode((array) $value, JSON_PRETTY_PRINT);
 			} else {
 				$value = strval($value);
 			}
