@@ -12,8 +12,7 @@ namespace IPFLibraries\Properties;
 use IPFLibraries\Properties\Exceptions\PropertyIsLockedException;
 use IPFLibraries\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
 
-abstract class AbstractType
-{
+abstract class AbstractType {
 	/**
 	 * Is locked from modifications?
 	 *
@@ -83,8 +82,7 @@ abstract class AbstractType
 	 * @param bool $required Is required?
 	 * @param null|array $otherCfg Other config data
 	 */
-	public function __construct(&$parent, $defaultValue = null, $required = false, $otherCfg = null)
-	{
+	public function __construct(&$parent, $defaultValue = null, $required = false, $otherCfg = null) {
 		$this->parent = &$parent;
 		if ($otherCfg !== null) {
 			foreach ($otherCfg as $key => $value) {
@@ -117,8 +115,7 @@ abstract class AbstractType
 	 * @throws PropertyIsLockedException
 	 * @throws ValueIsNotInPossibleValuesListException
 	 */
-	public function setFromRequest($key)
-	{
+	public function setFromRequest($key) {
 		if (is_array($key)) {
 			$value = &$_REQUEST;
 			foreach ($key as $k) {
@@ -135,8 +132,7 @@ abstract class AbstractType
 	 *
 	 * @param $value Value to set
 	 */
-	public function set($value)
-	{
+	public function set($value) {
 		if ($this->locked) {
 			throw new PropertyIsLockedException();
 		}
@@ -161,8 +157,7 @@ abstract class AbstractType
 	 *
 	 * @return bool
 	 */
-	public function isDeprecatedType()
-	{
+	public function isDeprecatedType() {
 		$namespace = '\\IPFLibraries\\Properties\\DeprecatedTypes\\';
 		$l = strlen($namespace);
 		if (strlen(static::class) < $l) {
@@ -174,8 +169,7 @@ abstract class AbstractType
 	/**
 	 * Reset value to default
 	 */
-	public function reset()
-	{
+	public function reset() {
 		$this->value = $this->defaultValue;
 		$this->changed = false;
 	}
@@ -213,8 +207,7 @@ abstract class AbstractType
 	 *
 	 * @return mixed
 	 */
-	public function get()
-	{
+	public function get() {
 		return $this->value;
 	}
 
