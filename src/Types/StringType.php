@@ -62,25 +62,24 @@ class StringType extends AbstractType
 	 */
 	public function getForDisplay()
 	{
-		if (!$this->autoFormatingDisabled) {
-			$html = (isset($this->parent->html) && $this->parent->html)?1:0;
-			if (!$html) {
-				return $this->value;
-			}
-			$xcode = (!isset($this->parent->doxcode) || $this->parent->doxcode)?1:0;
-			$smiley = (!isset($this->parent->dosmiley) || $this->parent->dosmiley)?1:0;
-			$image = (!isset($this->parent->doimage) || $this->parent->doimage)?1:0;
-			$br = (!isset($this->parent->dobr) || $this->parent->dobr)?1:0;
-
-			$ts = icms_core_Textsanitizer::getInstance();
-			return $ts->displayTarea($this->value, $html, $smiley, $xcode, $image, $br);
-		} else {
+		if ($this->autoFormatingDisabled) {
 			$ret = str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 			if (method_exists($this->parent, 'formatForML')) {
 				return $this->formatForML($ret);
 			}
 			return $ret;
 		}
+		$html = (isset($this->parent->html) && $this->parent->html)?1:0;
+		if (!$html) {
+			return $this->value;
+		}
+		$xcode = (!isset($this->parent->doxcode) || $this->parent->doxcode)?1:0;
+		$smiley = (!isset($this->parent->dosmiley) || $this->parent->dosmiley)?1:0;
+		$image = (!isset($this->parent->doimage) || $this->parent->doimage)?1:0;
+		$br = (!isset($this->parent->dobr) || $this->parent->dobr)?1:0;
+
+		$ts = icms_core_Textsanitizer::getInstance();
+		return $ts->displayTarea($this->value, $html, $smiley, $xcode, $image, $br);
 	}
 
 	/**
@@ -88,7 +87,7 @@ class StringType extends AbstractType
 	 */
 	public function getForEdit()
 	{
-		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+		return str_replace(["&amp;", "&nbsp;"], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
@@ -96,7 +95,7 @@ class StringType extends AbstractType
 	 */
 	public function getForForm()
 	{
-		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+		return str_replace(["&amp;", "&nbsp;"], ['&', '&amp;nbsp;]), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
