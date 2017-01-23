@@ -95,7 +95,7 @@ class StringType extends AbstractType
 	 */
 	public function getForForm()
 	{
-		return str_replace(["&amp;", "&nbsp;"], ['&', '&amp;nbsp;]), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+		return str_replace(["&amp;", "&nbsp;"], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
