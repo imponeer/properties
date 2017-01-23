@@ -79,8 +79,6 @@ class StringType extends AbstractType
 			$ret = str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 			if (method_exists($this->parent, 'formatForML')) {
 				return $this->formatForML($ret);
-			} else {
-				return $ret;
 			}
 			return $ret;
 		}
