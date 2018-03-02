@@ -4,7 +4,7 @@
 
 PHP library for handling strict type class variables. This package can be used only for adding functionality for other classes.
 
-##Installation
+## Installation
 
 `composer require ipf-libraries/properties`
 
