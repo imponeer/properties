@@ -9,7 +9,6 @@
 namespace IPFLibraries\Properties\Exceptions;
 
 
-class ValueIsNotInPossibleValuesListException extends \Exception
-{
+class ValueIsNotInPossibleValuesListException extends \Exception {
 
 }

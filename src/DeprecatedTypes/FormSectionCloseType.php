@@ -17,7 +17,6 @@ use IPFLibraries\Properties\Types\OtherType;
  * @package IPFLibraries\Properties\DeprecatedTypes
  * @deprecated
  */
-class FormSectionCloseType extends OtherType
-{
+class FormSectionCloseType extends OtherType {
 
 }

@@ -50,7 +50,7 @@ class ArrayType extends AbstractType
 	 */
 	protected function clean($value)
 	{
-		if (((array)$value) === $value) {
+		if (((array) $value) === $value) {
 			return $value;
 		}
 		if (empty($value)) {
@@ -66,7 +66,7 @@ class ArrayType extends AbstractType
 				return $ret;
 			}
 		}
-		return (array)$value;
+		return (array) $value;
 	}
 
 }

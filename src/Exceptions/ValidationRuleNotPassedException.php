@@ -9,8 +9,7 @@
 namespace IPFLibraries\Properties\Exceptions;
 
 
-class ValidationRuleNotPassedException extends \Exception
-{
+class ValidationRuleNotPassedException extends \Exception {
 	/**
 	 * Value
 	 *
@@ -25,8 +24,7 @@ class ValidationRuleNotPassedException extends \Exception
 	 * @param int|null $code Int
 	 * @param Exception|null $previous Previous value
 	 */
-	public function __construct($value, $code = null, Exception $previous = null)
-	{
+	public function __construct($value, $code = null, Exception $previous = null) {
 		$this->value = $value;
 		parent::__construct('Validation rule not passed', $code, $previous);
 	}
@@ -36,8 +34,7 @@ class ValidationRuleNotPassedException extends \Exception
 	 *
 	 * @return mixed
 	 */
-	public function getValue()
-	{
+	public function getValue() {
 		return $this->value;
 	}
 

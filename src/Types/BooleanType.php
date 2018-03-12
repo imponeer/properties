@@ -27,7 +27,7 @@ class BooleanType extends AbstractType
 	 */
 	public function getForDisplay()
 	{
-		return $this->value ? _YES : _NO;
+		return $this->value?_YES:_NO;
 	}
 
 	/**
@@ -42,16 +42,14 @@ class BooleanType extends AbstractType
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm()
-	{
+	public function getForForm() {
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value)
-	{
+	protected function clean($value) {
 		if (is_bool($value)) {
 			return $value;
 		}

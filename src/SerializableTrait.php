@@ -9,15 +9,13 @@
 namespace IPFLibraries\Properties;
 
 
-trait SerializableTrait
-{
+trait SerializableTrait {
 	/**
 	 * Serialize instance to string
 	 *
 	 * @return string
 	 */
-	public function serialize()
-	{
+	public function serialize() {
 		$data = [
 			'vars' => $this->getValues(null, 'n')
 		];
@@ -29,8 +27,7 @@ trait SerializableTrait
 	 *
 	 * @param mixed $serialized
 	 */
-	public function unserialize($serialized)
-	{
+	public function unserialize($serialized) {
 		$data = unserialize($serialized);
 		if (method_exists($this, '__construct')) {
 			$this->__construct();

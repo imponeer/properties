@@ -33,8 +33,7 @@ use IPFLibraries\Properties\Types\StringType;
  * @license        MIT https://opensource.org/licenses/MIT
  * @author        mekdrop@impresscms.org
  */
-trait PropertiesSupport
-{
+trait PropertiesSupport {
 
 	/**
 	 * Vars configuration
@@ -55,10 +54,9 @@ trait PropertiesSupport
 	 *
 	 * @param array $values Assoc arary with keys and values to assign
 	 */
-	public function assignVars($values)
-	{
+	public function assignVars($values) {
 		foreach ($this->_vars as $key => $var) {
-			$value = (!isset($values[$key])) ? null : $values[$key];
+			$value = (!isset($values[$key]))?null:$values[$key];
 			$this->_vars[$key]->set($value);
 		}
 	}
@@ -72,8 +70,7 @@ trait PropertiesSupport
 	 *
 	 * @deprecated
 	 */
-	public function initCommonVar($varname, $displayOnForm = true, $default = 'notdefined')
-	{
+	public function initCommonVar($varname, $displayOnForm = true, $default = 'notdefined') {
 		trigger_error('$this->initCommonVar() will be removed in the future!', E_USER_DEPRECATED);
 		$class = "\\IPFLibraries\\Properties\\CommonProperties\\" . implode(
 				'',
@@ -106,8 +103,7 @@ trait PropertiesSupport
 	 * @param bool $required Is Required?
 	 * @param array /null $otherCfg  If there is, an assoc array with other configuration for var
 	 */
-	protected function initVar($key, $dataType, $defaultValue = null, $required = false, $otherCfg = null)
-	{
+	protected function initVar($key, $dataType, $defaultValue = null, $required = false, $otherCfg = null) {
 		if (is_int($dataType)) {
 			$types = static::getPossibleVarTypes();
 			if (!isset($types[$dataType])) {
@@ -144,8 +140,7 @@ trait PropertiesSupport
 	 *
 	 * @return array
 	 */
-	protected static function getPossibleVarTypes()
-	{
+	protected static function getPossibleVarTypes() {
 		return [
 			PropertiesInterface::DTYPE_DEP_CURRENCY => CurrencyType::class,
 			PropertiesInterface::DTYPE_DEP_EMAIL => EmailType::class,
@@ -180,8 +175,7 @@ trait PropertiesSupport
 	 *
 	 * @return bool
 	 */
-	public function __isset($name)
-	{
+	public function __isset($name) {
 		return isset($this->_vars[$name]);
 	}
 
@@ -192,8 +186,7 @@ trait PropertiesSupport
 	 * @param string $key name of the variable to assign
 	 * @param mixed $value value to assign
 	 */
-	public function assignVar($key, &$value)
-	{
+	public function assignVar($key, &$value) {
 		$this->_vars[$key]->value = $value;
 	}
 
@@ -202,8 +195,7 @@ trait PropertiesSupport
 	 *
 	 * @return array
 	 */
-	public function getChangedVars()
-	{
+	public function getChangedVars() {
 		$changed = array();
 		foreach ($this->_vars as $key => $var) {
 			if ($var->changed) {
@@ -218,8 +210,7 @@ trait PropertiesSupport
 	 *
 	 * @return bool
 	 */
-	public function isChanged()
-	{
+	public function isChanged() {
 		return $this->_changed > 0;
 	}
 
@@ -228,8 +219,7 @@ trait PropertiesSupport
 	 *
 	 * @return array
 	 */
-	public function getProblematicVars()
-	{
+	public function getProblematicVars() {
 		$names = array();
 		foreach ($this->_vars as $key => $var) {
 			if ($var->required && ($var->isDefined() === false)) {
@@ -244,8 +234,7 @@ trait PropertiesSupport
 	 *
 	 * @return array
 	 */
-	public function getDefaultVars()
-	{
+	public function getDefaultVars() {
 		$ret = array();
 		foreach ($this->_vars as $key => $var) {
 			$ret[$key] = $var->defaultValue;
@@ -261,8 +250,7 @@ trait PropertiesSupport
 	 * @param int $maxDepth Maximum level of recursion to use if some vars are objects themselves
 	 * @return array associative array of key->value pairs
 	 */
-	public function getValues($keys = null, $format = 's', $maxDepth = 1)
-	{
+	public function getValues($keys = null, $format = 's', $maxDepth = 1) {
 		if (!isset($keys)) {
 			$keys = array_keys($this->_vars);
 		}
@@ -289,8 +277,7 @@ trait PropertiesSupport
 	 * @param string $format format to use for the output
 	 * @return mixed formatted value of the variable
 	 */
-	public function getVar($name, $format = 's')
-	{
+	public function getVar($name, $format = 's') {
 		switch (strtolower($format)) {
 			case 's':
 			case 'show':
@@ -321,8 +308,7 @@ trait PropertiesSupport
 	 *
 	 * @return mixed
 	 */
-	public function getVarForDisplay($name)
-	{
+	public function getVarForDisplay($name) {
 		return $this->_vars[$name]->getForDisplay();
 	}
 
@@ -333,8 +319,7 @@ trait PropertiesSupport
 	 *
 	 * @return mixed
 	 */
-	public function getVarForEdit($name)
-	{
+	public function getVarForEdit($name) {
 		return $this->_vars[$name]->getForEdit();
 	}
 
@@ -345,8 +330,7 @@ trait PropertiesSupport
 	 *
 	 * @return mixed
 	 */
-	public function getVarForForm($name)
-	{
+	public function getVarForForm($name) {
 		return $this->_vars[$name]->getForForm();
 	}
 
@@ -357,8 +341,7 @@ trait PropertiesSupport
 	 *
 	 * @return mixed
 	 */
-	public function __get($name)
-	{
+	public function __get($name) {
 		switch ($name) {
 			case '_vars':
 			case 'vars':
@@ -388,8 +371,7 @@ trait PropertiesSupport
 	 * @param string $name Var name
 	 * @param mixed $value New value
 	 */
-	public function __set($name, $value)
-	{
+	public function __set($name, $value) {
 		$this->_vars[$name]->set($value);
 	}
 
@@ -398,8 +380,7 @@ trait PropertiesSupport
 	 *
 	 * @return array
 	 */
-	public function toArray()
-	{
+	public function toArray() {
 		$ret = array();
 		foreach (array_keys($this->_vars) as $name) {
 			if ($this->_vars[$name]->not_loaded) {
@@ -424,8 +405,7 @@ trait PropertiesSupport
 	 *
 	 * @return mixed
 	 */
-	public function getVarInfo($key = null, $info = null, $default = null)
-	{
+	public function getVarInfo($key = null, $info = null, $default = null) {
 		if ($key === null) {
 			return $this->_vars;
 		} elseif ($info === null) {
@@ -461,8 +441,7 @@ trait PropertiesSupport
 	 * @param array $var_arr associative array of values to assign
 	 * @param bool $not_gpc
 	 */
-	public function setVars($var_arr, $not_gpc = false)
-	{
+	public function setVars($var_arr, $not_gpc = false) {
 		foreach ($var_arr as $key => $value) {
 			$this->setVar($key, $value, $not_gpc);
 		}
@@ -475,8 +454,7 @@ trait PropertiesSupport
 	 * @param mixed $value New value
 	 * @param array $options Options to apply when settings values
 	 */
-	public function setVar($name, $value, $options = null)
-	{
+	public function setVar($name, $value, $options = null) {
 		if ($options !== null) {
 			if (is_bool($options)) {
 				$this->setVarInfo($name, 'not_gpc', $options);
@@ -496,8 +474,7 @@ trait PropertiesSupport
 	 * @param string $info Var option
 	 * @param mixed $value Options value
 	 */
-	public function setVarInfo($key, $info, $value)
-	{
+	public function setVarInfo($key, $info, $value) {
 		if ($key === null) {
 			$key = array_keys($this->_vars);
 		}
@@ -530,8 +507,7 @@ trait PropertiesSupport
 	 *
 	 * @return array
 	 */
-	public function getVarNames()
-	{
+	public function getVarNames() {
 		return array_keys($this->_vars);
 	}
 
@@ -543,8 +519,7 @@ trait PropertiesSupport
 	 *
 	 * @deprecated
 	 */
-	public function doSetFieldAsRequired($key, $is_required = true)
-	{
+	public function doSetFieldAsRequired($key, $is_required = true) {
 		trigger_error('Use not $this->doSetFieldAsRequired() but $this->setVarInfo() instead!', E_USER_DEPRECATED);
 		$this->setVarInfo($key, 'required', $is_required);
 	}
@@ -556,8 +531,7 @@ trait PropertiesSupport
 	 *
 	 * @deprecated
 	 */
-	public function cleanVars()
-	{
+	public function cleanVars() {
 		trigger_error('Use not $this->cleanVars() but $this->toArray() instead!', E_USER_DEPRECATED);
 		return $this->toArray();
 	}
@@ -573,8 +547,7 @@ trait PropertiesSupport
 	 *
 	 * @throws SpecifiedDataTypeNotFound
 	 */
-	private function createInstanceFromName($namespace, $name, $suffix = '')
-	{
+	private function createInstanceFromName($namespace, $name, $suffix = '') {
 		$class = $namespace . implode(
 				'',
 				array_map('ucfirst',

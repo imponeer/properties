@@ -11,8 +11,7 @@ namespace IPFLibraries\Properties\Types;
 
 use IPFLibraries\Properties\AbstractType;
 
-class DateTimeType extends AbstractType
-{
+class DateTimeType extends AbstractType {
 
 	/**
 	 * Format for output
@@ -34,7 +33,7 @@ class DateTimeType extends AbstractType
 	 */
 	public function getForDisplay()
 	{
-		return date(isset($this->format) ? $this->format : 'r', $this->value);
+		return date(isset($this->format)?$this->format:'r', $this->value);
 	}
 
 	/**
@@ -73,8 +72,8 @@ class DateTimeType extends AbstractType
 		if (preg_match('/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/ui', $value, $ret)) {
 			$time = gmmktime($ret[4], $ret[5], $ret[6], $ret[2], $ret[3], $ret[1]);
 		} else {
-			$time = (int)strtotime($value);
+			$time = (int) strtotime($value);
 		}
-		return ($time < 0) ? 0 : $time;
+		return ($time < 0)?0:$time;
 	}
 }

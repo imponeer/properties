@@ -18,8 +18,7 @@ use IPFLibraries\Properties\Types\StringType;
  * @package IPFLibraries\Properties\DeprecatedTypes
  * @deprecated
  */
-class UrlType extends StringType
-{
+class UrlType extends StringType {
 	/**
 	 * @inheritDoc
 	 */

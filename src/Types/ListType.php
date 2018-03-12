@@ -11,8 +11,7 @@ namespace IPFLibraries\Properties\Types;
 
 use IPFLibraries\Properties\AbstractType;
 
-class ListType extends AbstractType
-{
+class ListType extends AbstractType {
 
 	/**
 	 * Separator
@@ -58,7 +57,7 @@ class ListType extends AbstractType
 	 */
 	protected function clean($value)
 	{
-		if ((array)($value) === $value) {
+		if ((array) ($value) === $value) {
 			return $value;
 		}
 		if (empty($value)) {

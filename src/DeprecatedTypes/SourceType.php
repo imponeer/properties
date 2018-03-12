@@ -17,8 +17,7 @@ use IPFLibraries\Properties\Types\StringType;
  * @package IPFLibraries\Properties\DeprecatedTypes
  * @deprecated
  */
-class SourceType extends StringType
-{
+class SourceType extends StringType {
 
 	/**
 	 * @inheritDoc

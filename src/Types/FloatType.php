@@ -11,8 +11,7 @@ namespace IPFLibraries\Properties\Types;
 
 use IPFLibraries\Properties\AbstractType;
 
-class FloatType extends AbstractType
-{
+class FloatType extends AbstractType {
 
 	/**
 	 * Format output

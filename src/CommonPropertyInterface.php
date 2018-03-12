@@ -13,8 +13,7 @@ namespace IPFLibraries\Properties;
  *
  * @package IPFLibraries\Properties
  */
-interface CommonPropertyInterface
-{
+interface CommonPropertyInterface {
 
 	/**
 	 * Parse value

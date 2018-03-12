@@ -9,7 +9,6 @@
 namespace IPFLibraries\Properties\Exceptions;
 
 
-class SpecifiedDataTypeNotFound extends \Exception
-{
+class SpecifiedDataTypeNotFound extends \Exception {
 
 }

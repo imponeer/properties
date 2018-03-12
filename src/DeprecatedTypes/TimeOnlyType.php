@@ -16,8 +16,7 @@ use IPFLibraries\Properties\Types\DateTimeType;
  * @package IPFLibraries\Properties\DeprecatedTypes
  * @deprecated
  */
-class TimeOnlyType extends DateTimeType
-{
+class TimeOnlyType extends DateTimeType {
 	/**
 	 * @inheritDoc
 	 */
