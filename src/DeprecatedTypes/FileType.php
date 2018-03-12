@@ -17,8 +17,7 @@ use IPFLibraries\Properties\Types\IntegerType;
  * @package IPFLibraries\Properties\DeprecatedTypes
  * @deprecated
  */
-class FileType extends IntegerType
-{
+class FileType extends IntegerType {
 	/**
 	 * @inheritDoc
 	 */

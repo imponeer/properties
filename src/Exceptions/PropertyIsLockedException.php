@@ -9,7 +9,6 @@
 namespace IPFLibraries\Properties\Exceptions;
 
 
-class PropertyIsLockedException extends \Exception
-{
+class PropertyIsLockedException extends \Exception {
 
 }

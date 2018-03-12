@@ -17,8 +17,7 @@ use IPFLibraries\Properties\Types\FloatType;
  * @package IPFLibraries\Properties\DeprecatedTypes
  * @deprecated
  */
-class CurrencyType extends FloatType
-{
+class CurrencyType extends FloatType {
 
 	/**
 	 * @inheritDoc

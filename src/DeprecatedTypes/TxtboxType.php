@@ -17,8 +17,7 @@ use IPFLibraries\Properties\Types\StringType;
  * @package IPFLibraries\Properties\DeprecatedTypes
  * @deprecated
  */
-class TxtboxType extends StringType
-{
+class TxtboxType extends StringType {
 
 	/**
 	 * @inheritDoc

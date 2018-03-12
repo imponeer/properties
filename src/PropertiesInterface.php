@@ -9,8 +9,7 @@
 namespace IPFLibraries\Properties;
 
 
-interface PropertiesInterface
-{
+interface PropertiesInterface {
 	/**
 	 * Specifies property that a property stores a string
 	 */

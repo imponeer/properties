@@ -19,8 +19,7 @@ use IPFLibraries\Properties\Types\StringType;
  * @package IPFLibraries\Properties\DeprecatedTypes
  * @deprecated
  */
-class EmailType extends StringType
-{
+class EmailType extends StringType {
 
 	/**
 	 * @inheritDoc

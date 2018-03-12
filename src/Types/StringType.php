@@ -11,8 +11,7 @@ namespace IPFLibraries\Properties\Types;
 use IPFLibraries\Properties\AbstractType;
 use IPFLibraries\Properties\Exceptions\ValidationRuleNotPassedException;
 
-class StringType extends AbstractType
-{
+class StringType extends AbstractType {
 
 	/**
 	 * Not GPC

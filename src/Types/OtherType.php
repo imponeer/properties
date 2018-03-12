@@ -27,7 +27,7 @@ class OtherType extends AbstractType
 	 */
 	public function getForDisplay()
 	{
-		return (string)$this->value;
+		return (string) $this->value;
 	}
 
 	/**
@@ -35,7 +35,7 @@ class OtherType extends AbstractType
 	 */
 	public function getForEdit()
 	{
-		return (string)$this->value;
+		return (string) $this->value;
 	}
 
 	/**
@@ -43,7 +43,7 @@ class OtherType extends AbstractType
 	 */
 	public function getForForm()
 	{
-		return (string)$this->value;
+		return (string) $this->value;
 	}
 
 	/**

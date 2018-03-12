@@ -17,8 +17,7 @@ use IPFLibraries\Properties\Types\IntegerType;
  * @package IPFLibraries\Properties\DeprecatedTypes
  * @deprecated
  */
-class UrllinkType extends IntegerType
-{
+class UrllinkType extends IntegerType {
 
 	/**
 	 * @inheritDoc

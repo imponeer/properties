@@ -19,7 +19,7 @@ class Dohtml implements CommonPropertyInterface
 	 */
 	public function parseValue($default)
 	{
-		return $default != 'notdefined' ? $default : 0;
+		return $default != 'notdefined'?$default:0;
 	}
 
 	/**
@@ -60,8 +60,7 @@ class Dohtml implements CommonPropertyInterface
 	/**
 	 * @inheritDoc
 	 */
-	public function getControl()
-	{
+	public function getControl() {
 		return [
 			'name' => 'yesno'
 		];

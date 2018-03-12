@@ -26,7 +26,7 @@ class ObjectType extends AbstractType
 	 */
 	public function getForDisplay()
 	{
-		return (string)$this->value;
+		return (string) $this->value;
 	}
 
 	/**
@@ -64,6 +64,6 @@ class ObjectType extends AbstractType
 				return null;
 			}
 		}
-		return (object)$value;
+		return (object) $value;
 	}
 }

@@ -26,7 +26,7 @@ class IntegerType extends AbstractType
 	 */
 	public function getForDisplay()
 	{
-		return (string)$this->value;
+		return (string) $this->value;
 	}
 
 	/**
