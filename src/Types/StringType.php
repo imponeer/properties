@@ -51,16 +51,14 @@ class StringType extends AbstractType {
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined()
-	{
+	public function isDefined() {
 		return strlen($this->value) > 0;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay()
-	{
+	public function getForDisplay() {
 		if ($this->autoFormatingDisabled) {
 			$ret = str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 			if (method_exists($this->parent, 'formatForML')) {
@@ -84,24 +82,21 @@ class StringType extends AbstractType {
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit()
-	{
+	public function getForEdit() {
 		return str_replace(["&amp;", "&nbsp;"], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm()
-	{
+	public function getForForm() {
 		return str_replace(["&amp;", "&nbsp;"], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value)
-	{
+	protected function clean($value) {
 		if (!is_string($value)) {
 			if (is_array($value)) {
 				$value = json_encode($value, JSON_PRETTY_PRINT);

@@ -10,46 +10,40 @@ namespace IPFLibraries\Properties\Types;
 
 use IPFLibraries\Properties\AbstractType;
 
-class ObjectType extends AbstractType
-{
+class ObjectType extends AbstractType {
 
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined()
-	{
+	public function isDefined() {
 		return is_object($this->value);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay()
-	{
+	public function getForDisplay() {
 		return (string) $this->value;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit()
-	{
+	public function getForEdit() {
 		return null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm()
-	{
+	public function getForForm() {
 		return null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value)
-	{
+	protected function clean($value) {
 		if ($value === null || is_object($value)) {
 			return $value;
 		}

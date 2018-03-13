@@ -23,40 +23,35 @@ class ListType extends AbstractType {
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined()
-	{
+	public function isDefined() {
 		return !empty($this->value);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay()
-	{
+	public function getForDisplay() {
 		return $this->value;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit()
-	{
+	public function getForEdit() {
 		return $this->get();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm()
-	{
+	public function getForForm() {
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value)
-	{
+	protected function clean($value) {
 		if ((array) ($value) === $value) {
 			return $value;
 		}

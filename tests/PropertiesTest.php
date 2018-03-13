@@ -121,7 +121,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertInternalType('null', $mock->v, 'DTYPE_DATETIME must have null uncoverted');
 
-		foreach ([[52], [59 => 'aaa'], true, 1, 1.0, -9, 'test', [], new \stdClass(), function () {}] as $v) {
+		foreach ([[52], [59 => 'aaa'], true, 1, 1.0, -9, 'test', [], new \stdClass(), function() {}] as $v) {
 			$mock->v = $v;
 			$this->assertTrue(is_int($mock->v) || (is_object($mock->v) && $mock->v instanceof \DateTime), 'DTYPE_DATETIME must convert all data');
 		}
@@ -189,13 +189,13 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertInternalType('null', $mock->v, 'DTYPE_ARRAY must have null uncoverted');
 
-		foreach ([[52], [59 => 'aaa'], true, 1, 1.0, -9, 'test', [], new \stdClass(), function () {}] as $v) {
+		foreach ([[52], [59 => 'aaa'], true, 1, 1.0, -9, 'test', [], new \stdClass(), function() {}] as $v) {
 			$mock->v = $v;
 			$this->assertInternalType('array', $mock->v, 'DTYPE_ARRAY must convert all data');
 			if (is_array($v)) {
 				$this->assertSame($v, $mock->v, 'Array must be unchanged');
 			} else {
-				$this->assertSame((array)$v, array_values($mock->v), 'Simple values must be converted as array values without modifications');
+				$this->assertSame((array) $v, array_values($mock->v), 'Simple values must be converted as array values without modifications');
 			}
 		}
 	}

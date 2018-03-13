@@ -11,30 +11,26 @@ namespace IPFLibraries\Properties\Types;
 
 use IPFLibraries\Properties\AbstractType;
 
-class BooleanType extends AbstractType
-{
+class BooleanType extends AbstractType {
 
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined()
-	{
+	public function isDefined() {
 		return true;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay()
-	{
+	public function getForDisplay() {
 		return $this->value?_YES:_NO;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit()
-	{
+	public function getForEdit() {
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 
 	}
@@ -59,7 +55,7 @@ class BooleanType extends AbstractType
 			} elseif (is_null($value)) {
 				return false;
 			}
-			return (bool)intval($value);
+			return (bool) intval($value);
 		}
 		$value = strtolower($value);
 		return ($value == 'yes') || ($value == 'true');
