@@ -11,49 +11,43 @@ namespace IPFLibraries\Properties\Types;
 
 use IPFLibraries\Properties\AbstractType;
 
-class IntegerType extends AbstractType
-{
+class IntegerType extends AbstractType {
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined()
-	{
+	public function isDefined() {
 		return true;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay()
-	{
+	public function getForDisplay() {
 		return (string) $this->value;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit()
-	{
+	public function getForEdit() {
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm()
-	{
+	public function getForForm() {
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value)
-	{
+	protected function clean($value) {
 		if (is_object($value)) {
 			return 0;
 		}
-		return (int)$value;
+		return (int) $value;
 	}
 
 }

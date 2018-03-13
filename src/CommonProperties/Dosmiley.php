@@ -12,37 +12,32 @@ use IPFLibraries\Properties\Types\IntegerType;
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class Dosmiley implements CommonPropertyInterface
-{
+class Dosmiley implements CommonPropertyInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function parseValue($default)
-	{
+	public function parseValue($default) {
 		return $default != 'notdefined'?$default:0;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getDataType()
-	{
+	public function getDataType() {
 		return IntegerType::class;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function isRequired()
-	{
+	public function isRequired() {
 		return false;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getOtherConfig()
-	{
+	public function getOtherConfig() {
 		if (!defined('_CM_DOSMILEY')) {
 			icms_loadLanguageFile('core', 'comment');
 		}

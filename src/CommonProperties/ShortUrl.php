@@ -12,37 +12,32 @@ use IPFLibraries\Properties\Types\StringType;
  *
  * @package IPFLibraries\Properties\CommonVariables
  */
-class ShortUrl implements CommonPropertyInterface
-{
+class ShortUrl implements CommonPropertyInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function parseValue($default)
-	{
+	public function parseValue($default) {
 		return $default != 'notdefined'?$default:0;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getDataType()
-	{
+	public function getDataType() {
 		return StringType::class;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function isRequired()
-	{
+	public function isRequired() {
 		return false;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getOtherConfig()
-	{
+	public function getOtherConfig() {
 		return [
 			'form_caption' => _CO_ICMS_SHORT_URL,
 			'maxLength' => 255,
