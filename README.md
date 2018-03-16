@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/github/license/IPFLibraries/properties.svg?maxAge=2592000)](License.txt) [![GitHub release](https://img.shields.io/github/release/IPFLibraries/properties.svg?maxAge=2592000)](https://github.com/ImpressCMS/impresscms/releases) [![Build Status](https://travis-ci.org/IPFLibraries/properties.svg?branch=master)](https://travis-ci.org/IPFLibraries/properties) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/IPFLibraries/properties/badges/quality-score.png)](https://scrutinizer-ci.com/g/IPFLibraries/properties/)
+[![License](https://img.shields.io/github/license/imponeer/properties.svg?maxAge=2592000)](License.txt) [![GitHub release](https://img.shields.io/github/release/imponeer/properties.svg?maxAge=2592000)](https://github.com/imponeer/properties/releases) [![Build Status](https://travis-ci.org/imponeer/properties.svg?branch=master)](https://travis-ci.org/imponeer/properties) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/imponeer/properties/badges/quality-score.png)](https://scrutinizer-ci.com/g/imponeer/properties/)
 
 # Properties
 
@@ -6,13 +6,13 @@ PHP library for handling strict type class variables. This package can be used o
 
 ## Installation
 
-`composer require ipf-libraries/properties`
+`composer require imponeer/properties`
 
 ## Usage
 
 To add some custom properties support to a class first you need to extend that class. Here is example how to do it:
 ```php5
-use ImpressCMS\Properties;
+use Imponeer\Properties;
 
 class Base extends Properties {
 
@@ -20,7 +20,7 @@ class Base extends Properties {
 ```
 Next thing what you need is to define variables in class constructor. Here an example how to do:
 ```php5
-use ImpressCMS\Properties;
+use Imponeer\Properties;
 
 class Base extends Properties {
 
