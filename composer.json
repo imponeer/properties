@@ -1,5 +1,5 @@
 {
-   "name":"IPFLibraries/properties",
+   "name":"imponeer/properties",
    "description":"Add a possibility to define class variables with strict data type behaviors",
    "type":"library",
    "require-dev":{
@@ -17,7 +17,7 @@
    },
    "autoload":{
 	   "psr-4": {
-		   "IPFLibraries\\Properties\\": "src/"
+		   "Imponeer\\Properties\\": "src/"
 	   },
 	   "files": [
 		   "src/old-constants.php"
