@@ -1,26 +1,26 @@
 {
-   "name":"imponeer/properties",
-   "description":"Add a possibility to define class variables with strict data type behaviors",
-   "type":"library",
-   "require-dev":{
-      "phpunit/phpunit":"*"
-   },
-   "license":"MIT",
-   "authors":[
-      {
-         "name":"Raimondas Rimkevicius",
-         "email":"mekdrop@impresscms.org"
-      }
-   ],
-   "require":{
-	   "php": ">=5.5"
-   },
-   "autoload":{
-	   "psr-4": {
-		   "Imponeer\\Properties\\": "src/"
-	   },
-	   "files": [
-		   "src/old-constants.php"
-	   ]
-   }
+	"name": "imponeer/properties",
+	"description": "Add a possibility to define class variables with strict data type behaviors",
+	"type": "library",
+	"require-dev": {
+		"phpunit/phpunit": "*"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Raimondas Rimkevicius",
+			"email": "mekdrop@impresscms.org"
+		}
+	],
+	"require": {
+		"php": ">=5.5"
+	},
+	"autoload": {
+		"psr-4": {
+			"Imponeer\\Properties\\": "src/"
+		},
+		"files": [
+			"src/old-constants.php"
+		]
+	}
 }
