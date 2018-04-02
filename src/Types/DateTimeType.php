@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/22/2017
- * Time: 1:42 AM
- */
 
-namespace IPFLibraries\Properties\Types;
+namespace Imponeer\Properties\Types;
 
 
-use IPFLibraries\Properties\AbstractType;
+use Imponeer\Properties\AbstractType;
 
 class DateTimeType extends AbstractType {
 

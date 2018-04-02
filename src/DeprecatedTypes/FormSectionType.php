@@ -1,19 +1,13 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/22/2017
- * Time: 7:31 PM
- */
 
-namespace IPFLibraries\Properties\DeprecatedTypes;
+namespace Imponeer\Properties\DeprecatedTypes;
 
-use IPFLibraries\Properties\DeprecatedDataTypeInterface;
-use IPFLibraries\Properties\Types\OtherType;
+use Imponeer\Properties\DeprecatedDataTypeInterface;
+use Imponeer\Properties\Types\OtherType;
 
 /**
  * Class FormSectionType
- * @package IPFLibraries\Properties\DeprecatedTypes
+ * @package Imponeer\Properties\DeprecatedTypes
  * @deprecated
  */
 class FormSectionType extends OtherType {

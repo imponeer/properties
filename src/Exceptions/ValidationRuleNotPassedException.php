@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/21/2017
- * Time: 11:30 PM
- */
 
-namespace IPFLibraries\Properties\Exceptions;
+namespace Imponeer\Properties\Exceptions;
 
 
 class ValidationRuleNotPassedException extends \Exception {

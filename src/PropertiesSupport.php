@@ -1,30 +1,30 @@
 <?php
 
-namespace IPFLibraries\Properties;
+namespace Imponeer\Properties;
 
-use IPFLibraries\Properties\DeprecatedTypes\CurrencyType;
-use IPFLibraries\Properties\DeprecatedTypes\EmailType;
-use IPFLibraries\Properties\DeprecatedTypes\FileType;
-use IPFLibraries\Properties\DeprecatedTypes\FormSectionCloseType;
-use IPFLibraries\Properties\DeprecatedTypes\FormSectionType;
-use IPFLibraries\Properties\DeprecatedTypes\ImageType;
-use IPFLibraries\Properties\DeprecatedTypes\MtimeType;
-use IPFLibraries\Properties\DeprecatedTypes\SourceType;
-use IPFLibraries\Properties\DeprecatedTypes\StimeType;
-use IPFLibraries\Properties\DeprecatedTypes\TimeOnlyType;
-use IPFLibraries\Properties\DeprecatedTypes\TxtboxType;
-use IPFLibraries\Properties\DeprecatedTypes\UrllinkType;
-use IPFLibraries\Properties\DeprecatedTypes\UrlType;
-use IPFLibraries\Properties\Exceptions\SpecifiedDataTypeNotFound;
-use IPFLibraries\Properties\Types\ArrayType;
-use IPFLibraries\Properties\Types\BooleanType;
-use IPFLibraries\Properties\Types\DateTimeType;
-use IPFLibraries\Properties\Types\FloatType;
-use IPFLibraries\Properties\Types\IntegerType;
-use IPFLibraries\Properties\Types\ListType;
-use IPFLibraries\Properties\Types\ObjectType;
-use IPFLibraries\Properties\Types\OtherType;
-use IPFLibraries\Properties\Types\StringType;
+use Imponeer\Properties\DeprecatedTypes\CurrencyType;
+use Imponeer\Properties\DeprecatedTypes\EmailType;
+use Imponeer\Properties\DeprecatedTypes\FileType;
+use Imponeer\Properties\DeprecatedTypes\FormSectionCloseType;
+use Imponeer\Properties\DeprecatedTypes\FormSectionType;
+use Imponeer\Properties\DeprecatedTypes\ImageType;
+use Imponeer\Properties\DeprecatedTypes\MtimeType;
+use Imponeer\Properties\DeprecatedTypes\SourceType;
+use Imponeer\Properties\DeprecatedTypes\StimeType;
+use Imponeer\Properties\DeprecatedTypes\TimeOnlyType;
+use Imponeer\Properties\DeprecatedTypes\TxtboxType;
+use Imponeer\Properties\DeprecatedTypes\UrllinkType;
+use Imponeer\Properties\DeprecatedTypes\UrlType;
+use Imponeer\Properties\Exceptions\SpecifiedDataTypeNotFound;
+use Imponeer\Properties\Types\ArrayType;
+use Imponeer\Properties\Types\BooleanType;
+use Imponeer\Properties\Types\DateTimeType;
+use Imponeer\Properties\Types\FloatType;
+use Imponeer\Properties\Types\IntegerType;
+use Imponeer\Properties\Types\ListType;
+use Imponeer\Properties\Types\ObjectType;
+use Imponeer\Properties\Types\OtherType;
+use Imponeer\Properties\Types\StringType;
 
 /**
  * Contains methods for dealing with object properties
@@ -72,7 +72,7 @@ trait PropertiesSupport {
 	 */
 	public function initCommonVar($varname, $displayOnForm = true, $default = 'notdefined') {
 		trigger_error('$this->initCommonVar() will be removed in the future!', E_USER_DEPRECATED);
-		$class = "\\IPFLibraries\\Properties\\CommonProperties\\" . implode(
+		$class = "\\Imponeer\\Properties\\CommonProperties\\" . implode(
 				'',
 				array_map('ucfirst',
 					array_map('strtolower',
@@ -111,7 +111,7 @@ trait PropertiesSupport {
 			}
 			$class = $types[$dataType];
 		} elseif (strtoupper(substr($dataType, 0, 4)) == 'DEP_') {
-			$class = "\\IPFLibraries\\Properties\\DeprecatedTypes\\" . implode(
+			$class = "\\Imponeer\\Properties\\DeprecatedTypes\\" . implode(
 					'',
 					array_map('ucfirst',
 						array_map('strtolower',
@@ -122,7 +122,7 @@ trait PropertiesSupport {
 					)
 				) . 'Type';
 		} elseif (!class_exists($dataType)) {
-			$class = "\\IPFLibraries\\Properties\\Types\\" . implode(
+			$class = "\\Imponeer\\Properties\\Types\\" . implode(
 					'',
 					array_map('ucfirst',
 						array_map('strtolower',
@@ -158,7 +158,7 @@ trait PropertiesSupport {
 			PropertiesInterface::DTYPE_ARRAY => ArrayType::class,
 			PropertiesInterface::DTYPE_BOOLEAN => BooleanType::class,
 			PropertiesInterface::DTYPE_DATETIME => DateTimeType::class,
-			PropertiesInterface::DTYPE_FILE => \IPFLibraries\Properties\Types\FileType::class,
+			PropertiesInterface::DTYPE_FILE => \Imponeer\Properties\Types\FileType::class,
 			PropertiesInterface::DTYPE_FLOAT => FloatType::class,
 			PropertiesInterface::DTYPE_INTEGER => IntegerType::class,
 			PropertiesInterface::DTYPE_LIST => ListType::class,

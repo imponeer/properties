@@ -1,8 +1,8 @@
 <?php
 
-namespace IPFLibraries\Properties\Tests;
+namespace Imponeer\Properties\Tests;
 
-use IPFLibraries\Properties\PropertiesInterface;
+use Imponeer\Properties\PropertiesInterface;
 
 /**
 * @backupGlobals disabled
@@ -11,18 +11,18 @@ use IPFLibraries\Properties\PropertiesInterface;
 class PropertiesTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * Does \IPFLibraries\Properties\PropertiesSupport exists and it's usable?
+	 * Does \Imponeer\Properties\PropertiesSupport exists and it's usable?
 	 */
 	public function testExists() {
-		$this->assertTrue(trait_exists('\\IPFLibraries\\Properties\\PropertiesSupport'), '\\IPFLibraries\\Properties\\PropertiesSupport trait doesn exist');
-		$mock = $this->getMockForTrait('\\IPFLibraries\\Properties\\PropertiesSupport');
+		$this->assertTrue(trait_exists('\\Imponeer\\Properties\\PropertiesSupport'), '\\Imponeer\\Properties\\PropertiesSupport trait doesn exist');
+		$mock = $this->getMockForTrait('\\Imponeer\\Properties\\PropertiesSupport');
 	}
 
 	/**
 	 * Tests that all needed public methods exists
 	 */
 	public function testNeededPublicMethods() {
-		$mock = $this->getMockForTrait('\\IPFLibraries\\Properties\\PropertiesSupport');
+		$mock = $this->getMockForTrait('\\Imponeer\\Properties\\PropertiesSupport');
 		foreach ([
 				'getVar' => null,
 				'setVar' => null,
@@ -53,7 +53,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase {
 	 * Tests if initVars works
 	 */
 	public function testInitVars() {
-		$mock = $this->getMockForTrait('\\IPFLibraries\\Properties\\PropertiesSupport');
+		$mock = $this->getMockForTrait('\\Imponeer\\Properties\\PropertiesSupport');
 
 		$reflection_method = new \ReflectionMethod($mock, 'initVar');
 		$this->assertTrue(is_object($reflection_method), 'initVar method doesn\'t exists');
@@ -105,7 +105,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase {
 	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function createMockWithInitVar($key, $dataType, $defaultValue = null, $required = false, $otherCfg = null) {
-		$mock = $this->getMockForTrait('\\IPFLibraries\\Properties\\PropertiesSupport');
+		$mock = $this->getMockForTrait('\\Imponeer\\Properties\\PropertiesSupport');
 		$reflection_method = new \ReflectionMethod($mock, 'initVar');
 		$reflection_method->setAccessible(true);
 		$reflection_method->invoke($mock, $key, $dataType, $defaultValue, $required, $otherCfg);

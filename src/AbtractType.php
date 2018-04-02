@@ -1,72 +1,75 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/21/2017
- * Time: 9:57 PM
- */
 
-namespace IPFLibraries\Properties;
+namespace Imponeer\Properties;
 
-
-use IPFLibraries\Properties\Exceptions\PropertyIsLockedException;
-use IPFLibraries\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
+use Imponeer\Properties\Exceptions\PropertyIsLockedException;
+use Imponeer\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
 
 abstract class AbstractType {
+
 	/**
 	 * Is locked from modifications?
 	 *
 	 * @var bool
 	 */
 	public $locked = false;
+
 	/**
 	 * Possible options
 	 *
 	 * @var array
 	 */
 	public $possibleOptions = [];
+
 	/**
 	 * Is changed?
 	 *
 	 * @var bool
 	 */
 	public $changed = false;
+
 	/**
 	 * Not loaded?
 	 *
 	 * @var bool
 	 */
 	public $not_loaded = false;
+
 	/**
 	 * Default value
 	 *
 	 * @var mixed
 	 */
 	public $defaultValue = null;
+
 	/**
 	 * Is required?
 	 *
 	 * @var bool
 	 */
 	public $required = false;
+
 	/**
 	 * Data handler (used for linking data with database)
 	 *
 	 * @var string|null
 	 */
 	public $data_handler;
+
 	/**
 	 * Hide from user?
 	 *
 	 * @var bool
 	 */
 	public $hide = false;
+
 	/**
 	 * Current value
 	 *
 	 * @var mixed
 	 */
 	protected $value = null;
+
 	/**
 	 * Parent
 	 *
@@ -158,7 +161,7 @@ abstract class AbstractType {
 	 * @return bool
 	 */
 	public function isDeprecatedType() {
-		$namespace = '\\IPFLibraries\\Properties\\DeprecatedTypes\\';
+		$namespace = '\\Imponeer\\Properties\\DeprecatedTypes\\';
 		$l = strlen($namespace);
 		if (strlen(static::class) < $l) {
 			return false;

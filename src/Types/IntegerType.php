@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/22/2017
- * Time: 12:27 AM
- */
-
-namespace IPFLibraries\Properties\Types;
 
 
-use IPFLibraries\Properties\AbstractType;
+namespace Imponeer\Properties\Types;
+
+
+use Imponeer\Properties\AbstractType;
 
 class IntegerType extends AbstractType {
 	/**

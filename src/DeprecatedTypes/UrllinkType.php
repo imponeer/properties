@@ -1,20 +1,14 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/22/2017
- * Time: 7:45 PM
- */
 
-namespace IPFLibraries\Properties\DeprecatedTypes;
+namespace Imponeer\Properties\DeprecatedTypes;
 
-use IPFLibraries\Properties\DeprecatedDataTypeInterface;
-use IPFLibraries\Properties\PropertiesInterface;
-use IPFLibraries\Properties\Types\IntegerType;
+use Imponeer\Properties\DeprecatedDataTypeInterface;
+use Imponeer\Properties\PropertiesInterface;
+use Imponeer\Properties\Types\IntegerType;
 
 /**
  * Class UrllinkType
- * @package IPFLibraries\Properties\DeprecatedTypes
+ * @package Imponeer\Properties\DeprecatedTypes
  * @deprecated
  */
 class UrllinkType extends IntegerType {

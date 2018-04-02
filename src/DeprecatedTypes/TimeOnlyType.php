@@ -1,19 +1,13 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/22/2017
- * Time: 7:28 PM
- */
 
-namespace IPFLibraries\Properties\DeprecatedTypes;
+namespace Imponeer\Properties\DeprecatedTypes;
 
-use IPFLibraries\Properties\DeprecatedDataTypeInterface;
-use IPFLibraries\Properties\Types\DateTimeType;
+use Imponeer\Properties\DeprecatedDataTypeInterface;
+use Imponeer\Properties\Types\DateTimeType;
 
 /**
  * Class TimeOnlyType
- * @package IPFLibraries\Properties\DeprecatedTypes
+ * @package Imponeer\Properties\DeprecatedTypes
  * @deprecated
  */
 class TimeOnlyType extends DateTimeType {

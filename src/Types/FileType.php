@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/22/2017
- * Time: 1:26 AM
- */
 
-namespace IPFLibraries\Properties\Types;
+namespace Imponeer\Properties\Types;
 
 
-use IPFLibraries\Properties\AbstractType;
+use Imponeer\Properties\AbstractType;
 
 class FileType extends AbstractType {
 

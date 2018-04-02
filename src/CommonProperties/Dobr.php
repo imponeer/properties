@@ -1,16 +1,16 @@
 <?php
 
-namespace IPFLibraries\Properties\CommonProperties;
+namespace Imponeer\Properties\CommonProperties;
 
-use IPFLibraries\Properties\CommonPropertyInterface;
-use IPFLibraries\Properties\ConfigOption;
-use IPFLibraries\Properties\DataType;
-use IPFLibraries\Properties\Types\IntegerType;
+use Imponeer\Properties\CommonPropertyInterface;
+use Imponeer\Properties\ConfigOption;
+use Imponeer\Properties\DataType;
+use Imponeer\Properties\Types\IntegerType;
 
 /**
  * Do br field type
  *
- * @package IPFLibraries\Properties\CommonVariables
+ * @package Imponeer\Properties\CommonVariables
  */
 class Dobr implements CommonPropertyInterface {
 	/**

@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/21/2017
- * Time: 10:26 PM
- */
 
-namespace IPFLibraries\Properties\Types;
+namespace Imponeer\Properties\Types;
 
-use IPFLibraries\Properties\AbstractType;
-use IPFLibraries\Properties\Exceptions\ValidationRuleNotPassedException;
+use Imponeer\Properties\AbstractType;
+use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
 
 class StringType extends AbstractType {
 

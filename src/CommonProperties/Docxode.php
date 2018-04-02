@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/22/2017
- * Time: 8:23 PM
- */
 
-namespace IPFLibraries\Properties\CommonProperties;
+namespace Imponeer\Properties\CommonProperties;
 
 
 class Docxode extends Doxcode {

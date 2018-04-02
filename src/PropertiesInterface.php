@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/22/2017
- * Time: 8:48 PM
- */
 
-namespace IPFLibraries\Properties;
+namespace Imponeer\Properties;
 
 
 interface PropertiesInterface {

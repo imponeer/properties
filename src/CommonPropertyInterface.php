@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mekdr
- * Date: 1/20/2017
- * Time: 12:31 AM
- */
 
-namespace IPFLibraries\Properties;
+namespace Imponeer\Properties;
 
 /**
  * Interface for defining common vars
  *
- * @package IPFLibraries\Properties
+ * @package Imponeer\Properties
  */
 interface CommonPropertyInterface {
 
