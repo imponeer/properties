@@ -2,7 +2,9 @@
 
 namespace Imponeer\Properties\Exceptions;
 
-
+/**
+ * This exception is raised when validation fails
+ */
 class ValidationRuleNotPassedException extends \Exception {
 	/**
 	 * Value
