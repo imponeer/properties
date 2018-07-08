@@ -33,7 +33,7 @@ class FileTypeTest extends TestTypeAbstract
 	 */
 	public function testUploadingFromUrl()
 	{
-		$this->mock->v = 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png';
+		$this->mock->v = 'https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg';
 
 		$this->assertInternalType('array', $this->mock->v, 'DTYPE_FILE must be returned as array un success');
 		$this->assertArrayHasKey('filename', $this->mock->v, 'Filename key on FILE type isn\'t returned');

@@ -106,6 +106,10 @@ abstract class TestTypeAbstract extends TestCase
 			fopen('php://memory', 'w')
 		];
 
+		if (defined('PHP_INT_MIN')) {
+			define('PHP_INT_MIN', -PHP_INT_MAX);
+		}
+
 		for ($i = 0; $i < 10; $i++) {
 			$basic_test_data[] = mt_rand(1, PHP_INT_MAX);
 			$basic_test_data[] = mt_rand(PHP_INT_MIN, -1);
