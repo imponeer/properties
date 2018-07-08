@@ -28,5 +28,10 @@
 		"files": [
 			"src/old-constants.php"
 		]
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Imponeer\\Properties\\Tests\\": "tests/"
+		}
 	}
 }
