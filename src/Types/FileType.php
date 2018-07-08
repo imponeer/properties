@@ -3,7 +3,6 @@
 namespace Imponeer\Properties\Types;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Uri;
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\BadStatusCode;
 use Imponeer\Properties\Exceptions\FileTooBigException;
@@ -12,6 +11,11 @@ use Imponeer\Properties\Exceptions\MimeTypeIsNotAllowedException;
 use Intervention\Image\ImageManager;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Defines File type
+ *
+ * @package Imponeer\Properties\Types
+ */
 class FileType extends AbstractType
 {
 

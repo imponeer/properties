@@ -5,6 +5,11 @@ namespace Imponeer\Properties\Types;
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
 
+/**
+ * Defines string type
+ *
+ * @package Imponeer\Properties\Types
+ */
 class StringType extends AbstractType {
 
 	/**

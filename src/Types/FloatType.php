@@ -2,9 +2,13 @@
 
 namespace Imponeer\Properties\Types;
 
-
 use Imponeer\Properties\AbstractType;
 
+/**
+ * Defines float type
+ *
+ * @package Imponeer\Properties\Types
+ */
 class FloatType extends AbstractType {
 
 	/**

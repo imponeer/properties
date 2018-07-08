@@ -2,9 +2,13 @@
 
 namespace Imponeer\Properties\Types;
 
-
 use Imponeer\Properties\AbstractType;
 
+/**
+ * Defines boolean type
+ *
+ * @package Imponeer\Properties\Types
+ */
 class BooleanType extends AbstractType {
 
 	/**

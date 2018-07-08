@@ -4,6 +4,11 @@ namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
 
+/**
+ * Defines array type
+ *
+ * @package Imponeer\Properties\Types
+ */
 class ArrayType extends AbstractType {
 	/**
 	 * @inheritDoc

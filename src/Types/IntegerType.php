@@ -3,9 +3,13 @@
 
 namespace Imponeer\Properties\Types;
 
-
 use Imponeer\Properties\AbstractType;
 
+/**
+ * Define integer type
+ *
+ * @package Imponeer\Properties\Types
+ */
 class IntegerType extends AbstractType {
 	/**
 	 * @inheritDoc

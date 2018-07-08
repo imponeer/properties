@@ -2,9 +2,13 @@
 
 namespace Imponeer\Properties\Types;
 
-
 use Imponeer\Properties\AbstractType;
 
+/**
+ * Defines list type
+ *
+ * @package Imponeer\Properties\Types
+ */
 class ListType extends AbstractType {
 
 	/**

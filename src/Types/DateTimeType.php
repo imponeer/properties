@@ -2,9 +2,13 @@
 
 namespace Imponeer\Properties\Types;
 
-
 use Imponeer\Properties\AbstractType;
 
+/**
+ * Defines date & time type
+ *
+ * @package Imponeer\Properties\Types
+ */
 class DateTimeType extends AbstractType {
 
 	/**

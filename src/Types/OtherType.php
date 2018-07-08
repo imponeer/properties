@@ -2,9 +2,13 @@
 
 namespace Imponeer\Properties\Types;
 
-
 use Imponeer\Properties\AbstractType;
 
+/**
+ * Define 'other' type
+ *
+ * @package Imponeer\Properties\Types
+ */
 class OtherType extends AbstractType {
 
 	/**

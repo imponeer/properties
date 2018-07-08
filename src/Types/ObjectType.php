@@ -4,6 +4,11 @@ namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
 
+/**
+ * Defines object type
+ *
+ * @package Imponeer\Properties\Types
+ */
 class ObjectType extends AbstractType {
 
 	/**
