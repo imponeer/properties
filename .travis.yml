@@ -7,7 +7,7 @@ php:
   - 7.2
 
 install:
-  - composer install --optimize-autoloader --no-suggest --no-dev
+  - composer install --optimize-autoloader --no-suggest --no-interaction
 
 script:
   - vendor/bin/phpunit -c phpunit.xml
