@@ -23,7 +23,7 @@ class IntegerTypeTest extends TestTypeAbstract
 	{
 		foreach ($this->test_data as $v) {
 			$this->mock->v = $v;
-			$this->assertInternalType('int', $this->mock->v, 'DTYPE_INTEGER must convert all data (' . json_encode($v) . ')');
+			$this->assertInternalType('int', $this->mock->v, 'DTYPE_INTEGER must convert all data (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
 		}
 	}
 

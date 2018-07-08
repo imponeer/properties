@@ -27,7 +27,7 @@ class ArrayTypeTest extends TestTypeAbstract
 			if (is_array($v)) {
 				$this->assertSame($v, $this->mock->v, 'Array must be unchanged');
 			} else {
-				$this->assertSame((array)$v, array_values($this->mock->v), 'Simple values must be converted as array values without modifications (' . json_encode($v) . ')');
+				$this->assertSame((array)$v, array_values($this->mock->v), 'Simple values must be converted as array values without modifications (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
 			}
 		}
 	}

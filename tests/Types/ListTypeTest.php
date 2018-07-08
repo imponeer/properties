@@ -23,7 +23,7 @@ class ListTypeTest extends TestTypeAbstract
 	{
 		foreach ($this->test_data as $v) {
 			$this->mock->v = $v;
-			$this->assertInternalType('array', $this->mock->v, 'DTYPE_LIST must convert all data (' . json_encode($v) . ')');
+			$this->assertInternalType('array', $this->mock->v, 'DTYPE_LIST must convert all data (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
 		}
 	}
 

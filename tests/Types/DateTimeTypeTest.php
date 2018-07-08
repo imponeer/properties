@@ -23,7 +23,7 @@ class DateTimeTypeTest extends TestTypeAbstract
 	{
 		foreach ($this->test_data as $v) {
 			$this->mock->v = $v;
-			$this->assertTrue(is_int($this->mock->v) || (is_object($this->mock->v) && $this->mock->v instanceof \DateTime), 'DTYPE_DATETIME must convert all data (' . json_encode($v) . ')');
+			$this->assertTrue(is_int($this->mock->v) || (is_object($this->mock->v) && $this->mock->v instanceof \DateTime), 'DTYPE_DATETIME must convert all data (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
 		}
 	}
 

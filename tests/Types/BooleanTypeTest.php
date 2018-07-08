@@ -23,7 +23,7 @@ class BooleanTypeTest extends TestTypeAbstract
 	{
 		foreach ($this->test_data as $v) {
 			$this->mock->v = $v;
-			$this->assertInternalType('bool', $this->mock->v, 'DTYPE_BOOLEAN must convert all data (' . json_encode($v) . ')');
+			$this->assertInternalType('bool', $this->mock->v, 'DTYPE_BOOLEAN must convert all data (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
 		}
 	}
 
