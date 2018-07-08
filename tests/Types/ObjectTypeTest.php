@@ -23,8 +23,8 @@ class ObjectTypeTest extends TestTypeAbstract
 	{
 		foreach ($this->test_data as $v) {
 			$this->mock->v = json_encode($v);
-			if ($v === null) {
-				$this->assertInternalType('null', $this->mock->v, 'DTYPE_OBJECT must parse json null to null');
+			if (is_null($v) || is_bool($v) || is_numeric($v) || is_string($v)) {
+				$this->assertInternalType('null', $this->mock->v, 'DTYPE_OBJECT must parse json to null if is not object or array (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
 			} else {
 				$this->assertInternalType('object', $this->mock->v, 'DTYPE_OBJECT must parse json to object (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
 			}
@@ -38,8 +38,8 @@ class ObjectTypeTest extends TestTypeAbstract
 	{
 		foreach ($this->test_data as $v) {
 			$this->mock->v = serialize($v);
-			if ($v === null) {
-				$this->assertInternalType('null', $this->mock->v, 'DTYPE_OBJECT must unserialize null to null');
+			if (is_null($v) || is_bool($v) || is_numeric($v) || is_string($v)) {
+				$this->assertInternalType('null', $this->mock->v, 'DTYPE_OBJECT must unserialize to null if is not object or array (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
 			} else {
 				$this->assertInternalType('object', $this->mock->v, 'DTYPE_OBJECT must unserialize to object (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
 			}
