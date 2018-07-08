@@ -30,8 +30,8 @@ use Imponeer\Properties\Types\StringType;
  * Contains methods for dealing with object properties
  *
  * @copyright   The ImpressCMS Project http://www.impresscms.org/
- * @license        MIT https://opensource.org/licenses/MIT
- * @author        mekdrop@impresscms.org
+ * @license     MIT https://opensource.org/licenses/MIT
+ * @author      mekdrop@impresscms.org
  */
 trait PropertiesSupport {
 
