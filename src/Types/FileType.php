@@ -291,7 +291,11 @@ class FileType extends AbstractType
 		if (!empty($this->prefix)) {
 			$gen_filename = $this->prefix . $gen_filename;
 		}
-		return $this->path . DIRECTORY_SEPARATOR . $gen_filename;
+		if ($this->path) {
+			return $this->path . DIRECTORY_SEPARATOR . $gen_filename;
+		} else {
+			return $gen_filename;
+		}
 	}
 
 	/**
