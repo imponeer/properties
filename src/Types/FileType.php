@@ -3,6 +3,7 @@
 namespace Imponeer\Properties\Types;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Uri;
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\BadStatusCode;
 use Imponeer\Properties\Exceptions\FileTooBigException;
@@ -156,18 +157,17 @@ class FileType extends AbstractType
 					'mimetype' => $this->getFileMimeType($value),
 				);
 			}
-			return $this->uploadFileFromUrl($value);
-		} elseif (isset($value['filename']) || isset($value['mimetype'])) {
-			if (!isset($value['filename']) || !isset($value['mimetype'])) {
-				return null;
-			}
+			return $this->isDataURI($value) ?
+				$this->uploadFromDataURI($value) :
+				$this->uploadFileFromUrl($value);
+		} elseif (isset($value['filename']) && isset($value['mimetype'])) {
 			return $value;
 		}
 		return null;
 	}
 
 	/**
-	 * Gets mymetype from filename
+	 * Gets mimetype from filename
 	 *
 	 * @param string $filename Filename
 	 *
@@ -176,6 +176,118 @@ class FileType extends AbstractType
 	protected function getFileMimeType($filename)
 	{
 		return mime_content_type($filename);
+	}
+
+	/**
+	 * Is this data uri?
+	 *
+	 * @param string $url URL to check
+	 *
+	 * @return bool
+	 */
+	protected function isDataURI($url)
+	{
+		return substr($url, 0, 5) === 'data:';
+	}
+
+	/**
+	 * Upload from data URI
+	 *
+	 * @param string $url data:// url from where to upload content
+	 *
+	 * @return array
+	 *
+	 * @throws MimeTypeIsNotAllowedException
+	 */
+	protected function uploadFromDataURI($url)
+	{
+		$fp = fopen($url, 'r');
+		$meta = stream_get_meta_data($fp);
+		$content = stream_get_contents($fp);
+		fclose($fp);
+
+		if (!empty($this->allowedMimeTypes) && !in_array($meta['mediatype'], $this->allowedMimeTypes)) {
+			throw new MimeTypeIsNotAllowedException($meta['mediatype'], $this->allowedMimeTypes);
+		}
+
+		$this->checkFileSize($url, strlen($content));
+
+		$new_tmp_file = tempnam(sys_get_temp_dir(), 'data') . '.' . explode('/', $meta['mediatype'])[1];
+		file_put_contents($new_tmp_file, $content, FILE_BINARY);
+
+		if (substr($meta['mediatype'], 0, 6) === 'image/') {
+			$this->checkImageSize($new_tmp_file);
+		}
+
+		$target_filename = $this->generateTargetFileName(basename($new_tmp_file), $meta['mediatype']);
+		rename($new_tmp_file, $target_filename);
+
+		return ['filename' => $target_filename, 'mimetype' => $meta['mediatype']];
+	}
+
+	/**
+	 * Validates file size (if too big trows exception)
+	 *
+	 * @param string $url
+	 * @param $current_size
+	 * @throws FileTooBigException
+	 */
+	private function checkFileSize($url, $current_size)
+	{
+		if ($this->maxFileSize > 0 && $current_size > $this->maxFileSize) {
+			throw new FileTooBigException($url, $this->maxFileSize, $current_size);
+		}
+	}
+
+	/**
+	 * Validates image size
+	 *
+	 * @param string $file File to check
+	 *
+	 * @throws ImageWidthTooBigException
+	 * @throws ImageHeightTooBigException
+	 */
+	private function checkImageSize($file)
+	{
+		if ($this->maxWidth < 1 && $this->maxHeight < 1) {
+			return;
+		}
+		$intervention = new ImageManager([
+			'driver' => extension_loaded('imagick') ? 'imagick' : 'gd'
+		]);
+		$image = $intervention->make($file);
+		if ($this->maxWidth > $image->getWidth()) {
+			throw new ImageWidthTooBigException();
+		}
+		if ($this->maxHeight > $image->getHeight()) {
+			throw new ImageHeightTooBigException();
+		}
+	}
+
+	/**
+	 * Generates target filename
+	 *
+	 * @param $filename
+	 * @param $mimetype
+	 *
+	 * @return string
+	 */
+	private function generateTargetFileName($filename, $mimetype)
+	{
+		if (isset($this->filenameGenerator)) {
+			$gen_filename = call_user_func(
+				$this->filenameGenerator,
+				'post',
+				$mimetype,
+				$filename
+			);
+		} else {
+			$gen_filename = $filename;
+		}
+		if (!empty($this->prefix)) {
+			$gen_filename = $this->prefix . $gen_filename;
+		}
+		return $this->path . DIRECTORY_SEPARATOR . $gen_filename;
 	}
 
 	/**
@@ -235,20 +347,6 @@ class FileType extends AbstractType
 	}
 
 	/**
-	 * Validates file size (if too big trows exception)
-	 *
-	 * @param string $url
-	 * @param $current_size
-	 * @throws FileTooBigException
-	 */
-	private function checkFileSize($url, $current_size)
-	{
-		if ($this->maxFileSize > 0 && $current_size > $this->maxFileSize) {
-			throw new FileTooBigException($url, $this->maxFileSize, $current_size);
-		}
-	}
-
-	/**
 	 * Detects filename from response or atleast from URL
 	 *
 	 * @param ResponseInterface $response Response
@@ -263,57 +361,6 @@ class FileType extends AbstractType
 			return $content_disposition['filename'];
 		}
 		return parse_url($url, PHP_URL_PATH);
-	}
-
-	/**
-	 * Validates image size
-	 *
-	 * @param string $file File to check
-	 *
-	 * @throws ImageWidthTooBigException
-	 * @throws ImageHeightTooBigException
-	 */
-	private function checkImageSize($file)
-	{
-		if ($this->maxWidth < 1 && $this->maxHeight < 1) {
-			return;
-		}
-		$intervention = new ImageManager([
-			'driver' => extension_loaded('imagick') ? 'imagick' : 'gd'
-		]);
-		$image = $intervention->make($file);
-		if ($this->maxWidth > $image->getWidth()) {
-			throw new ImageWidthTooBigException();
-		}
-		if ($this->maxHeight > $image->getHeight()) {
-			throw new ImageHeightTooBigException();
-		}
-	}
-
-	/**
-	 * Generates target filename
-	 *
-	 * @param $filename
-	 * @param $mimetype
-	 *
-	 * @return string
-	 */
-	private function generateTargetFileName($filename, $mimetype)
-	{
-		if (isset($this->filenameGenerator)) {
-			$gen_filename = call_user_func(
-				$this->filenameGenerator,
-				'post',
-				$mimetype,
-				$filename
-			);
-		} else {
-			$gen_filename = $filename;
-		}
-		if (!empty($this->prefix)) {
-			$gen_filename = $this->prefix . $gen_filename;
-		}
-		return $this->path . DIRECTORY_SEPARATOR . $gen_filename;
 	}
 
 }
