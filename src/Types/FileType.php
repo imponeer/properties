@@ -2,10 +2,17 @@
 
 namespace Imponeer\Properties\Types;
 
-
+use GuzzleHttp\Client;
 use Imponeer\Properties\AbstractType;
+use Imponeer\Properties\Exceptions\BadStatusCode;
+use Imponeer\Properties\Exceptions\FileTooBigException;
+use Imponeer\Properties\Exceptions\ImageWidthTooBigException;
+use Imponeer\Properties\Exceptions\MimeTypeIsNotAllowedException;
+use Intervention\Image\ImageManager;
+use Psr\Http\Message\ResponseInterface;
 
-class FileType extends AbstractType {
+class FileType extends AbstractType
+{
 
 	/**
 	 * File save path
@@ -57,9 +64,22 @@ class FileType extends AbstractType {
 	public $prefix = null;
 
 	/**
+	 * Sets some GuzzleHttp options for fetching files
+	 *
+	 * @var array
+	 */
+	public $fetching_options = [
+		'allow_redirects' => true,
+		'connect_timeout' => 1,
+		'debug' => false,
+		'http_errors' => true
+	];
+
+	/**
 	 * @inheritDoc
 	 */
-	public function __construct(&$parent, $defaultValue, $required, $otherCfg) {
+	public function __construct(&$parent, $defaultValue, $required, $otherCfg)
+	{
 		if (!isset($otherCfg['prefix'])) {
 			$parts = explode('//', str_replace(['icms_ipf_', 'mod_'], '', get_class($parent)));
 			$otherCfg['prefix'] = $parts[count($parts) - 1];
@@ -74,28 +94,32 @@ class FileType extends AbstractType {
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined() {
+	public function isDefined()
+	{
 		return (isset($this->value['filename']) && !empty($this->value['filename']));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay() {
+	public function getForDisplay()
+	{
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit() {
+	public function getForEdit()
+	{
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm() {
+	public function getForForm()
+	{
 		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
@@ -107,7 +131,8 @@ class FileType extends AbstractType {
 	 * @throws PropertyIsLockedException
 	 * @throws ValueIsNotInPossibleValuesListException
 	 */
-	public function setFromRequest($key) {
+	public function setFromRequest($key)
+	{
 		if (is_array($key)) {
 			$value = &$_FILES;
 			foreach ($key as $k) {
@@ -122,7 +147,8 @@ class FileType extends AbstractType {
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value) {
+	protected function clean($value)
+	{
 		if (is_string($value)) {
 			if (file_exists($value)) {
 				return array(
@@ -130,27 +156,7 @@ class FileType extends AbstractType {
 					'mimetype' => $this->getFileMimeType($value),
 				);
 			}
-			$uploader = new icms_file_MediaUploadHandler($this->path, $this->allowedMimeTypes, $this->maxFileSize, $this->maxWidth, $this->maxHeight);
-			if ($uploader->fetchFromURL($value)) {
-				if (is_callable($this->filenameGenerator)) {
-					$filename = call_user_func($this->filenameGenerator, 'post', $uploader->getMediaType(), $uploader->getMediaName());
-					if (!empty($this->prefix)) {
-						$filename = $this->prefix . $filename;
-					}
-					$uploader->setTargetFileName($filename);
-				} elseif (!empty($this->prefix)) {
-					$uploader->setPrefix($this->prefix);
-				}
-				if ($uploader->upload()) {
-					return array(
-						'filename' => $uploader->getSavedFileName(),
-						'mimetype' => $uploader->getMediaType(),
-					);
-				}
-				trigger_error(strip_tags($uploader->getErrors()), E_USER_NOTICE);
-				return null;
-			}
-			return null;
+			return $this->uploadFileFromUrl($value);
 		} elseif (isset($value['filename']) || isset($value['mimetype'])) {
 			if (!isset($value['filename']) || !isset($value['mimetype'])) {
 				return null;
@@ -167,17 +173,147 @@ class FileType extends AbstractType {
 	 *
 	 * @return string
 	 */
-	private function getFileMimeType($filename) {
-		if (function_exists('finfo_open')) {
-			$info = finfo_open(FILEINFO_MIME_TYPE);
-			$rez = finfo_file($info, $filename);
-			finfo_close($info);
-			return $rez;
+	protected function getFileMimeType($filename)
+	{
+		return mime_content_type($filename);
+	}
+
+	/**
+	 * Upload file from URL
+	 *
+	 * @param string $url Uploads file from URL
+	 * @return mixed|string
+	 *
+	 * @throws MimeTypeIsNotAllowedException
+	 */
+	protected function uploadFileFromUrl($url)
+	{
+		$tmp_file = tempnam(sys_get_temp_dir(), 'uploaded');
+		$fp = fopen($tmp_file, 'w');
+		$client = new Client();
+		$content_is_ok = false;
+		$mimetype = 'unknown/unknown';
+		$response = $client->get($url,
+			$this->fetching_options +
+			[
+				'save_to' => $fp,
+				'on_headers' => function (ResponseInterface $response) use ($url, &$content_is_ok, &$mimetype) {
+					$this->checkFileSize($url, $response->getHeaderLine('Content-Length'));
+					if (!empty($this->allowedMimeTypes)) {
+						$content_type = $response->getHeader('Content-Type');
+						if (isset($content_type[0]) && in_array($content_type[0], $this->allowedMimeTypes)) {
+							$content_is_ok = true;
+							$mimetype = strtolower($content_type);
+						}
+					}
+				}
+			]
+		);
+		fclose($fp);
+
+		$this->checkFileSize($url, filesize($tmp_file));
+
+		$real_filename = $this->detectFileName($response, $url);
+		$new_tmp_file = $tmp_file . '_' . $real_filename;
+		rename($tmp_file, $new_tmp_file);
+
+		if (!$content_is_ok && !empty($this->allowedMimeTypes)) {
+			$mimetype = $this->getFileMimeType($new_tmp_file);
+			if (!in_array($mimetype, $this->allowedMimeTypes)) {
+				throw new MimeTypeIsNotAllowedException($mimetype, $this->allowedMimeTypes);
+			}
 		}
-		if (function_exists('mime_content_type')) {
-			return mime_content_type($filename);
+
+		if (substr($mimetype, 0, 6) === 'image/') {
+			$this->checkImageSize($new_tmp_file);
 		}
-		return 'unknown/unknown';
+
+		$target_filename = $this->generateTargetFileName($real_filename, $mimetype);
+		rename($new_tmp_file, $target_filename);
+
+		return ['filename' => $target_filename, 'mimetype' => $mimetype];
+	}
+
+	/**
+	 * Validates file size (if too big trows exception)
+	 *
+	 * @param string $url
+	 * @param $current_size
+	 * @throws FileTooBigException
+	 */
+	private function checkFileSize($url, $current_size)
+	{
+		if ($this->maxFileSize > 0 && $current_size > $this->maxFileSize) {
+			throw new FileTooBigException($url, $this->maxFileSize, $current_size);
+		}
+	}
+
+	/**
+	 * Detects filename from response or atleast from URL
+	 *
+	 * @param ResponseInterface $response Response
+	 * @param string $url URL
+	 *
+	 * @return mixed
+	 */
+	private function detectFileName(ResponseInterface &$response, $url)
+	{
+		$content_disposition = $response->getHeader('Content-Disposition');
+		if (isset($content_disposition['filename'])) {
+			return $content_disposition['filename'];
+		}
+		return parse_url($url, PHP_URL_PATH);
+	}
+
+	/**
+	 * Validates image size
+	 *
+	 * @param string $file File to check
+	 *
+	 * @throws ImageWidthTooBigException
+	 * @throws ImageHeightTooBigException
+	 */
+	private function checkImageSize($file)
+	{
+		if ($this->maxWidth < 1 && $this->maxHeight < 1) {
+			return;
+		}
+		$intervention = new ImageManager([
+			'driver' => extension_loaded('imagick') ? 'imagick' : 'gd'
+		]);
+		$image = $intervention->make($file);
+		if ($this->maxWidth > $image->getWidth()) {
+			throw new ImageWidthTooBigException();
+		}
+		if ($this->maxHeight > $image->getHeight()) {
+			throw new ImageHeightTooBigException();
+		}
+	}
+
+	/**
+	 * Generates target filename
+	 *
+	 * @param $filename
+	 * @param $mimetype
+	 *
+	 * @return string
+	 */
+	private function generateTargetFileName($filename, $mimetype)
+	{
+		if (isset($this->filenameGenerator)) {
+			$gen_filename = call_user_func(
+				$this->filenameGenerator,
+				'post',
+				$mimetype,
+				$filename
+			);
+		} else {
+			$gen_filename = $filename;
+		}
+		if (!empty($this->prefix)) {
+			$gen_filename = $this->prefix . $gen_filename;
+		}
+		return $this->path . DIRECTORY_SEPARATOR . $gen_filename;
 	}
 
 }

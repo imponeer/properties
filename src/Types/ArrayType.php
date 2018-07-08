@@ -2,7 +2,6 @@
 
 namespace Imponeer\Properties\Types;
 
-
 use Imponeer\Properties\AbstractType;
 
 class ArrayType extends AbstractType {
