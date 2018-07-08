@@ -64,6 +64,9 @@ class ObjectTypeTest extends TestTypeAbstract
 	public function testConversions()
 	{
 		foreach ($this->test_data as $v) {
+			if (is_string($v)) {
+				continue;
+			}
 			$this->mock->v = $v;
 			if ($v === null) {
 				$this->assertInternalType('null', $this->mock->v, 'DTYPE_OBJECT must convert null to null');

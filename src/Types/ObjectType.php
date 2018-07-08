@@ -48,9 +48,9 @@ class ObjectType extends AbstractType {
 		}
 		if (is_string($value)) {
 			if (substr($value, 0, 1) == '{') {
-				return json_decode($value, false);
+				return (object)json_decode($value, false);
 			} elseif (substr($value, 0, 2) == 'O:') {
-				return unserialize($value);
+				return (object)unserialize($value);
 			} elseif (class_exists($value, true)) {
 				return new $value();
 			} else {
