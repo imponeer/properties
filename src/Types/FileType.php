@@ -364,7 +364,8 @@ class FileType extends AbstractType
 		if (isset($content_disposition['filename'])) {
 			return $content_disposition['filename'];
 		}
-		return parse_url($url, PHP_URL_PATH);
+		$parts = explode('/', parse_url($url, PHP_URL_PATH));
+		return end($parts);
 	}
 
 }
