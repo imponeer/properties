@@ -45,20 +45,33 @@ class ArrayType extends AbstractType {
 		if (((array) $value) === $value) {
 			return $value;
 		}
-		if (empty($value)) {
+		if (empty($value) && !is_numeric($value)) {
 			return array();
 		}
 		if (is_string($value)) {
-			if (in_array(substr($value, 0, 1), array('{', '['))) {
-				$ret = json_decode($value, true);
-			} elseif (substr($value, 0, 2) == 'a:') {
-				$ret = unserialize($value);
-			}
-			if (isset($ret) && ($ret !== null)) {
-				return $ret;
-			}
+			return $this->unserializeValue($value);
 		}
 		return (array) $value;
+	}
+
+	/**
+	 * Unserialize value from string when cleaning it
+	 *
+	 * @param string $value Value to unserialize
+	 *
+	 * @return null|array
+	 */
+	protected function unserializeValue($value)
+	{
+		if ($value[0] == '{' || $value[0] == '[') {
+			return (array)json_decode($value, true);
+		} elseif (in_array(substr($value, 0, 2), ['O:', 'a:'])) {
+			return (array)unserialize($value);
+		} elseif (is_numeric($value)) {
+			return (array)$value;
+		} else {
+			return [];
+		}
 	}
 
 }

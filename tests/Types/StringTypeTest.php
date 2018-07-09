@@ -22,6 +22,9 @@ class StringTypeTest extends TestTypeAbstract
 	public function testConversions()
 	{
 		foreach ($this->test_data as $v) {
+			if (is_object($v) && ($v instanceof \Closure)) {
+				continue;
+			}
 			$this->mock->v = $v;
 			$this->assertInternalType('string', $this->mock->v, 'DTYPE_STRING must convert all data (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
 		}

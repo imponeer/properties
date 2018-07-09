@@ -22,6 +22,9 @@ class ObjectTypeTest extends TestTypeAbstract
 	public function testJsonDecode()
 	{
 		foreach ($this->test_data as $v) {
+			if (is_object($v) && ($v instanceof \Closure)) {
+				continue;
+			}
 			$this->mock->v = json_encode($v);
 			if (is_null($v) || is_bool($v) || is_numeric($v) || is_string($v)) {
 				$this->assertInternalType('null', $this->mock->v, 'DTYPE_OBJECT must parse json to null if is not object or array (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
@@ -37,6 +40,9 @@ class ObjectTypeTest extends TestTypeAbstract
 	public function testUnserialize()
 	{
 		foreach ($this->test_data as $v) {
+			if (is_object($v) && ($v instanceof \Closure)) {
+				continue;
+			}
 			$this->mock->v = serialize($v);
 			if (is_null($v) || is_bool($v) || is_numeric($v) || is_string($v)) {
 				$this->assertInternalType('null', $this->mock->v, 'DTYPE_OBJECT must unserialize to null if is not object or array (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
