@@ -47,7 +47,7 @@ jobs:
         run: composer require --dev clean/phpdoc-md
       - name: Creating configuration
         run: |
-          cat > .phpdoc-md <<EOF
+          cat > .phpdoc-md <<'EOF'
           <?php
           return (object)[
             'rootNamespace' => 'Imponeer\Properties',
