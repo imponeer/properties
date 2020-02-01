@@ -62,7 +62,9 @@ jobs:
                          		},
                          		glob('./src/**/*.php')
                          	),
-                         	'class_exists'
+                         	function ($item) {
+                               return class_exists($item) || interface_exists($item) || trait_exists($item);
+                            }
                          ),
           ];
           EOF
