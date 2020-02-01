@@ -85,7 +85,16 @@ jobs:
       - name: Adding extra info to HOME.md
         working-directory: .docs/
         run: |
-          find *.md -type f -exec sed -ri 's/\((.+)\\([^\\]+)\.md\)/(\2)/' {} \;
+          shopt -s globstar
+          for i in **/*.md; do
+            echo "Fixing links in $i..."
+            OLD_SIZE=$(stat --printf="%s" "$i")
+            sed -ri 's/\((.+)\\([^\\]+)\.md\)/(\2)/' "$i"
+            NEW_SIZE=$(stat --printf="%s" "$i")
+            if [ "$OLD_SIZE" -gt "$NEW_SIZE" ]; then
+              echo "\tChanged."
+            fi;
+          done
           sed -i '1i##### Notice: Wiki was automatic generated from project sources as project API documentation. Do not edit manually!' HOME.md
           sed -i "2i\ " HOME.md
       - name: Configuring commit author
