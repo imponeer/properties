@@ -45,6 +45,8 @@ jobs:
           cd ..
       - name: Installing hidden clean/phpdoc-md
         run: composer require --dev clean/phpdoc-md
+      - name: Creating .docs dir
+        run: mkdir -p .docs
       - name: Creating configuration
         run: |
           cat > .phpdoc-md <<'EOF'
@@ -52,12 +54,11 @@ jobs:
           return (object)[
             'rootNamespace' => 'Imponeer\Properties',
             'destDirectory' => '.docs',
-            'destDir' => '.docs',
             'format' => 'github',
             'classes' => array_filter(
                          	array_map(
                          		function ($file) {
-                         			return substr(str_replace(['/src/', '/'], ['\\Imponeer\\Properties\\', '\\'], $file), 0, -4);
+                         			return substr(str_replace(['./src/', '/'], ['\\Imponeer\\Properties\\', '\\'], $file), 0, -4);
                          		},
                          		glob('./src/**/*.php')
                          	),
