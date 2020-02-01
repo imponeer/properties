@@ -91,7 +91,7 @@ jobs:
             OLD_SIZE=$(stat --printf="%s" "$i")
             sed -r -i -e 's/\((.+)\\([^\\]+)\.md\)/(\2)/' "$i"
             NEW_SIZE=$(stat --printf="%s" "$i")
-            if [ "$OLD_SIZE" -gt "$NEW_SIZE" ]; then
+            if [ "$OLD_SIZE" -ne "$NEW_SIZE" ]; then
               echo "\tChanged."
             fi;
           done
