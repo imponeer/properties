@@ -55,17 +55,19 @@ jobs:
             'rootNamespace' => 'Imponeer\Properties',
             'destDirectory' => '.docs',
             'format' => 'github',
-            'classes' => array_filter(
-                         	array_map(
-                         		function ($file) {
-                         			return substr(str_replace(['./src/', '/'], ['\\Imponeer\\Properties\\', '\\'], $file), 0, -4);
-                         		},
-                         		glob('./src/**/*.php')
-                         	),
-                         	function ($item) {
-                               return class_exists($item) || interface_exists($item) || trait_exists($item);
-                            }
-                         ),
+            'classes' => array_unique(
+                            array_filter(
+                              array_map(
+                                  function ($file) {
+                                      return substr(str_replace(['./src/', '/'], ['\\Imponeer\\Properties\\', '\\'], $file), 0, -4);
+                                  },
+                                  glob('./src/**/*.php')
+                              ),
+                              function ($item) {
+                                 return class_exists($item) || interface_exists($item) || trait_exists($item);
+                              }
+                           )
+                        ),
           ];
           EOF
       - name: View config
