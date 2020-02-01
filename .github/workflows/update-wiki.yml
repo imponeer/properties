@@ -89,7 +89,7 @@ jobs:
           for i in **/*.md; do
             echo "Fixing links in $i..."
             OLD_SIZE=$(stat --printf="%s" "$i")
-            sed -ri 's/\((.+)\\([^\\]+)\.md\)/(\2)/' "$i"
+            sed -r -i -e 's/\((.+)\\([^\\]+)\.md\)/(\2)/' "$i"
             NEW_SIZE=$(stat --printf="%s" "$i")
             if [ "$OLD_SIZE" -gt "$NEW_SIZE" ]; then
               echo "\tChanged."
