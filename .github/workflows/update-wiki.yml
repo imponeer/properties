@@ -64,7 +64,10 @@ jobs:
                                   glob('./src/**/*.php')
                               ),
                               function ($item) {
-                                 return class_exists($item) || interface_exists($item) || trait_exists($item);
+                                 if (class_exists($item)) {
+                                    return true;
+                                 }
+                                 return interface_exists($item, false) || trait_exists($item, false);
                               }
                            )
                         ),
