@@ -52,6 +52,7 @@ jobs:
           return (object)[
             'rootNamespace' => 'Imponeer\Properties',
             'destDirectory' => '.docs',
+            'destDir' => '.docs',
             'format' => 'github',
             'classes' => array_filter(
                          	array_map(
