@@ -78,6 +78,7 @@ jobs:
       - name: Adding extra info to HOME.md
         working-directory: .docs/
         run: |
+          find *.md -type f -exec sed -i 's/\.md//g' {} \;
           sed -i '1i##### Notice: Wiki was automatic generated from project sources as project API documentation. Do not edit manually!' HOME.md
           sed -i "2i\ " HOME.md
       - name: Configuring commit author
