@@ -89,10 +89,10 @@ jobs:
           for i in **/*.md; do
             echo "Fixing links in $i..."
             OLD_SIZE=$(stat --printf="%s" "$i")
-            php -r 'echo preg_replace("/\(.+\/(.+)\.md\)/m", "($1)", file_get_contents($argv[1]));' -- "$i" > "$i"
+            php -r 'file_put_contents($argv[1], preg_replace("/\(.+\/(.+)\.md\)/m", "($1)", file_get_contents($argv[1])));' -- "$i"
             NEW_SIZE=$(stat --printf="%s" "$i")
             if [ "$OLD_SIZE" -ne "$NEW_SIZE" ]; then
-              echo "\tChanged."
+              echo "  Changed."
             fi;
           done
           sed -i '1i##### Notice: Wiki was automatic generated from project sources as project API documentation. Do not edit manually!' HOME.md
