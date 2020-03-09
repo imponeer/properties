@@ -2,10 +2,10 @@ name: Auto update project Wiki
 
 on:
   push:
-    branches:
-      - master
-    tags:
-      - 'v*' # Initializes on any new tag
+#    branches:
+#      - master
+#    tags:
+#      - 'v*' # Initializes on any new tag
 
 jobs:
   update_wiki:
