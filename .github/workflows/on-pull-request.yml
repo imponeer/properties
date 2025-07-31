@@ -30,11 +30,13 @@ jobs:
           ini-values: post_max_size=256M
           coverage: xdebug
       - name: Install Composer dependencies
-        run: composer install --no-progress --no-suggest --no-dev --prefer-dist --optimize-autoloader
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
       - name: Run CodeSniffer
         run: composer phpcs
       - name: Testing with PHPUnit
         run: composer test
+      - name: Install Composer dependencies (no dev)
+        run: composer install --no-progress --no-suggest --no-dev --prefer-dist --optimize-autoloader
 
   dependabot:
     needs: tests
