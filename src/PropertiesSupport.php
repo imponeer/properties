@@ -109,15 +109,20 @@ trait PropertiesSupport
      * @param bool $required Is Required?
      * @param array /null $otherCfg  If there is, an assoc array with other configuration for var
      */
-    protected function initVar(string $key, int|string $dataType, mixed $defaultValue = null, bool $required = false, array|null $otherCfg = null): void
-    {
+    protected function initVar(
+        string $key,
+        int|string $dataType,
+        mixed $defaultValue = null,
+        bool $required = false,
+        array|null $otherCfg = null
+    ): void {
         if (is_int($dataType)) {
             $types = static::getPossibleVarTypes();
             if (!isset($types[$dataType])) {
                 throw new SpecifiedDataTypeNotFound();
             }
             $class = $types[$dataType];
-        } elseif (strtoupper(substr($dataType, 0, 4)) == 'DEP_') {
+        } elseif (stripos($dataType, 'DEP_') === 0) {
             $class = "\\Imponeer\\Properties\\DeprecatedTypes\\" . implode(
                 '',
                 array_map(
@@ -382,7 +387,15 @@ trait PropertiesSupport
             default:
                 if (!isset($this->_vars[$name])) {
                     $callers = debug_backtrace();
-                    trigger_error(sprintf('%s undefined for %s (in line %d)', $name, $callers[0]['file'], $callers[0]['line']), E_USER_WARNING);
+                    trigger_error(
+                        sprintf(
+                            '%s undefined for %s (in line %d)',
+                            $name,
+                            $callers[0]['file'],
+                            $callers[0]['line']
+                        ),
+                        E_USER_WARNING
+                    );
                     return null;
                 } else {
                     return $this->_vars[$name]->get();
@@ -441,7 +454,15 @@ trait PropertiesSupport
                 return $this->_vars[$key];
             } else {
                 $callers = debug_backtrace();
-                trigger_error(sprintf('%s in %s on line %d doesn\'t exist', $key, $callers[0]['file'], $callers[0]['line']), E_USER_ERROR);
+                trigger_error(
+                    sprintf(
+                        '%s in %s on line %d doesn\'t exist',
+                        $key,
+                        $callers[0]['file'],
+                        $callers[0]['line']
+                    ),
+                    E_USER_ERROR
+                );
                 return $default;
             }
         } elseif (isset($this->_vars[$key]->$info)) {

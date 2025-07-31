@@ -24,7 +24,13 @@ class ListTypeTest extends TestTypeAbstract
     {
         foreach ($this->test_data as $v) {
             $this->mock->v = $v;
-            $this->assertIsArray($this->mock->v, 'DTYPE_LIST must convert all data (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
+            $this->assertIsArray(
+                $this->mock->v,
+                sprintf(
+                    "DTYPE_LIST must convert all data (%s)",
+                    var_export(['original' => $v, 'cleaned' => $this->mock->v], true)
+                )
+            );
         }
     }
 

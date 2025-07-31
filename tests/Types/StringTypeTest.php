@@ -27,7 +27,13 @@ class StringTypeTest extends TestTypeAbstract
                 continue;
             }
             $this->mock->v = $v;
-            $this->assertIsString($this->mock->v, 'DTYPE_STRING must convert all data (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
+            $this->assertIsString(
+                $this->mock->v,
+                sprintf(
+                    "DTYPE_STRING must convert all data (%s)",
+                    var_export(['original' => $v, 'cleaned' => $this->mock->v], true)
+                )
+            );
         }
     }
 

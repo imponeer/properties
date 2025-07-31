@@ -41,7 +41,11 @@ class FloatType extends AbstractType
      */
     public function getForEdit(): string
     {
-        return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+        return str_replace(
+            ['&amp;', '&nbsp;'],
+            ['&', '&amp;nbsp;'],
+            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
+        );
     }
 
     /**
@@ -49,7 +53,11 @@ class FloatType extends AbstractType
      */
     public function getForForm(): string
     {
-        return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+        return str_replace(
+            ['&amp;', '&nbsp;'],
+            ['&', '&amp;nbsp;'],
+            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
+        );
     }
 
     /**

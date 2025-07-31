@@ -20,12 +20,20 @@ class IntegerType extends AbstractType
 
     public function getForEdit(): string
     {
-        return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+        return str_replace(
+            ['&amp;', '&nbsp;'],
+            ['&', '&amp;nbsp;'],
+            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
+        );
     }
 
     public function getForForm(): string
     {
-        return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+        return str_replace(
+            ['&amp;', '&nbsp;'],
+            ['&', '&amp;nbsp;'],
+            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
+        );
     }
 
     protected function clean(mixed $value): int

@@ -6,7 +6,6 @@ namespace Imponeer\Properties\Types;
 
 use GuzzleHttp\Client;
 use Imponeer\Properties\AbstractType;
-use Imponeer\Properties\Exceptions\BadStatusCode;
 use Imponeer\Properties\Exceptions\FileTooBigException;
 use Imponeer\Properties\Exceptions\ImageWidthTooBigException;
 use Imponeer\Properties\Exceptions\MimeTypeIsNotAllowedException;
@@ -110,7 +109,11 @@ class FileType extends AbstractType
      */
     public function getForDisplay()
     {
-        return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+        return str_replace(
+            ["&amp;", "&nbsp;"],
+            ['&', '&amp;nbsp;'],
+            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
+        );
     }
 
     /**
@@ -118,7 +121,11 @@ class FileType extends AbstractType
      */
     public function getForEdit()
     {
-        return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+        return str_replace(
+            ["&amp;", "&nbsp;"],
+            ['&', '&amp;nbsp;'],
+            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
+        );
     }
 
     /**
@@ -126,7 +133,11 @@ class FileType extends AbstractType
      */
     public function getForForm()
     {
-        return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+        return str_replace(
+            ["&amp;", "&nbsp;"],
+            ['&', '&amp;nbsp;'],
+            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
+        );
     }
 
     /**
@@ -152,6 +163,8 @@ class FileType extends AbstractType
 
     /**
      * @inheritDoc
+     *
+     * @throws MimeTypeIsNotAllowedException
      */
     protected function clean($value)
     {
@@ -165,9 +178,12 @@ class FileType extends AbstractType
             return $this->isDataURI($value) ?
                 $this->uploadFromDataURI($value) :
                 $this->uploadFileFromUrl($value);
-        } elseif (isset($value['filename']) && isset($value['mimetype'])) {
+        }
+
+        if (isset($value['filename'], $value['mimetype'])) {
             return $value;
         }
+
         return null;
     }
 
@@ -178,7 +194,7 @@ class FileType extends AbstractType
      *
      * @return string
      */
-    protected function getFileMimeType($filename)
+    protected function getFileMimeType(string $filename): string
     {
         return mime_content_type($filename);
     }
@@ -190,9 +206,9 @@ class FileType extends AbstractType
      *
      * @return bool
      */
-    protected function isDataURI($url)
+    protected function isDataURI(string $url): bool
     {
-        return substr($url, 0, 5) === 'data:';
+        return str_starts_with($url, 'data:');
     }
 
     /**
@@ -210,7 +226,7 @@ class FileType extends AbstractType
         $content = stream_get_contents($fp);
         fclose($fp);
 
-        if (!empty($this->allowedMimeTypes) && !in_array($meta['mediatype'], $this->allowedMimeTypes)) {
+        if (!empty($this->allowedMimeTypes) && !in_array($meta['mediatype'], $this->allowedMimeTypes, true)) {
             throw new MimeTypeIsNotAllowedException($meta['mediatype'], $this->allowedMimeTypes);
         }
 
