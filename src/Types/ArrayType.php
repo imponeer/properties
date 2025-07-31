@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
+use Imponeer\Properties\Helper\HtmlSanitizerHelper;
 use JsonException;
 
 /**
@@ -37,11 +38,7 @@ class ArrayType extends AbstractType
      */
     public function getForEdit(): string
     {
-        return str_replace(
-            ['&amp;', '&nbsp;'],
-            ['&', '&amp;nbsp;'],
-            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-        );
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
@@ -49,11 +46,7 @@ class ArrayType extends AbstractType
      */
     public function getForForm(): string
     {
-        return str_replace(
-            ['&amp;', '&nbsp;'],
-            ['&', '&amp;nbsp;'],
-            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-        );
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**

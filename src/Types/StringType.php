@@ -25,11 +25,7 @@ class StringType extends AbstractType
     public function getForDisplay(): string
     {
         if ($this->autoFormatingDisabled) {
-            $ret = str_replace(
-                ['&amp;', '&nbsp;'],
-                ['&', '&amp;nbsp;'],
-                @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-            );
+            $ret = \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
             if (method_exists($this->parent, 'formatForML')) {
                 return $this->formatForML($ret);
             }
@@ -50,20 +46,12 @@ class StringType extends AbstractType
 
     public function getForEdit(): string
     {
-        return str_replace(
-            ['&amp;', '&nbsp;'],
-            ['&', '&amp;nbsp;'],
-            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-        );
+        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     public function getForForm(): string
     {
-        return str_replace(
-            ['&amp;', '&nbsp;'],
-            ['&', '&amp;nbsp;'],
-            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-        );
+        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**

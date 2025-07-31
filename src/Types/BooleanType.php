@@ -20,20 +20,12 @@ class BooleanType extends AbstractType
 
     public function getForEdit(): string
     {
-        return str_replace(
-            ['&amp;', '&nbsp;'],
-            ['&', '&amp;nbsp;'],
-            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-        );
+        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     public function getForForm(): string
     {
-        return str_replace(
-            ['&amp;', '&nbsp;'],
-            ['&', '&amp;nbsp;'],
-            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-        );
+        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     protected function clean(mixed $value): bool
