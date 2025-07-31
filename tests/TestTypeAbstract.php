@@ -115,10 +115,10 @@ abstract class TestTypeAbstract extends TestCase
         }
 
         for ($i = 0; $i < 10; $i++) {
-            $basic_test_data[] = mt_rand(1, PHP_INT_MAX);
-            $basic_test_data[] = mt_rand(PHP_INT_MIN, -1);
-            $basic_test_data[] = (float)(mt_rand(1, PHP_INT_MAX) / mt_getrandmax());
-            $basic_test_data[] = (float)(mt_rand(PHP_INT_MIN, -1) / mt_getrandmax());
+            $basic_test_data[] = random_int(1, PHP_INT_MAX);
+            $basic_test_data[] = random_int(PHP_INT_MIN, -1);
+            $basic_test_data[] = (float)(random_int(1, PHP_INT_MAX) / mt_getrandmax());
+            $basic_test_data[] = (float)(random_int(PHP_INT_MIN, -1) / mt_getrandmax());
             $basic_test_data[] = str_shuffle(date('r'));
         }
 
