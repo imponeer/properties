@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
@@ -16,40 +18,40 @@ class DateTimeType extends AbstractType {
 	 *
 	 * @var string
 	 */
-	public $format = 'r';
+	public string $format = 'r';
 
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined() {
+	public function isDefined(): bool {
 		return is_int($this->value) && ($this->value > 0);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay() {
-		return date(isset($this->format)?$this->format:'r', $this->value);
+	public function getForDisplay(): string {
+		return date(isset($this->format) ? $this->format : 'r', $this->value);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit() {
-		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+	public function getForEdit(): string {
+		return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm() {
-		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+	public function getForForm(): string {
+		return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value) {
+	protected function clean(mixed $value): int {
 		if (is_int($value)) {
 			return $value;
 		}

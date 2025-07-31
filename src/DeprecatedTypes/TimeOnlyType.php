@@ -1,18 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\DeprecatedTypes;
 
-use Imponeer\Properties\DeprecatedDataTypeInterface;
+
 use Imponeer\Properties\Types\DateTimeType;
 
 /**
- * Class TimeOnlyType
- * @package Imponeer\Properties\DeprecatedTypes
  * @deprecated
  */
-class TimeOnlyType extends DateTimeType {
-	/**
-	 * @inheritDoc
-	 */
-	public $format = 's:i';
+class TimeOnlyType extends DateTimeType
+{
+    public string $format = 's:i';
 }

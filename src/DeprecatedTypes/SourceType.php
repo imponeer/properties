@@ -1,25 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\DeprecatedTypes;
 
 
-use Imponeer\Properties\DeprecatedDataTypeInterface;
 use Imponeer\Properties\Types\StringType;
 
 /**
- * Class SourceType
- * @package Imponeer\Properties\DeprecatedTypes
  * @deprecated
  */
-class SourceType extends StringType {
-
-	/**
-	 * @inheritDoc
-	 */
-	public $sourceFormating = 'php';
-
-	/**
-	 * @inheritDoc
-	 */
-	public $autoFormatingDisabled = true;
+class SourceType extends StringType
+{
+    public string $sourceFormating = 'php';
+    public bool $autoFormatingDisabled = true;
 }

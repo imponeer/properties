@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
@@ -13,40 +15,40 @@ class ArrayType extends AbstractType {
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined() {
+	public function isDefined(): bool {
 		return !empty($this->value);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay() {
+	public function getForDisplay(): string {
 		return json_encode($this->value, JSON_PRETTY_PRINT);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit() {
-		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+	public function getForEdit(): string {
+		return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm() {
-		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+	public function getForForm(): string {
+		return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value) {
+	protected function clean(mixed $value): array {
 		if (((array) $value) === $value) {
 			return $value;
 		}
 		if (empty($value) && !is_numeric($value)) {
-			return array();
+			return [];
 		}
 		if (is_string($value)) {
 			return $this->unserializeValue($value);
@@ -61,8 +63,7 @@ class ArrayType extends AbstractType {
 	 *
 	 * @return null|array
 	 */
-	protected function unserializeValue($value)
-	{
+	protected function unserializeValue(string $value): array|null {
 		if ($value[0] == '{' || $value[0] == '[') {
 			return (array)json_decode($value, true);
 		} elseif (in_array(substr($value, 0, 2), ['O:', 'a:'])) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\Exceptions;
 
 /**
@@ -9,54 +11,53 @@ namespace Imponeer\Properties\Exceptions;
  */
 class MimeTypeIsNotAllowedException extends \Exception
 {
+    /**
+     * Current file mimetype
+     *
+     * @var string
+     */
+    protected string $mimetype;
 
-	/**
-	 * Current file mimetype
-	 *
-	 * @var string
-	 */
-	protected $mimetype;
+    /**
+     * Allowed mimetypes list
+     *
+     * @var string[]
+     */
+    protected array $allowed_mimetypes;
 
-	/**
-	 * Allowed mimetypes list
-	 *
-	 * @var array
-	 */
-	protected $allowed_mimetypes;
+    /**
+     * MimeTypeIsNotAllowedException constructor.
+     * @param string $mimetype Current mimetype
+     * @param string[] $allowed_mimetypes Allowed mimetypes list
+     * @param int $code Code
+     * @param \Throwable|null $previous Previous exception
+     */
+    public function __construct(string $mimetype, array $allowed_mimetypes, int $code = 0, ?\Throwable $previous = null)
+    {
+        $this->mimetype = $mimetype;
+        $this->allowed_mimetypes = $allowed_mimetypes;
 
-	/**
-	 * MimeTypeIsNotAllowedException constructor.
-	 * @param string $mimetype Current mimetype
-	 * @param array $allowed_mimetypes Allowed mimetypes list
-	 * @param \Exception $code Code
-	 * @param Exception $previous Previous exception
-	 */
-	public function __construct($mimetype, array $allowed_mimetypes, $code, Exception $previous)
-	{
-		$this->mimetype = $mimetype;
-		$this->allowed_mimetypes = $allowed_mimetypes;
+        parent::__construct('Mimetype is not allowed', $code, $previous);
+    }
 
-		parent::__construct('Mimetype is not allowed', $code, $previous);
-	}
+    /**
+     * Get allowed mimetypes list
+     *
+     * @return string[]
+     */
+    public function getAllowedMimetypes(): array
+    {
+        return $this->allowed_mimetypes;
+    }
 
-	/**
-	 * Get allowed mimetypes list
-	 *
-	 * @return array
-	 */
-	public function getAllowedMimetypes()
-	{
-		return $this->allowed_mimetypes;
-	}
-
-	/**
-	 * Get current mimetype
-	 *
-	 * @return string
-	 */
-	public function getMimetype()
-	{
-		return $this->mimetype;
-	}
+    /**
+     * Get current mimetype
+     *
+     * @return string
+     */
+    public function getMimetype(): string
+    {
+        return $this->mimetype;
+    }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
@@ -13,49 +15,48 @@ use Imponeer\Properties\Types\IntegerType;
  * @package Imponeer\Properties\CommonVariables
  */
 class Doimage implements CommonPropertyInterface {
-	/**
-	 * @inheritDoc
-	 */
-	public function parseValue($default) {
-		return $default != 'notdefined'?$default:0;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function parseValue(mixed $default): mixed {
+        return $default !== 'notdefined' ? $default : 0;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDataType() {
-		return IntegerType::class;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getDataType(): string {
+        return IntegerType::class;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function isRequired() {
-		return false;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function isRequired(): bool {
+        return false;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getOtherConfig() {
-		return [
-			'form_caption' => _CO_ICMS_DOIMAGE_FORM_CAPTION,
-			'maxLength' => null,
-			'options' => '',
-			'multilingual' => false,
-			'form_desc' => '',
-			'sortby' => false,
-			'persistent' => true
-		];
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getOtherConfig(): ?array {
+        return [
+            'form_caption' => _CO_ICMS_DOIMAGE_FORM_CAPTION,
+            'maxLength' => null,
+            'options' => '',
+            'multilingual' => false,
+            'form_desc' => '',
+            'sortby' => false,
+            'persistent' => true
+        ];
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getControl() {
-		return [
-			'name' => 'yesno'
-		];
-	}
-
+    /**
+     * @inheritDoc
+     */
+    public function getControl(): ?array {
+        return [
+            'name' => 'yesno'
+        ];
+    }
 }

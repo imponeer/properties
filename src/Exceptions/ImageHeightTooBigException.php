@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\Exceptions;
 
 /**
@@ -7,7 +9,4 @@ namespace Imponeer\Properties\Exceptions;
  *
  * @package Imponeer\Properties\Exceptions
  */
-class ImageHeightTooBigException extends \Exception
-{
-
-}
+class ImageHeightTooBigException extends \Exception {}

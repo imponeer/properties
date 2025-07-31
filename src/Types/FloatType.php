@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
@@ -16,40 +18,40 @@ class FloatType extends AbstractType {
 	 *
 	 * @var string
 	 */
-	public $format = '%d';
+	public string $format = '%d';
 
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined() {
+	public function isDefined(): bool {
 		return true;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay() {
+	public function getForDisplay(): string {
 		return sprintf($this->format, $this->value);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit() {
-		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+	public function getForEdit(): string {
+		return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm() {
-		return str_replace(array("&amp;", "&nbsp;"), array('&', '&amp;nbsp;'), @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+	public function getForForm(): string {
+		return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value) {
+	protected function clean(mixed $value): float {
 		if (is_object($value)) {
 			return 0.00;
 		}

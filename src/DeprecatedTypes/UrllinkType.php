@@ -1,30 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\DeprecatedTypes;
 
-use Imponeer\Properties\DeprecatedDataTypeInterface;
+
 use Imponeer\Properties\PropertiesInterface;
 use Imponeer\Properties\Types\IntegerType;
 
 /**
- * Class UrllinkType
- * @package Imponeer\Properties\DeprecatedTypes
  * @deprecated
  */
-class UrllinkType extends IntegerType {
-
-	/**
-	 * @inheritDoc
-	 */
-	public $autoFormatingDisabled = true;
-
-	/**
-	 * @inheritDoc
-	 */
-	public $validateRule = PropertiesInterface::VALIDATION_RULE_LINKS;
-
-	/**
-	 * @inheritDoc
-	 */
-	public $data_handler = 'link';
+class UrllinkType extends IntegerType
+{
+    public bool $autoFormatingDisabled = true;
+    public string $validateRule = PropertiesInterface::VALIDATION_RULE_LINKS;
+    public string $data_handler = 'link';
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties;
 
 /**
@@ -16,33 +18,33 @@ interface CommonPropertyInterface {
 	 *
 	 * @return mixed
 	 */
-	public function parseValue($default);
+	public function parseValue(mixed $default): mixed;
 
 	/**
 	 * Gets datatype
 	 *
 	 * @return string|int
 	 */
-	public function getDataType();
+	public function getDataType(): string|int;
 
 	/**
 	 * Is required?
 	 *
 	 * @return bool
 	 */
-	public function isRequired();
+	public function isRequired(): bool;
 
 	/**
 	 * Gets other config data
 	 *
 	 * @return array|null
 	 */
-	public function getOtherConfig();
+	public function getOtherConfig(): ?array;
 
 	/**
 	 * Gets form control options
 	 *
 	 * @return array|null
 	 */
-	public function getControl();
+	public function getControl(): ?array;
 }

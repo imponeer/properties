@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
@@ -14,35 +16,35 @@ class OtherType extends AbstractType {
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined() {
+	public function isDefined(): bool {
 		return true;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay() {
+	public function getForDisplay(): string {
 		return (string) $this->value;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit() {
+	public function getForEdit(): string {
 		return (string) $this->value;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm() {
+	public function getForForm(): string {
 		return (string) $this->value;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value) {
+	protected function clean(mixed $value): mixed {
 		return $value;
 	}
 }

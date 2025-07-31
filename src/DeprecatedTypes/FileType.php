@@ -1,24 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\DeprecatedTypes;
 
 
-use Imponeer\Properties\DeprecatedDataTypeInterface;
 use Imponeer\Properties\Types\IntegerType;
 
 /**
- * Class FileType
- * @package Imponeer\Properties\DeprecatedTypes
  * @deprecated
  */
-class FileType extends IntegerType {
-	/**
-	 * @inheritDoc
-	 */
-	public $data_handler = 'file';
-
-	/**
-	 * @inheritDoc
-	 */
-	public $autoFormatingDisabled = true;
+class FileType extends IntegerType
+{
+    public string $data_handler = 'file';
+    public bool $autoFormatingDisabled = true;
 }
