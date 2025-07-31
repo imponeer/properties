@@ -42,14 +42,14 @@ trait PropertiesSupport
      *
      * @var AbstractType[string]
      */
-    protected array $_vars = [];
+    protected array $vars = [];
 
     /**
      * Changed vars count
      *
      * @var int
      */
-    protected int $_changed = 0;
+    protected int $changed = 0;
 
     /**
      * Assigns values from array to vars
@@ -58,9 +58,9 @@ trait PropertiesSupport
      */
     public function assignVars(array $values): void
     {
-        foreach ($this->_vars as $key => $var) {
-            $value = (!isset($values[$key])) ? null : $values[$key];
-            $this->_vars[$key]->set($value);
+        foreach ($this->vars as $key => $var) {
+            $value = $values[$key] ?? null;
+            $this->vars[$key]->set($value);
         }
     }
 
@@ -107,7 +107,7 @@ trait PropertiesSupport
      * @param int|string $dataType Var data type (use constants DTYPE_* for specifing it!)
      * @param mixed $defaultValue Default value
      * @param bool $required Is Required?
-     * @param array /null $otherCfg  If there is, an assoc array with other configuration for var
+     * @param array|null $otherCfg /null $otherCfg  If there is, an assoc array with other configuration for var
      */
     protected function initVar(
         string $key,
@@ -149,7 +149,7 @@ trait PropertiesSupport
             ) . 'Type';
         }
 
-        $this->_vars[$key] = new $class($this, $defaultValue, $required, $otherCfg);
+        $this->vars[$key] = new $class($this, $defaultValue, $required, $otherCfg);
     }
 
     /**
@@ -195,7 +195,7 @@ trait PropertiesSupport
      */
     public function __isset(string $name): bool
     {
-        return isset($this->_vars[$name]);
+        return isset($this->vars[$name]);
     }
 
     /**
@@ -207,7 +207,7 @@ trait PropertiesSupport
      */
     public function assignVar(string $key, mixed &$value): void
     {
-        $this->_vars[$key]->value = $value;
+        $this->vars[$key]->value = $value;
     }
 
     /**
@@ -218,7 +218,7 @@ trait PropertiesSupport
     public function getChangedVars(): array
     {
         $changed = array();
-        foreach ($this->_vars as $key => $var) {
+        foreach ($this->vars as $key => $var) {
             if ($var->changed) {
                 $changed[] = $key;
             }
@@ -233,7 +233,7 @@ trait PropertiesSupport
      */
     public function isChanged(): bool
     {
-        return $this->_changed > 0;
+        return $this->changed > 0;
     }
 
     /**
@@ -244,7 +244,7 @@ trait PropertiesSupport
     public function getProblematicVars(): array
     {
         $names = array();
-        foreach ($this->_vars as $key => $var) {
+        foreach ($this->vars as $key => $var) {
             if ($var->required && ($var->isDefined() === false)) {
                 $names[] = $key;
             }
@@ -260,7 +260,7 @@ trait PropertiesSupport
     public function getDefaultVars(): array
     {
         $ret = array();
-        foreach ($this->_vars as $key => $var) {
+        foreach ($this->vars as $key => $var) {
             $ret[$key] = $var->defaultValue;
         }
         return $ret;
@@ -277,14 +277,14 @@ trait PropertiesSupport
     public function getValues(mixed $keys = null, string $format = 's', int $maxDepth = 1): array
     {
         if (!isset($keys)) {
-            $keys = array_keys($this->_vars);
+            $keys = array_keys($this->vars);
         }
         $vars = array();
         foreach ($keys as $key) {
-            if (isset($this->_vars[$key])) {
-                if (is_object($this->_vars[$key]->value) && ($this->_vars[$key]->value instanceof PropertiesSupport)) {
+            if (isset($this->vars[$key])) {
+                if (is_object($this->vars[$key]->value) && ($this->vars[$key]->value instanceof PropertiesSupport)) {
                     if ($maxDepth) {
-                        $vars[$key] = $this->_vars[$key]->getValues(null, $format, $maxDepth - 1);
+                        $vars[$key] = $this->vars[$key]->getValues(null, $format, $maxDepth - 1);
                     }
                 } else {
                     $vars[$key] = $this->getVar($key, $format);
@@ -336,7 +336,7 @@ trait PropertiesSupport
      */
     public function getVarForDisplay(string $name): mixed
     {
-        return $this->_vars[$name]->getForDisplay();
+        return $this->vars[$name]->getForDisplay();
     }
 
     /**
@@ -348,7 +348,7 @@ trait PropertiesSupport
      */
     public function getVarForEdit(string $name): mixed
     {
-        return $this->_vars[$name]->getForEdit();
+        return $this->vars[$name]->getForEdit();
     }
 
     /**
@@ -360,7 +360,7 @@ trait PropertiesSupport
      */
     public function getVarForForm(string $name): mixed
     {
-        return $this->_vars[$name]->getForForm();
+        return $this->vars[$name]->getForForm();
     }
 
     /**
@@ -375,17 +375,17 @@ trait PropertiesSupport
         switch ($name) {
             case '_vars':
             case 'vars':
-                if (isset($this->_vars[$name])) {
-                    return $this->_vars[$name]->get();
+                if (isset($this->vars[$name])) {
+                    return $this->vars[$name]->get();
                 } else {
                     trigger_error('Use $this->getVars() of $this->' . $name . ' instead!', E_USER_DEPRECATED);
-                    return $this->_vars;
+                    return $this->vars;
                 }
             case 'cleanVars':
                 trigger_error('Use $this->toArray() of $this->' . $name . ' instead!', E_USER_DEPRECATED);
                 return $this->toArray();
             default:
-                if (!isset($this->_vars[$name])) {
+                if (!isset($this->vars[$name])) {
                     $callers = debug_backtrace();
                     trigger_error(
                         sprintf(
@@ -398,7 +398,7 @@ trait PropertiesSupport
                     );
                     return null;
                 } else {
-                    return $this->_vars[$name]->get();
+                    return $this->vars[$name]->get();
                 }
         }
     }
@@ -411,7 +411,7 @@ trait PropertiesSupport
      */
     public function __set(string $name, mixed $value): void
     {
-        $this->_vars[$name]->set($value);
+        $this->vars[$name]->set($value);
     }
 
     /**
@@ -422,15 +422,15 @@ trait PropertiesSupport
     public function toArray(): array
     {
         $ret = array();
-        foreach (array_keys($this->_vars) as $name) {
-            if ($this->_vars[$name]->not_loaded) {
+        foreach (array_keys($this->vars) as $name) {
+            if ($this->vars[$name]->not_loaded) {
                 continue;
             }
 
-            if (is_object($this->_vars[$name]->value)) {
-                $ret[$name] = serialize($this->_vars[$name]->value);
+            if (is_object($this->vars[$name]->value)) {
+                $ret[$name] = serialize($this->vars[$name]->value);
             } else {
-                $ret[$name] = $this->_vars[$name]->value;
+                $ret[$name] = $this->vars[$name]->value;
             }
         }
         return $ret;
@@ -448,10 +448,10 @@ trait PropertiesSupport
     public function getVarInfo(string $key = null, string $info = null, mixed $default = null): mixed
     {
         if ($key === null) {
-            return $this->_vars;
+            return $this->vars;
         } elseif ($info === null) {
-            if (isset($this->_vars[$key])) {
-                return $this->_vars[$key];
+            if (isset($this->vars[$key])) {
+                return $this->vars[$key];
             } else {
                 $callers = debug_backtrace();
                 trigger_error(
@@ -465,8 +465,8 @@ trait PropertiesSupport
                 );
                 return $default;
             }
-        } elseif (isset($this->_vars[$key]->$info)) {
-            return $this->_vars[$key]->$info;
+        } elseif (isset($this->vars[$key]->$info)) {
+            return $this->vars[$key]->$info;
         } else {
             return $default;
         }
@@ -480,7 +480,7 @@ trait PropertiesSupport
      */
     public function &getVars(): array
     {
-        return $this->_vars;
+        return $this->vars;
     }
 
     /**
@@ -528,7 +528,7 @@ trait PropertiesSupport
     public function setVarInfo(string $key, string $info, mixed $value): void
     {
         if ($key === null) {
-            $key = array_keys($this->_vars);
+            $key = array_keys($this->vars);
         }
 
         if (is_array($key)) {
@@ -538,18 +538,18 @@ trait PropertiesSupport
             return;
         }
 
-        if (!isset($this->_vars[$key])) {
+        if (!isset($this->vars[$key])) {
             trigger_error('Variable ' . get_class($this) . '::$' . $key . ' not found', E_USER_WARNING);
             return;
         }
 
-        $this->_vars[$key][$info] = $value;
+        $this->vars[$key][$info] = $value;
         switch ($info) {
             case 'changed':
                 if ($value) {
-                    $this->_changed++;
+                    $this->changed++;
                 } else {
-                    $this->_changed--;
+                    $this->changed--;
                 }
                 break;
         }
@@ -562,7 +562,7 @@ trait PropertiesSupport
      */
     public function getVarNames(): array
     {
-        return array_keys($this->_vars);
+        return array_keys($this->vars);
     }
 
     /**
