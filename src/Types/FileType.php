@@ -9,6 +9,7 @@ use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\FileTooBigException;
 use Imponeer\Properties\Exceptions\ImageWidthTooBigException;
 use Imponeer\Properties\Exceptions\MimeTypeIsNotAllowedException;
+use Imponeer\Properties\Helper\HtmlSanitizerHelper;
 use Intervention\Image\ImageManager;
 use Psr\Http\Message\ResponseInterface;
 
@@ -109,11 +110,7 @@ class FileType extends AbstractType
      */
     public function getForDisplay()
     {
-        return str_replace(
-            ["&amp;", "&nbsp;"],
-            ['&', '&amp;nbsp;'],
-            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-        );
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
@@ -121,11 +118,7 @@ class FileType extends AbstractType
      */
     public function getForEdit()
     {
-        return str_replace(
-            ["&amp;", "&nbsp;"],
-            ['&', '&amp;nbsp;'],
-            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-        );
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
@@ -133,11 +126,7 @@ class FileType extends AbstractType
      */
     public function getForForm()
     {
-        return str_replace(
-            ["&amp;", "&nbsp;"],
-            ['&', '&amp;nbsp;'],
-            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-        );
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
@@ -235,7 +224,7 @@ class FileType extends AbstractType
         $new_tmp_file = tempnam(sys_get_temp_dir(), 'data') . '.' . explode('/', $meta['mediatype'])[1];
         file_put_contents($new_tmp_file, $content, FILE_BINARY);
 
-        if (substr($meta['mediatype'], 0, 6) === 'image/') {
+        if (str_starts_with($meta['mediatype'], 'image/')) {
             $this->checkImageSize($new_tmp_file);
         }
 
@@ -356,12 +345,12 @@ class FileType extends AbstractType
 
         if (!$content_is_ok && !empty($this->allowedMimeTypes)) {
             $mimetype = $this->getFileMimeType($new_tmp_file);
-            if (!in_array($mimetype, $this->allowedMimeTypes)) {
+            if (!in_array($mimetype, $this->allowedMimeTypes, true)) {
                 throw new MimeTypeIsNotAllowedException($mimetype, $this->allowedMimeTypes);
             }
         }
 
-        if (substr($mimetype, 0, 6) === 'image/') {
+        if (str_starts_with($mimetype, 'image/')) {
             $this->checkImageSize($new_tmp_file);
         }
 

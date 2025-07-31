@@ -49,11 +49,7 @@ class ListType extends AbstractType
      */
     public function getForForm(): string
     {
-        return str_replace(
-            ['&amp;', '&nbsp;'],
-            ['&', '&amp;nbsp;'],
-            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
-        );
+        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
