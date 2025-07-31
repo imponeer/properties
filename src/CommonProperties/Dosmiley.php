@@ -9,20 +9,25 @@ use Imponeer\Properties\ConfigOption;
 use Imponeer\Properties\DataType;
 use Imponeer\Properties\Types\IntegerType;
 
-class Dosmiley implements CommonPropertyInterface {
-    public function parseValue(mixed $default): mixed {
+class Dosmiley implements CommonPropertyInterface
+{
+    public function parseValue(mixed $default): mixed
+    {
         return $default !== 'notdefined' ? $default : 0;
     }
 
-    public function getDataType(): string {
+    public function getDataType(): string
+    {
         return IntegerType::class;
     }
 
-    public function isRequired(): bool {
+    public function isRequired(): bool
+    {
         return false;
     }
 
-    public function getOtherConfig(): ?array {
+    public function getOtherConfig(): ?array
+    {
         if (!defined('_CM_DOSMILEY')) {
             icms_loadLanguageFile('core', 'comment');
         }
@@ -37,7 +42,8 @@ class Dosmiley implements CommonPropertyInterface {
         ];
     }
 
-    public function getControl(): ?array {
+    public function getControl(): ?array
+    {
         return [
             'name' => 'yesno'
         ];

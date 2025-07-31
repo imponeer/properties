@@ -9,6 +9,6 @@ namespace Imponeer\Properties\Exceptions;
  *
  * @package Imponeer\Properties\Exceptions
  */
-class PropertyIsLockedException extends \Exception {
-
+class PropertyIsLockedException extends \Exception
+{
 }

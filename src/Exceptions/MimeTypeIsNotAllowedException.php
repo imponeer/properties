@@ -59,5 +59,4 @@ class MimeTypeIsNotAllowedException extends \Exception
     {
         return $this->mimetype;
     }
-
 }

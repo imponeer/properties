@@ -6,27 +6,33 @@ namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
 
-class IntegerType extends AbstractType {
-	public function isDefined(): bool {
-		return true;
-	}
+class IntegerType extends AbstractType
+{
+    public function isDefined(): bool
+    {
+        return true;
+    }
 
-	public function getForDisplay(): string {
-		return (string) $this->value;
-	}
+    public function getForDisplay(): string
+    {
+        return (string) $this->value;
+    }
 
-	public function getForEdit(): string {
-		return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
-	}
+    public function getForEdit(): string
+    {
+        return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+    }
 
-	public function getForForm(): string {
-		return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
-	}
+    public function getForForm(): string
+    {
+        return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
+    }
 
-	protected function clean(mixed $value): int {
-		if (is_object($value)) {
-			return 0;
-		}
-		return (int) $value;
-	}
+    protected function clean(mixed $value): int
+    {
+        if (is_object($value)) {
+            return 0;
+        }
+        return (int) $value;
+    }
 }

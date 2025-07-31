@@ -24,7 +24,13 @@ class FloatTypeTest extends TestTypeAbstract
     {
         foreach ($this->test_data as $v) {
             $this->mock->v = $v;
-            $this->assertIsFloat($this->mock->v, 'DTYPE_FLOAT must convert all data (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
+            $this->assertIsFloat(
+                $this->mock->v,
+                sprintf(
+                    "DTYPE_FLOAT must convert all data (%s)",
+                    var_export(['original' => $v, 'cleaned' => $this->mock->v], true)
+                )
+            );
         }
     }
 

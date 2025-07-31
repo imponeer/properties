@@ -9,4 +9,6 @@ namespace Imponeer\Properties\Exceptions;
  *
  * @package Imponeer\Properties\Exceptions
  */
-class ImageHeightTooBigException extends \Exception {}
+class ImageHeightTooBigException extends \Exception
+{
+}

@@ -14,53 +14,58 @@ use Imponeer\Properties\Types\IntegerType;
  *
  * @package Imponeer\Properties\CommonVariables
  */
-class Dohtml implements CommonPropertyInterface {
-	/**
-	 * @inheritDoc
-	 */
-	public function parseValue(mixed $default): mixed {
-		return $default !== 'notdefined' ? $default : 0;
-	}
+class Dohtml implements CommonPropertyInterface
+{
+    /**
+     * @inheritDoc
+     */
+    public function parseValue(mixed $default): mixed
+    {
+        return $default !== 'notdefined' ? $default : 0;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDataType(): string {
-		return IntegerType::class;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getDataType(): string
+    {
+        return IntegerType::class;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function isRequired(): bool {
-		return false;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function isRequired(): bool
+    {
+        return false;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getOtherConfig(): ?array {
-		if (!defined('_CM_DOAUTOWRAP')) {
-			icms_loadLanguageFile('core', 'comment');
-		}
-		return [
-			'form_caption' => _CM_DOHTML,
-			'maxLength' => null,
-			'options' => '',
-			'multilingual' => false,
-			'form_desc' => '',
-			'sortby' => false,
-			'persistent' => true
-		];
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getOtherConfig(): ?array
+    {
+        if (!defined('_CM_DOAUTOWRAP')) {
+            icms_loadLanguageFile('core', 'comment');
+        }
+        return [
+            'form_caption' => _CM_DOHTML,
+            'maxLength' => null,
+            'options' => '',
+            'multilingual' => false,
+            'form_desc' => '',
+            'sortby' => false,
+            'persistent' => true
+        ];
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getControl(): ?array {
-		return [
-			'name' => 'yesno'
-		];
-	}
-
+    /**
+     * @inheritDoc
+     */
+    public function getControl(): ?array
+    {
+        return [
+            'name' => 'yesno'
+        ];
+    }
 }

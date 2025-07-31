@@ -14,32 +14,37 @@ use Imponeer\Properties\Types\ArrayType;
  *
  * @package Imponeer\Properties\CommonVariables
  */
-class HierarchyPath implements CommonPropertyInterface {
+class HierarchyPath implements CommonPropertyInterface
+{
     /**
      * @inheritDoc
      */
-    public function parseValue(mixed $default): mixed {
+    public function parseValue(mixed $default): mixed
+    {
         return $default !== 'notdefined' ? $default : 0;
     }
 
     /**
      * @inheritDoc
      */
-    public function getDataType(): string {
+    public function getDataType(): string
+    {
         return ArrayType::class;
     }
 
     /**
      * @inheritDoc
      */
-    public function isRequired(): bool {
+    public function isRequired(): bool
+    {
         return false;
     }
 
     /**
      * @inheritDoc
      */
-    public function getOtherConfig(): ?array {
+    public function getOtherConfig(): ?array
+    {
         return [
             'form_caption' => _CO_ICMS_HIERARCHY_PATH,
             'maxLength' => null,
@@ -54,8 +59,8 @@ class HierarchyPath implements CommonPropertyInterface {
     /**
      * @inheritDoc
      */
-    public function getControl(): ?array {
+    public function getControl(): ?array
+    {
         return null;
     }
-
 }

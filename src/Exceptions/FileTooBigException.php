@@ -79,5 +79,4 @@ class FileTooBigException extends \Exception
     {
         return $this->src;
     }
-
 }

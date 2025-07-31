@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Imponeer\Properties;
 
-interface PropertiesInterface {
+interface PropertiesInterface
+{
     /**
      * Specifies property that a property stores a string
      */
@@ -155,5 +156,4 @@ interface PropertiesInterface {
      * Validation rule for links
      */
     public const VALIDATION_RULE_LINKS = '#^http(s)?://[a-z0-9-_.]+\.[a-z]{2,4}#i';
-
 }

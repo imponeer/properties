@@ -9,4 +9,6 @@ namespace Imponeer\Properties\Exceptions;
  *
  * @package Imponeer\Properties\Exceptions
  */
-class ValueIsNotInPossibleValuesListException extends \Exception {}
+class ValueIsNotInPossibleValuesListException extends \Exception
+{
+}

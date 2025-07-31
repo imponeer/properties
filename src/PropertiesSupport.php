@@ -35,8 +35,8 @@ use Imponeer\Properties\Types\StringType;
  * @license     MIT https://opensource.org/licenses/MIT
  * @author      mekdrop@impresscms.org
  */
-trait PropertiesSupport {
-
+trait PropertiesSupport
+{
     /**
      * Vars configuration
      *
@@ -56,9 +56,10 @@ trait PropertiesSupport {
      *
      * @param array $values Assoc arary with keys and values to assign
      */
-    public function assignVars(array $values): void {
+    public function assignVars(array $values): void
+    {
         foreach ($this->_vars as $key => $var) {
-            $value = (!isset($values[$key]))?null:$values[$key];
+            $value = (!isset($values[$key])) ? null : $values[$key];
             $this->_vars[$key]->set($value);
         }
     }
@@ -72,16 +73,19 @@ trait PropertiesSupport {
      *
      * @deprecated
      */
-    public function initCommonVar(string $varname, bool $displayOnForm = true, string $default = 'notdefined'): void {
+    public function initCommonVar(string $varname, bool $displayOnForm = true, string $default = 'notdefined'): void
+    {
         trigger_error('$this->initCommonVar() will be removed in the future!', E_USER_DEPRECATED);
         $class = "\\Imponeer\\Properties\\CommonProperties\\" . implode(
-                '',
-                array_map('ucfirst',
-                    array_map('strtolower',
-                        explode('_', $varname)
-                    )
+            '',
+            array_map(
+                'ucfirst',
+                array_map(
+                    'strtolower',
+                    explode('_', $varname)
                 )
-            );
+            )
+        );
         $instance = new $class();
         $this->initVar(
             $varname,
@@ -105,7 +109,8 @@ trait PropertiesSupport {
      * @param bool $required Is Required?
      * @param array /null $otherCfg  If there is, an assoc array with other configuration for var
      */
-    protected function initVar(string $key, int|string $dataType, mixed $defaultValue = null, bool $required = false, array|null $otherCfg = null): void {
+    protected function initVar(string $key, int|string $dataType, mixed $defaultValue = null, bool $required = false, array|null $otherCfg = null): void
+    {
         if (is_int($dataType)) {
             $types = static::getPossibleVarTypes();
             if (!isset($types[$dataType])) {
@@ -114,24 +119,29 @@ trait PropertiesSupport {
             $class = $types[$dataType];
         } elseif (strtoupper(substr($dataType, 0, 4)) == 'DEP_') {
             $class = "\\Imponeer\\Properties\\DeprecatedTypes\\" . implode(
-                    '',
-                    array_map('ucfirst',
-                        array_map('strtolower',
-                            explode('_',
-                                substr($dataType, 4)
-                            )
+                '',
+                array_map(
+                    'ucfirst',
+                    array_map(
+                        'strtolower',
+                        explode(
+                            '_',
+                            substr($dataType, 4)
                         )
                     )
-                ) . 'Type';
+                )
+            ) . 'Type';
         } elseif (!class_exists($dataType)) {
             $class = "\\Imponeer\\Properties\\Types\\" . implode(
-                    '',
-                    array_map('ucfirst',
-                        array_map('strtolower',
-                            explode('_', $dataType)
-                        )
+                '',
+                array_map(
+                    'ucfirst',
+                    array_map(
+                        'strtolower',
+                        explode('_', $dataType)
                     )
-                ) . 'Type';
+                )
+            ) . 'Type';
         }
 
         $this->_vars[$key] = new $class($this, $defaultValue, $required, $otherCfg);
@@ -142,7 +152,8 @@ trait PropertiesSupport {
      *
      * @return array
      */
-    protected static function getPossibleVarTypes(): array {
+    protected static function getPossibleVarTypes(): array
+    {
         return [
             PropertiesInterface::DTYPE_DEP_CURRENCY => CurrencyType::class,
             PropertiesInterface::DTYPE_DEP_EMAIL => EmailType::class,
@@ -177,7 +188,8 @@ trait PropertiesSupport {
      *
      * @return bool
      */
-    public function __isset(string $name): bool {
+    public function __isset(string $name): bool
+    {
         return isset($this->_vars[$name]);
     }
 
@@ -188,7 +200,8 @@ trait PropertiesSupport {
      * @param string $key name of the variable to assign
      * @param mixed $value value to assign
      */
-    public function assignVar(string $key, mixed &$value): void {
+    public function assignVar(string $key, mixed &$value): void
+    {
         $this->_vars[$key]->value = $value;
     }
 
@@ -197,7 +210,8 @@ trait PropertiesSupport {
      *
      * @return array
      */
-    public function getChangedVars(): array {
+    public function getChangedVars(): array
+    {
         $changed = array();
         foreach ($this->_vars as $key => $var) {
             if ($var->changed) {
@@ -212,7 +226,8 @@ trait PropertiesSupport {
      *
      * @return bool
      */
-    public function isChanged(): bool {
+    public function isChanged(): bool
+    {
         return $this->_changed > 0;
     }
 
@@ -221,7 +236,8 @@ trait PropertiesSupport {
      *
      * @return array
      */
-    public function getProblematicVars(): array {
+    public function getProblematicVars(): array
+    {
         $names = array();
         foreach ($this->_vars as $key => $var) {
             if ($var->required && ($var->isDefined() === false)) {
@@ -236,7 +252,8 @@ trait PropertiesSupport {
      *
      * @return array
      */
-    public function getDefaultVars(): array {
+    public function getDefaultVars(): array
+    {
         $ret = array();
         foreach ($this->_vars as $key => $var) {
             $ret[$key] = $var->defaultValue;
@@ -252,7 +269,8 @@ trait PropertiesSupport {
      * @param int $maxDepth Maximum level of recursion to use if some vars are objects themselves
      * @return array associative array of key->value pairs
      */
-    public function getValues(mixed $keys = null, string $format = 's', int $maxDepth = 1): array {
+    public function getValues(mixed $keys = null, string $format = 's', int $maxDepth = 1): array
+    {
         if (!isset($keys)) {
             $keys = array_keys($this->_vars);
         }
@@ -279,7 +297,8 @@ trait PropertiesSupport {
      * @param string $format format to use for the output
      * @return mixed formatted value of the variable
      */
-    public function getVar(string $name, string $format = 's'): mixed {
+    public function getVar(string $name, string $format = 's'): mixed
+    {
         switch (strtolower($format)) {
             case 's':
             case 'show':
@@ -310,7 +329,8 @@ trait PropertiesSupport {
      *
      * @return mixed
      */
-    public function getVarForDisplay(string $name): mixed {
+    public function getVarForDisplay(string $name): mixed
+    {
         return $this->_vars[$name]->getForDisplay();
     }
 
@@ -321,7 +341,8 @@ trait PropertiesSupport {
      *
      * @return mixed
      */
-    public function getVarForEdit(string $name): mixed {
+    public function getVarForEdit(string $name): mixed
+    {
         return $this->_vars[$name]->getForEdit();
     }
 
@@ -332,7 +353,8 @@ trait PropertiesSupport {
      *
      * @return mixed
      */
-    public function getVarForForm(string $name): mixed {
+    public function getVarForForm(string $name): mixed
+    {
         return $this->_vars[$name]->getForForm();
     }
 
@@ -343,7 +365,8 @@ trait PropertiesSupport {
      *
      * @return mixed
      */
-    public function __get(string $name): mixed {
+    public function __get(string $name): mixed
+    {
         switch ($name) {
             case '_vars':
             case 'vars':
@@ -373,7 +396,8 @@ trait PropertiesSupport {
      * @param string $name Var name
      * @param mixed $value New value
      */
-    public function __set(string $name, mixed $value): void {
+    public function __set(string $name, mixed $value): void
+    {
         $this->_vars[$name]->set($value);
     }
 
@@ -382,7 +406,8 @@ trait PropertiesSupport {
      *
      * @return array
      */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         $ret = array();
         foreach (array_keys($this->_vars) as $name) {
             if ($this->_vars[$name]->not_loaded) {
@@ -407,7 +432,8 @@ trait PropertiesSupport {
      *
      * @return mixed
      */
-    public function getVarInfo(string $key = null, string $info = null, mixed $default = null): mixed {
+    public function getVarInfo(string $key = null, string $info = null, mixed $default = null): mixed
+    {
         if ($key === null) {
             return $this->_vars;
         } elseif ($info === null) {
@@ -431,7 +457,8 @@ trait PropertiesSupport {
      * @access public
      * @return array associative array of key->value pairs
      */
-    public function &getVars(): array {
+    public function &getVars(): array
+    {
         return $this->_vars;
     }
 
@@ -442,7 +469,8 @@ trait PropertiesSupport {
      * @param array $var_arr associative array of values to assign
      * @param bool $not_gpc
      */
-    public function setVars(array $var_arr, bool $not_gpc = false): void {
+    public function setVars(array $var_arr, bool $not_gpc = false): void
+    {
         foreach ($var_arr as $key => $value) {
             $this->setVar($key, $value, $not_gpc);
         }
@@ -455,7 +483,8 @@ trait PropertiesSupport {
      * @param mixed $value New value
      * @param array $options Options to apply when settings values
      */
-    public function setVar(string $name, mixed $value, array $options = null): void {
+    public function setVar(string $name, mixed $value, array $options = null): void
+    {
         if ($options !== null) {
             if (is_bool($options)) {
                 $this->setVarInfo($name, 'not_gpc', $options);
@@ -475,7 +504,8 @@ trait PropertiesSupport {
      * @param string $info Var option
      * @param mixed $value Options value
      */
-    public function setVarInfo(string $key, string $info, mixed $value): void {
+    public function setVarInfo(string $key, string $info, mixed $value): void
+    {
         if ($key === null) {
             $key = array_keys($this->_vars);
         }
@@ -509,7 +539,8 @@ trait PropertiesSupport {
      *
      * @return array
      */
-    public function getVarNames(): array {
+    public function getVarNames(): array
+    {
         return array_keys($this->_vars);
     }
 
@@ -521,7 +552,8 @@ trait PropertiesSupport {
      *
      * @deprecated
      */
-    public function doSetFieldAsRequired(string $key, bool $is_required = true): void {
+    public function doSetFieldAsRequired(string $key, bool $is_required = true): void
+    {
         trigger_error('Use not $this->doSetFieldAsRequired() but $this->setVarInfo() instead!', E_USER_DEPRECATED);
         $this->setVarInfo($key, 'required', $is_required);
     }
@@ -533,7 +565,8 @@ trait PropertiesSupport {
      *
      * @deprecated
      */
-    public function cleanVars(): array {
+    public function cleanVars(): array
+    {
         trigger_error('Use not $this->cleanVars() but $this->toArray() instead!', E_USER_DEPRECATED);
         return $this->toArray();
     }
@@ -549,20 +582,22 @@ trait PropertiesSupport {
      *
      * @throws SpecifiedDataTypeNotFound
      */
-    private function createInstanceFromName(string $namespace, string $name, string $suffix = ''): object {
+    private function createInstanceFromName(string $namespace, string $name, string $suffix = ''): object
+    {
         $class = $namespace . implode(
-                '',
-                array_map('ucfirst',
-                    array_map('strtolower',
-                        explode('_', $name)
-                    )
+            '',
+            array_map(
+                'ucfirst',
+                array_map(
+                    'strtolower',
+                    explode('_', $name)
                 )
-            ) . $suffix;
+            )
+        ) . $suffix;
         if (class_exists($class, true)) {
             return new $class();
         } else {
             throw new SpecifiedDataTypeNotFound();
         }
     }
-
 }
