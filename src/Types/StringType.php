@@ -6,6 +6,8 @@ namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
+use JsonException;
+use stdClass;
 
 class StringType extends AbstractType {
 
@@ -48,20 +50,26 @@ class StringType extends AbstractType {
 		return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
 	}
 
+	/**
+	 * @throws JsonException
+	 * @throws ValidationRuleNotPassedException
+	 */
 	protected function clean(mixed $value): string {
 		if (!is_string($value)) {
 			if (is_array($value)) {
-				$value = json_encode($value, JSON_PRETTY_PRINT);
-			} elseif ($value instanceof \stdClass) {
-				$value = json_encode((array) $value, JSON_PRETTY_PRINT);
+				$value = json_encode($value, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+			} elseif ($value instanceof stdClass) {
+				$value = json_encode((array)$value, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
 			} else {
-				$value = strval($value);
+				$value = (string)$value;
 			}
 		}
 		if (!empty($this->value) && !empty($this->validateRule)) {
 			if (!preg_match($this->validateRule, $value)) {
 				throw new ValidationRuleNotPassedException($value);
-			} elseif (empty($this->sourceFormating)) {
+			}
+
+			if (empty($this->sourceFormating)) {
 				$value = icms_core_DataFilter::censorString($value);
 			}
 		}

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Imponeer\Properties\Tests\Types;
 
+use Closure;
 use Imponeer\Properties\PropertiesInterface;
 use Imponeer\Properties\Tests\TestTypeAbstract;
+use JsonException;
 
 class ArrayTypeTest extends TestTypeAbstract
 {
@@ -17,16 +19,17 @@ class ArrayTypeTest extends TestTypeAbstract
         $this->assertNotNull($this->mock->v, 'DTYPE_ARRAY must have null unconverted');
     }
 
-    /**
-     * Tests JSON decode
-     */
+	/**
+	 * Tests JSON decode
+	 * @throws JsonException
+	 */
     public function testJsonDecode(): void
     {
         foreach ($this->test_data as $v) {
-            if (is_object($v) && ($v instanceof \Closure)) {
+            if ($v instanceof Closure) {
                 continue;
             }
-            $this->mock->v = json_encode($v);
+            $this->mock->v = json_encode($v, JSON_THROW_ON_ERROR);
             $this->assertIsArray($this->mock->v, 'DTYPE_ARRAY must parse json to array (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
         }
     }
@@ -37,7 +40,7 @@ class ArrayTypeTest extends TestTypeAbstract
     public function testUnserialize(): void
     {
         foreach ($this->test_data as $v) {
-            if (is_object($v) && ($v instanceof \Closure)) {
+            if (is_object($v) && ($v instanceof Closure)) {
                 continue;
             }
             $this->mock->v = serialize($v);
