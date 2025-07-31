@@ -24,7 +24,13 @@ class IntegerTypeTest extends TestTypeAbstract
     {
         foreach ($this->test_data as $v) {
             $this->mock->v = $v;
-            $this->assertIsInt($this->mock->v, 'DTYPE_INTEGER must convert all data (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
+            $this->assertIsInt(
+                $this->mock->v,
+                sprintf(
+                    "DTYPE_INTEGER must convert all data (%s)",
+                    var_export(['original' => $v, 'cleaned' => $this->mock->v], true)
+                )
+            );
         }
     }
 

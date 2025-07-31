@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Imponeer\Properties\Exceptions;
 
+use Exception;
+use Throwable;
+
 /**
  * This exception is throw when mimetype is not allowed
  *
  * @package Imponeer\Properties\Exceptions
  */
-class MimeTypeIsNotAllowedException extends \Exception
+class MimeTypeIsNotAllowedException extends Exception
 {
     /**
      * Current file mimetype
@@ -28,14 +31,18 @@ class MimeTypeIsNotAllowedException extends \Exception
     /**
      * MimeTypeIsNotAllowedException constructor.
      * @param string $mimetype Current mimetype
-     * @param string[] $allowed_mimetypes Allowed mimetypes list
+     * @param string[] $allowedMimetypes Allowed mimetypes list
      * @param int $code Code
-     * @param \Throwable|null $previous Previous exception
+     * @param Throwable|null $previous Previous exception
      */
-    public function __construct(string $mimetype, array $allowed_mimetypes, int $code = 0, ?\Throwable $previous = null)
-    {
+    public function __construct(
+        string $mimetype,
+        array $allowedMimetypes,
+        int $code = 0,
+        ?Throwable $previous = null
+    ) {
         $this->mimetype = $mimetype;
-        $this->allowed_mimetypes = $allowed_mimetypes;
+        $this->allowed_mimetypes = $allowedMimetypes;
 
         parent::__construct('Mimetype is not allowed', $code, $previous);
     }
@@ -59,5 +66,4 @@ class MimeTypeIsNotAllowedException extends \Exception
     {
         return $this->mimetype;
     }
-
 }

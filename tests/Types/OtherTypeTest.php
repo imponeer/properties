@@ -24,7 +24,14 @@ class OtherTypeTest extends TestTypeAbstract
     {
         foreach ($this->test_data as $v) {
             $this->mock->v = $v;
-            $this->assertSame($v, $this->mock->v, 'DTYPE_OTHER must not convert data (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
+            $this->assertSame(
+                $v,
+                $this->mock->v,
+                sprintf(
+                    "DTYPE_OTHER must not convert data (%s)",
+                    var_export(['original' => $v, 'cleaned' => $this->mock->v], true)
+                )
+            );
         }
     }
 

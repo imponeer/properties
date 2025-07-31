@@ -11,57 +11,66 @@ use Imponeer\Properties\AbstractType;
  *
  * @package Imponeer\Properties\Types
  */
-class ListType extends AbstractType {
+class ListType extends AbstractType
+{
+    /**
+     * Separator
+     *
+     * @var string
+     */
+    public string $separator = ';';
 
-	/**
-	 * Separator
-	 *
-	 * @var string
-	 */
-	public string $separator = ';';
+    /**
+     * @inheritDoc
+     */
+    public function isDefined(): bool
+    {
+        return !empty($this->value);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function isDefined(): bool {
-		return !empty($this->value);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getForDisplay(): string
+    {
+        return $this->value;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getForDisplay(): string {
-		return $this->value;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getForEdit(): string
+    {
+        return $this->get();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getForEdit(): string {
-		return $this->get();
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getForForm(): string
+    {
+        return str_replace(
+            ['&amp;', '&nbsp;'],
+            ['&', '&amp;nbsp;'],
+            @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET)
+        );
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getForForm(): string {
-		return str_replace(['&amp;', '&nbsp;'], ['&', '&amp;nbsp;'], @htmlspecialchars($this->value, ENT_QUOTES, _CHARSET));
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function clean(mixed $value): array {
-		if ((array) ($value) === $value) {
-			return $value;
-		}
-		if (empty($value)) {
-			return [];
-		}
-		if (is_string($value)) {
-			return explode($this->separator, strval($value));
-		} else {
-			return [$value];
-		}
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function clean(mixed $value): array
+    {
+        if ((array) ($value) === $value) {
+            return $value;
+        }
+        if (empty($value)) {
+            return [];
+        }
+        if (is_string($value)) {
+            return explode($this->separator, strval($value));
+        } else {
+            return [$value];
+        }
+    }
 }

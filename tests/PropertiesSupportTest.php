@@ -7,6 +7,7 @@ namespace Imponeer\Properties\Tests;
 use Imponeer\Properties\PropertiesInterface;
 use Imponeer\Properties\PropertiesSupport;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 
 /**
  * @backupGlobals disabled
@@ -27,7 +28,8 @@ class PropertiesSupportTest extends TestCase
 
     public function testNeededPublicMethods(): void
     {
-        foreach ([
+        foreach (
+            [
             'getVar' => null,
             'setVar' => null,
             'assignVar' => null,
@@ -45,13 +47,23 @@ class PropertiesSupportTest extends TestCase
             'isChanged' => 'bool',
             'setVarInfo' => null,
             'toArray' => 'array',
-        ] as $method => $retType) {
-            $this->assertTrue(method_exists($this->mock, $method), 'No public ' . $method . ' method');
+            ] as $method => $retType
+        ) {
+            $this->assertTrue(
+                method_exists($this->mock, $method),
+                sprintf("No public %s method", $method)
+            );
             if ($retType !== null) {
                 $result = $this->mock->$method();
                 match ($retType) {
-                    'array' => $this->assertIsArray($result, "$method returns wrong data type"),
-                    'bool' => $this->assertIsBool($result, "$method returns wrong data type"),
+                    'array' => $this->assertIsArray(
+                        $result,
+                        "$method returns wrong data type"
+                    ),
+                    'bool' => $this->assertIsBool(
+                        $result,
+                        "$method returns wrong data type"
+                    ),
                     default => null
                 };
             }
@@ -60,13 +72,27 @@ class PropertiesSupportTest extends TestCase
 
     public function testInitVars(): void
     {
-        $reflection_method = new \ReflectionMethod($this->mock, 'initVar');
-        $this->assertInstanceOf(\ReflectionMethod::class, $reflection_method, 'initVar method doesn\'t exist');
-        $this->assertTrue($reflection_method->isProtected(), 'initVar method isn\'t protected');
+        $reflection_method = new ReflectionMethod(
+            $this->mock,
+            'initVar'
+        );
+        $this->assertInstanceOf(
+            ReflectionMethod::class,
+            $reflection_method,
+            'initVar method doesn\'t exist'
+        );
+        $this->assertTrue(
+            $reflection_method->isProtected(),
+            'initVar method isn\'t protected'
+        );
 
         $reflection_method->setAccessible(true);
 
-        $this->assertCount(0, $this->mock->getVars(), 'Properties creates object with existing vars. This must not be possible for new objects.');
+        $this->assertCount(
+            0,
+            $this->mock->getVars(),
+            'Properties creates object with existing vars. This must not be possible for new objects.'
+        );
 
         $reflection_method->invoke($this->mock, 'var_array', PropertiesInterface::DTYPE_ARRAY, [], false);
 
@@ -74,9 +100,18 @@ class PropertiesSupportTest extends TestCase
         $this->assertCount(1, $vars, 'Couldn\'t init var');
         $this->assertArrayHasKey('var_array', $vars, 'Couldn\'t init var');
 
-        $this->assertTrue(isset($this->mock->var_array), 'Can\'t use fast property access (without calling function)');
+        $this->assertTrue(
+            isset($this->mock->var_array),
+            'Can\'t use fast property access (without calling function)'
+        );
 
-        $this->assertIsArray($this->mock->getVar('var_array'), 'When tried to read just created var wrong data returned');
-        $this->assertIsArray($this->mock->var_array, 'When tried to read just created var wrong data returned');
+        $this->assertIsArray(
+            $this->mock->getVar('var_array'),
+            'When tried to read just created var wrong data returned'
+        );
+        $this->assertIsArray(
+            $this->mock->var_array,
+            'When tried to read just created var wrong data returned'
+        );
     }
 }

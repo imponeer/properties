@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Imponeer\Properties\Exceptions;
 
+use Exception;
+use Throwable;
+
 /**
  * Exception thrown when file is too big
  *
  * @package Imponeer\Properties\Exceptions
  */
-class FileTooBigException extends \Exception
+class FileTooBigException extends Exception
 {
     /**
      * Max file size
@@ -39,10 +42,15 @@ class FileTooBigException extends \Exception
      * @param float $max_size Max file size
      * @param float $current_size Current file size
      * @param int $code Code
-     * @param \Throwable|null $previous Previous exception
+     * @param Throwable|null $previous Previous exception
      */
-    public function __construct(string $src, float $max_size, float $current_size, int $code = 0, ?\Throwable $previous = null)
-    {
+    public function __construct(
+        string $src,
+        float $max_size,
+        float $current_size,
+        int $code = 0,
+        ?Throwable $previous = null
+    ) {
         $this->max_size = $max_size;
         $this->current_size = $current_size;
         $this->src = $src;
@@ -79,5 +87,4 @@ class FileTooBigException extends \Exception
     {
         return $this->src;
     }
-
 }

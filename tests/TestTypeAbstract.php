@@ -136,5 +136,4 @@ abstract class TestTypeAbstract extends TestCase
 
         $this->test_data = array_merge($basic_test_data, $arrayed_data);
     }
-
 }

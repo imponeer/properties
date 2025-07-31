@@ -14,50 +14,55 @@ use Imponeer\Properties\Types\IntegerType;
  *
  * @package Imponeer\Properties\CommonVariables
  */
-class Doxcode implements CommonPropertyInterface {
-	/**
-	 * @inheritDoc
-	 */
-	public function parseValue(mixed $default): mixed {
-		return $default !== 'notdefined' ? $default : 0;
-	}
+class Doxcode implements CommonPropertyInterface
+{
+    /**
+     * @inheritDoc
+     */
+    public function parseValue(mixed $default): mixed
+    {
+        return $default !== 'notdefined' ? $default : 0;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDataType(): string|int {
-		return IntegerType::class;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getDataType(): string|int
+    {
+        return IntegerType::class;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function isRequired(): bool {
-		return false;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function isRequired(): bool
+    {
+        return false;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getOtherConfig(): ?array {
-		return [
-			'form_caption' => _CO_ICMS_DOXCODE_FORM_CAPTION,
-			'maxLength' => null,
-			'options' => '',
-			'multilingual' => false,
-			'form_desc' => '',
-			'sortby' => false,
-			'persistent' => true
-		];
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getOtherConfig(): ?array
+    {
+        return [
+            'form_caption' => _CO_ICMS_DOXCODE_FORM_CAPTION,
+            'maxLength' => null,
+            'options' => '',
+            'multilingual' => false,
+            'form_desc' => '',
+            'sortby' => false,
+            'persistent' => true
+        ];
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getControl(): ?array {
-		return [
-			'name' => 'yesno'
-		];
-	}
-
+    /**
+     * @inheritDoc
+     */
+    public function getControl(): ?array
+    {
+        return [
+            'name' => 'yesno'
+        ];
+    }
 }

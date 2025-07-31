@@ -1,11 +1,12 @@
 <?php
+
 /**
  * This file is for binding old Xoops types to new Properties types
  *
  * @deprecated
  */
 
-use \Imponeer\Properties\PropertiesInterface;
+use Imponeer\Properties\PropertiesInterface;
 
 define('XOBJ_DTYPE_TXTBOX', PropertiesInterface::DTYPE_DEP_TXTBOX);
 define('XOBJ_DTYPE_TXTAREA', PropertiesInterface::DTYPE_STRING);

@@ -14,32 +14,37 @@ use Imponeer\Properties\Types\IntegerType;
  *
  * @package Imponeer\Properties\CommonVariables
  */
-class Weight implements CommonPropertyInterface {
+class Weight implements CommonPropertyInterface
+{
     /**
      * @inheritDoc
      */
-    public function parseValue(mixed $default): mixed {
+    public function parseValue(mixed $default): mixed
+    {
         return $default !== 'notdefined' ? $default : 0;
     }
 
     /**
      * @inheritDoc
      */
-    public function getDataType(): string {
+    public function getDataType(): string
+    {
         return IntegerType::class;
     }
 
     /**
      * @inheritDoc
      */
-    public function isRequired(): bool {
+    public function isRequired(): bool
+    {
         return false;
     }
 
     /**
      * @inheritDoc
      */
-    public function getOtherConfig(): ?array {
+    public function getOtherConfig(): ?array
+    {
         return [
             'form_caption' => _CO_ICMS_WEIGHT_FORM_CAPTION,
             'maxLength' => null,
@@ -54,8 +59,8 @@ class Weight implements CommonPropertyInterface {
     /**
      * @inheritDoc
      */
-    public function getControl(): ?array {
+    public function getControl(): ?array
+    {
         return null;
     }
-
 }

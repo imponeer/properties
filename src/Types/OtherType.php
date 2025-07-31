@@ -11,40 +11,45 @@ use Imponeer\Properties\AbstractType;
  *
  * @package Imponeer\Properties\Types
  */
-class OtherType extends AbstractType {
+class OtherType extends AbstractType
+{
+    /**
+     * @inheritDoc
+     */
+    public function isDefined(): bool
+    {
+        return true;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function isDefined(): bool {
-		return true;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getForDisplay(): string
+    {
+        return (string) $this->value;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getForDisplay(): string {
-		return (string) $this->value;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getForEdit(): string
+    {
+        return (string) $this->value;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getForEdit(): string {
-		return (string) $this->value;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getForForm(): string
+    {
+        return (string) $this->value;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getForForm(): string {
-		return (string) $this->value;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function clean(mixed $value): mixed {
-		return $value;
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function clean(mixed $value): mixed
+    {
+        return $value;
+    }
 }
