@@ -6,10 +6,9 @@ namespace Imponeer\Properties\DeprecatedTypes;
 
 use Imponeer\Properties\PropertiesInterface;
 use Imponeer\Properties\Types\StringType;
+use JetBrains\PhpStorm\Deprecated;
 
-/**
- * @deprecated
- */
+#[Deprecated(replacement: StringType::class)]
 class EmailType extends StringType
 {
     public bool $autoFormatingDisabled = true;

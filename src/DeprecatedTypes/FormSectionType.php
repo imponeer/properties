@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Imponeer\Properties\DeprecatedTypes;
 
 use Imponeer\Properties\Types\OtherType;
+use JetBrains\PhpStorm\Deprecated;
 
-/**
- * @deprecated
- */
+#[Deprecated(replacement: OtherType::class)]
 class FormSectionType extends OtherType
 {
 }

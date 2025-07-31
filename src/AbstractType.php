@@ -6,6 +6,8 @@ namespace Imponeer\Properties;
 
 use Imponeer\Properties\Exceptions\PropertyIsLockedException;
 use Imponeer\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
+use JetBrains\PhpStorm\Deprecated;
+use ReflectionClass;
 
 abstract class AbstractType
 {
@@ -138,13 +140,16 @@ abstract class AbstractType
      * Set value
      *
      * @param $value Value to set
+     *
+     * @throws PropertyIsLockedException
+     * @throws ValueIsNotInPossibleValuesListException
      */
     public function set($value)
     {
         if ($this->locked) {
             throw new PropertyIsLockedException();
         }
-        if (!empty($this->possibleOptions) && !in_array($value, $this->possibleOptions)) {
+        if (!empty($this->possibleOptions) && !in_array($value, $this->possibleOptions, true)) {
             throw new ValueIsNotInPossibleValuesListException();
         }
 
@@ -165,14 +170,12 @@ abstract class AbstractType
      *
      * @return bool
      */
-    public function isDeprecatedType()
+    public function isDeprecatedType(): bool
     {
-        $namespace = '\\Imponeer\\Properties\\DeprecatedTypes\\';
-        $l = strlen($namespace);
-        if (strlen(static::class) < $l) {
-            return false;
-        }
-        return substr(static::class, 0, $l) == $namespace;
+        $refClass = new ReflectionClass($this);
+        $attributes = $refClass->getAttributes(Deprecated::class);
+
+        return !empty($attributes);
     }
 
     /**
