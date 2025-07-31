@@ -8,14 +8,7 @@
 
     <!-- Exclude patterns -->
     <exclude-pattern>*/vendor/*</exclude-pattern>
-    <exclude-pattern>*/node_modules/*</exclude-pattern>
 
     <!-- Include PSR-12 coding standard -->
     <rule ref="PSR12"/>
-
-    <!-- Additional useful rules -->
-    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
-    <rule ref="Generic.Commenting.Todo"/>
-    <rule ref="Generic.PHP.DeprecatedFunctions"/>
-    <rule ref="Squiz.PHP.NonExecutableCode"/>
 </ruleset>
