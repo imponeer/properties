@@ -16,11 +16,8 @@ jobs:
           #- windows-latest # Todo: make it work also for windows
           #- macOS-latest # Todo: make it work also for macos
         php-versions:
-          - 7.0
-          - 7.1
-          - 7.2
-          - 7.3
-          - 7.4
+          - 8.3
+          - 8.4
     name: PHP ${{ matrix.php-versions }} test on ${{ matrix.operating-system }}
     steps:
       - name: Checkout
@@ -50,15 +47,8 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Install Composer dependencies
         run: composer install --no-progress --no-suggest --no-dev --prefer-dist --optimize-autoloader
-      - name: Prepare CodeClimate
-        run: GIT_BRANCH=$GITHUB_REF GIT_COMMIT_SHA=$GITHUB_SHA ./cc-test-reporter before-build
       - name: Testing with PHPUnit
-        run: |
-          phpunit -c phpunit.xml
-          phpunit -c tests/configuration.xml
-          mv ./build/clover.xml ./clover.xml
-      - name: Commiting CodeClimate data
-        run: GIT_BRANCH=$GITHUB_REF GIT_COMMIT_SHA=$GITHUB_SHA ./cc-test-reporter after-build --exit-code $? -t clover -r ${{ secrets.CODECLIMATE_KEY }}
+        run: composer test
 
   dependabot:
     needs: tests
@@ -90,4 +80,4 @@ jobs:
         run: gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

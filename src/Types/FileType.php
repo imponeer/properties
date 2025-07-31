@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\Types;
 
 use GuzzleHttp\Client;
@@ -22,37 +24,37 @@ class FileType extends AbstractType
 	/**
 	 * File save path
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	public $path;
+	public ?string $path = null;
 
 	/**
 	 * Allowed mime types
 	 *
 	 * @var array
 	 */
-	public $allowedMimeTypes = 0;
+	public array $allowedMimeTypes = [];
 
 	/**
 	 * Max file size
 	 *
-	 * @var double|null
+	 * @var float|null
 	 */
-	public $maxFileSize = 1000000;
+	public ?float $maxFileSize = 1000000;
 
 	/**
 	 * Max image width
 	 *
-	 * @var null|int
+	 * @var int|null
 	 */
-	public $maxWidth = 500;
+	public ?int $maxWidth = 500;
 
 	/**
 	 * Max image height
 	 *
-	 * @var null|int
+	 * @var int|null
 	 */
-	public $maxHeight = 500;
+	public ?int $maxHeight = 500;
 
 	/**
 	 * Filename generator function
@@ -64,16 +66,16 @@ class FileType extends AbstractType
 	/**
 	 * Prefix for filename
 	 *
-	 * @var null|string
+	 * @var string|null
 	 */
-	public $prefix = null;
+	public ?string $prefix = null;
 
 	/**
 	 * Sets some GuzzleHttp options for fetching files
 	 *
 	 * @var array
 	 */
-	public $fetching_options = [
+	public array $fetching_options = [
 		'allow_redirects' => true,
 		'connect_timeout' => 1,
 		'debug' => false,
@@ -156,10 +158,10 @@ class FileType extends AbstractType
 	{
 		if (is_string($value)) {
 			if (file_exists($value)) {
-				return array(
+				return [
 					'filename' => $value,
 					'mimetype' => $this->getFileMimeType($value),
-				);
+				];
 			}
 			return $this->isDataURI($value) ?
 				$this->uploadFromDataURI($value) :
@@ -198,7 +200,6 @@ class FileType extends AbstractType
 	 * Upload from data URI
 	 *
 	 * @param string $url data:// url from where to upload content
-	 *
 	 * @return array
 	 *
 	 * @throws MimeTypeIsNotAllowedException

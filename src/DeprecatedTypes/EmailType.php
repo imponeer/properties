@@ -1,27 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\DeprecatedTypes;
 
 
-use Imponeer\Properties\DeprecatedDataTypeInterface;
 use Imponeer\Properties\PropertiesInterface;
 use Imponeer\Properties\Types\StringType;
 
 /**
- * Class EmailType
- *
- * @package Imponeer\Properties\DeprecatedTypes
  * @deprecated
  */
-class EmailType extends StringType {
-
-	/**
-	 * @inheritDoc
-	 */
-	public $autoFormatingDisabled = true;
-
-	/**
-	 * @inheritDoc
-	 */
-	public $validateRule = PropertiesInterface::VALIDATION_RULE_EMAIL;
+class EmailType extends StringType
+{
+    public bool $autoFormatingDisabled = true;
+    public string $validateRule = PropertiesInterface::VALIDATION_RULE_EMAIL;
 }

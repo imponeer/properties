@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
@@ -14,35 +16,35 @@ class ObjectType extends AbstractType {
 	/**
 	 * @inheritDoc
 	 */
-	public function isDefined() {
+	public function isDefined(): bool {
 		return is_object($this->value);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForDisplay() {
+	public function getForDisplay(): string {
 		return (string) $this->value;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForEdit() {
+	public function getForEdit(): null|string {
 		return null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getForForm() {
+	public function getForForm(): null|string {
 		return null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function clean($value) {
+	protected function clean(mixed $value): object|null {
 		if ($value === null || is_object($value)) {
 			return $value;
 		}
@@ -59,8 +61,7 @@ class ObjectType extends AbstractType {
 	 *
 	 * @return null|object
 	 */
-	protected function unserializeValue($value)
-	{
+	protected function unserializeValue(string $value): object|null {
 		if ($value[0] == '{' || $value[0] == '[') {
 			return (object)json_decode($value, false);
 		} elseif (in_array(substr($value, 0, 2), ['O:', 'a:'])) {

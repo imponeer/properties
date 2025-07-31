@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
@@ -16,28 +18,28 @@ class Doxcode implements CommonPropertyInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function parseValue($default) {
-		return $default != 'notdefined'?$default:0;
+	public function parseValue(mixed $default): mixed {
+		return $default !== 'notdefined' ? $default : 0;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getDataType() {
+	public function getDataType(): string|int {
 		return IntegerType::class;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function isRequired() {
+	public function isRequired(): bool {
 		return false;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getOtherConfig() {
+	public function getOtherConfig(): ?array {
 		return [
 			'form_caption' => _CO_ICMS_DOXCODE_FORM_CAPTION,
 			'maxLength' => null,
@@ -52,7 +54,7 @@ class Doxcode implements CommonPropertyInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getControl() {
+	public function getControl(): ?array {
 		return [
 			'name' => 'yesno'
 		];

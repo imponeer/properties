@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\Tests\Types;
 
 use Imponeer\Properties\PropertiesInterface;
@@ -11,15 +13,15 @@ class DateTimeTypeTest extends TestTypeAbstract
 	/**
 	 * Tests if initial was null
 	 */
-	public function testIfInitialWasNull()
+	public function testIfInitialWasNull(): void
 	{
-		$this->assertInternalType('null', $this->mock->v, 'DTYPE_DATETIME must have null unconverted');
+		$this->assertNull($this->mock->v, 'DTYPE_DATETIME must have null unconverted');
 	}
 
 	/**
 	 * Test conversions when setting var
 	 */
-	public function testConversions()
+	public function testConversions(): void
 	{
 		foreach ($this->test_data as $v) {
 			$this->mock->v = $v;
@@ -30,7 +32,7 @@ class DateTimeTypeTest extends TestTypeAbstract
 	/**
 	 * @inheritdoc
 	 */
-	protected function getDataType()
+	protected function getDataType(): int
 	{
 		return PropertiesInterface::DTYPE_DATETIME;
 	}

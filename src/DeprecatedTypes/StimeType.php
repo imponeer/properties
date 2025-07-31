@@ -1,20 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties\DeprecatedTypes;
 
 
-use Imponeer\Properties\DeprecatedDataTypeInterface;
 use Imponeer\Properties\Types\DateTimeType;
 
 /**
- * Class StimeType
- * @package Imponeer\Properties\DeprecatedTypes
  * @deprecated
  */
-class StimeType extends DateTimeType {
-
-	/**
-	 * @inheritDoc
-	 */
-	public $format = _SHORTDATESTRING;
+class StimeType extends DateTimeType
+{
+    public string $format = _SHORTDATESTRING;
 }

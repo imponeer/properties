@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imponeer\Properties;
 
 use Imponeer\Properties\Exceptions\PropertyIsLockedException;
@@ -12,70 +14,70 @@ abstract class AbstractType {
 	 *
 	 * @var bool
 	 */
-	public $locked = false;
+	public bool $locked = false;
 
 	/**
 	 * Possible options
 	 *
 	 * @var array
 	 */
-	public $possibleOptions = [];
+	public array $possibleOptions = [];
 
 	/**
 	 * Is changed?
 	 *
 	 * @var bool
 	 */
-	public $changed = false;
+	public bool $changed = false;
 
 	/**
 	 * Not loaded?
 	 *
 	 * @var bool
 	 */
-	public $not_loaded = false;
+	public bool $not_loaded = false;
 
 	/**
 	 * Default value
 	 *
 	 * @var mixed
 	 */
-	public $defaultValue = null;
+	public mixed $defaultValue = null;
 
 	/**
 	 * Is required?
 	 *
 	 * @var bool
 	 */
-	public $required = false;
+	public bool $required = false;
 
 	/**
 	 * Data handler (used for linking data with database)
 	 *
 	 * @var string|null
 	 */
-	public $data_handler;
+	public ?string $data_handler = null;
 
 	/**
 	 * Hide from user?
 	 *
 	 * @var bool
 	 */
-	public $hide = false;
+	public bool $hide = false;
 
 	/**
 	 * Current value
 	 *
 	 * @var mixed
 	 */
-	protected $value = null;
+	protected mixed $value = null;
 
 	/**
 	 * Parent
 	 *
-	 * @var object
+	 * @var object|null
 	 */
-	protected $parent;
+	protected object|null $parent = null;
 
 	/**
 	 * Constructor.
