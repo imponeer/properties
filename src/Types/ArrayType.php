@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
+use JsonException;
 
 /**
  * Defines array type
@@ -21,9 +22,11 @@ class ArrayType extends AbstractType {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @throws JsonException
 	 */
 	public function getForDisplay(): string {
-		return json_encode($this->value, JSON_PRETTY_PRINT);
+		return json_encode($this->value, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
 	}
 
 	/**
@@ -62,17 +65,23 @@ class ArrayType extends AbstractType {
 	 * @param string $value Value to unserialize
 	 *
 	 * @return null|array
+	 *
+	 * @throws JsonException
 	 */
 	protected function unserializeValue(string $value): array|null {
-		if ($value[0] == '{' || $value[0] == '[') {
-			return (array)json_decode($value, true);
-		} elseif (in_array(substr($value, 0, 2), ['O:', 'a:'])) {
-			return (array)unserialize($value);
-		} elseif (is_numeric($value)) {
-			return (array)$value;
-		} else {
-			return [];
+		if ($value[0] === '{' || $value[0] === '[') {
+			return (array)json_decode($value, true, 512, JSON_THROW_ON_ERROR);
 		}
+
+		if (in_array(substr($value, 0, 2), ['O:', 'a:'])) {
+			return (array)unserialize($value);
+		}
+
+		if (is_numeric($value)) {
+			return (array)$value;
+		}
+
+		return [];
 	}
 
 }

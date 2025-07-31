@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Imponeer\Properties\Tests\Types;
 
+use Closure;
 use Imponeer\Properties\PropertiesInterface;
 use Imponeer\Properties\Tests\TestTypeAbstract;
+use JsonException;
 
 class ObjectTypeTest extends TestTypeAbstract
 {
@@ -18,16 +20,18 @@ class ObjectTypeTest extends TestTypeAbstract
         $this->assertNull($this->mock->v, 'DTYPE_OBJECT must have null unconverted');
     }
 
-    /**
-     * Tests JSON decode
-     */
-    public function testJsonDecode()
-    {
+	/**
+	 * Tests JSON decode
+	 *
+	 * @throws JsonException
+	 */
+    public function testJsonDecode(): void
+	{
         foreach ($this->test_data as $v) {
-            if (is_object($v) && ($v instanceof \Closure)) {
+            if ($v instanceof Closure) {
                 continue;
             }
-            $this->mock->v = json_encode($v);
+            $this->mock->v = json_encode($v, JSON_THROW_ON_ERROR);
             if (is_null($v) || is_bool($v) || is_numeric($v) || is_string($v)) {
                 $this->assertNull($this->mock->v, 'DTYPE_OBJECT must parse json to null if is not object or array (' . var_export(['original' => $v, 'cleaned' => $this->mock->v], true) . ')');
             } else {
@@ -39,10 +43,10 @@ class ObjectTypeTest extends TestTypeAbstract
     /**
      * Tests PHP unserialize
      */
-    public function testUnserialize()
-    {
+    public function testUnserialize(): void
+	{
         foreach ($this->test_data as $v) {
-            if (is_object($v) && ($v instanceof \Closure)) {
+            if ($v instanceof Closure) {
                 continue;
             }
             $this->mock->v = serialize($v);
@@ -57,8 +61,8 @@ class ObjectTypeTest extends TestTypeAbstract
     /**
      * Test if object from class name parses
      */
-    public function testNewClassFromString()
-    {
+    public function testNewClassFromString(): void
+	{
         $this->mock->v = \DateTime::class;
         $this->assertInstanceOf(\DateTime::class, $this->mock->v, 'Object from class name doesn\'t parses');
 
