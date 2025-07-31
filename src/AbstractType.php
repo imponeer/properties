@@ -136,14 +136,14 @@ abstract class AbstractType
         }
     }
 
-	/**
-	 * Set value
-	 *
-	 * @param $value Value to set
-	 *
-	 * @throws PropertyIsLockedException
-	 * @throws ValueIsNotInPossibleValuesListException
-	 */
+    /**
+     * Set value
+     *
+     * @param $value Value to set
+     *
+     * @throws PropertyIsLockedException
+     * @throws ValueIsNotInPossibleValuesListException
+     */
     public function set($value)
     {
         if ($this->locked) {
@@ -172,10 +172,10 @@ abstract class AbstractType
      */
     public function isDeprecatedType(): bool
     {
-		$refClass = new ReflectionClass($this);
-		$attributes = $refClass->getAttributes(Deprecated::class);
+        $refClass = new ReflectionClass($this);
+        $attributes = $refClass->getAttributes(Deprecated::class);
 
-		return !empty($attributes);
+        return !empty($attributes);
     }
 
     /**

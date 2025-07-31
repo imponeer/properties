@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Imponeer\Properties\CommonProperties;
 
+use JetBrains\PhpStorm\Deprecated;
+
+#[Deprecated(reason: 'You should use doxcode in code. Not docxode.')]
 class Docxode extends Doxcode
 {
-    public function __construct()
-    {
-        trigger_error('You should use doxcode in code. Not docxode.', E_USER_WARNING);
-    }
 }
