@@ -42,7 +42,7 @@ class FloatType extends AbstractType
      */
     public function getForEdit(): string
     {
-        return HtmlSanitizerHelper::prepareForHtml($this->value);
+        return (string) ($this->value);
     }
 
     /**
@@ -50,7 +50,7 @@ class FloatType extends AbstractType
      */
     public function getForForm(): string
     {
-        return HtmlSanitizerHelper::prepareForHtml($this->value);
+        return (string) ($this->value);
     }
 
     /**
