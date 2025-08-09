@@ -276,10 +276,10 @@ class FileType extends AbstractType
             extension_loaded('imagick') ? 'imagick' : 'gd'
         );
         $image = $intervention->read($file);
-        if ($this->maxWidth > $image->width()) {
+        if ($this->maxWidth < $image->width()) {
             throw new ImageWidthTooBigException();
         }
-        if ($this->maxHeight > $image->height()) {
+        if ($this->maxHeight < $image->height()) {
             throw new ImageHeightTooBigException();
         }
     }
