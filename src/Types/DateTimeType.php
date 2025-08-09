@@ -70,10 +70,11 @@ class DateTimeType extends AbstractType
         if (!is_string($value)) {
             return 0;
         }
-        if (preg_match('/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/ui', $value, $ret)) {
-			$ret = array_map('intval', $ret);
-            $time = gmmktime($ret[4], $ret[5], $ret[6], $ret[2], $ret[3], $ret[1]);
-        } else {
+        if (preg_match('/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/u', $value, $ret)) {
+			[, $year, $month, $day, $hour, $min, $sec] = array_map('intval', $ret);
+			$ts = gmmktime($hour, $min, $sec, $month, $day, $year);
+			$time = ($ts === false || $ts < 0) ? 0 : $ts;
+		} else {
             $time = (int) strtotime($value);
         }
         return ($time < 0) ? 0 : $time;
