@@ -21,12 +21,12 @@ class IntegerType extends AbstractType
 
     public function getForEdit(): string
     {
-        return HtmlSanitizerHelper::prepareForHtml($this->value);
+        return $this->getForDisplay();
     }
 
     public function getForForm(): string
     {
-        return HtmlSanitizerHelper::prepareForHtml($this->value);
+        return $this->getForDisplay();
     }
 
     protected function clean(mixed $value): int
