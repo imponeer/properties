@@ -20,7 +20,7 @@ class StringType extends AbstractType
 
     public function isDefined(): bool
     {
-        return $this->value !== '';
+        return $this->value !== '' && $this->value !== null;
     }
 
     public function getForDisplay(): string
