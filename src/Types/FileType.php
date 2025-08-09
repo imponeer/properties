@@ -114,7 +114,9 @@ class FileType extends AbstractType
      */
     public function getForDisplay(): string
 	{
-        return HtmlSanitizerHelper::prepareForHtml($this->value);
+        return HtmlSanitizerHelper::prepareForHtml(
+			$this->isDefined() ? $this->value['filename'] : null
+		);
     }
 
     /**
@@ -122,7 +124,7 @@ class FileType extends AbstractType
      */
     public function getForEdit(): string
 	{
-        return HtmlSanitizerHelper::prepareForHtml($this->value);
+		return $this->getForDisplay();
     }
 
     /**
