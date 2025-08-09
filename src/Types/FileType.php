@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Types;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\FileTooBigException;
+use Imponeer\Properties\Exceptions\ImageHeightTooBigException;
 use Imponeer\Properties\Exceptions\ImageWidthTooBigException;
 use Imponeer\Properties\Exceptions\MimeTypeIsNotAllowedException;
+use Imponeer\Properties\Exceptions\PropertyIsLockedException;
+use Imponeer\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
 use Imponeer\Properties\Helper\HtmlSanitizerHelper;
 use Intervention\Image\ImageManager;
 use Psr\Http\Message\ResponseInterface;
@@ -100,44 +104,44 @@ class FileType extends AbstractType
     /**
      * @inheritDoc
      */
-    public function isDefined()
-    {
+    public function isDefined(): bool
+	{
         return (isset($this->value['filename']) && !empty($this->value['filename']));
     }
 
     /**
      * @inheritDoc
      */
-    public function getForDisplay()
-    {
+    public function getForDisplay(): string
+	{
         return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
      * @inheritDoc
      */
-    public function getForEdit()
-    {
+    public function getForEdit(): string
+	{
         return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
      * @inheritDoc
      */
-    public function getForForm()
-    {
+    public function getForForm(): string
+	{
         return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
-    /**
-     * Set var from request
-     *
-     * @param mixed $key Key to read
-     *
-     * @throws PropertyIsLockedException
-     * @throws ValueIsNotInPossibleValuesListException
-     */
-    public function setFromRequest($key)
+	/**
+	 * Set var from request
+	 *
+	 * @param mixed $key Key to read
+	 *
+	 * @throws PropertyIsLockedException
+	 * @throws ValueIsNotInPossibleValuesListException
+	 */
+    public function setFromRequest(string|array $key)
     {
         if (is_array($key)) {
             $value = &$_FILES;
@@ -150,11 +154,15 @@ class FileType extends AbstractType
         }
     }
 
-    /**
-     * @inheritDoc
-     *
-     * @throws MimeTypeIsNotAllowedException
-     */
+	/**
+	 * @inheritDoc
+	 *
+	 * @throws FileTooBigException
+	 * @throws GuzzleException
+	 * @throws ImageHeightTooBigException
+	 * @throws ImageWidthTooBigException
+	 * @throws MimeTypeIsNotAllowedException
+	 */
     protected function clean($value)
     {
         if (is_string($value)) {
@@ -200,17 +208,20 @@ class FileType extends AbstractType
         return str_starts_with($url, 'data:');
     }
 
-    /**
-     * Upload from data URI
-     *
-     * @param string $url data:// url from where to upload content
-     * @return array
-     *
-     * @throws MimeTypeIsNotAllowedException
-     */
-    protected function uploadFromDataURI($url)
+	/**
+	 * Upload from data URI
+	 *
+	 * @param string $url data:// url from where to upload content
+	 * @return array
+	 *
+	 * @throws FileTooBigException
+	 * @throws ImageHeightTooBigException
+	 * @throws ImageWidthTooBigException
+	 * @throws MimeTypeIsNotAllowedException
+	 */
+    protected function uploadFromDataURI(string $url)
     {
-        $fp = fopen($url, 'r');
+        $fp = fopen($url, 'rb');
         $meta = stream_get_meta_data($fp);
         $content = stream_get_contents($fp);
         fclose($fp);
@@ -237,12 +248,10 @@ class FileType extends AbstractType
     /**
      * Validates file size (if too big trows exception)
      *
-     * @param string $url
-     * @param $current_size
      * @throws FileTooBigException
      */
-    private function checkFileSize($url, $current_size)
-    {
+    private function checkFileSize(string $url, int $current_size): void
+	{
         if ($this->maxFileSize > 0 && $current_size > $this->maxFileSize) {
             throw new FileTooBigException($url, $this->maxFileSize, $current_size);
         }
@@ -256,32 +265,27 @@ class FileType extends AbstractType
      * @throws ImageWidthTooBigException
      * @throws ImageHeightTooBigException
      */
-    private function checkImageSize($file)
+    private function checkImageSize(string $file): void
     {
         if ($this->maxWidth < 1 && $this->maxHeight < 1) {
             return;
         }
-        $intervention = new ImageManager([
-            'driver' => extension_loaded('imagick') ? 'imagick' : 'gd'
-        ]);
-        $image = $intervention->make($file);
-        if ($this->maxWidth > $image->getWidth()) {
+        $intervention = new ImageManager(
+            extension_loaded('imagick') ? 'imagick' : 'gd'
+        );
+        $image = $intervention->read($file);
+        if ($this->maxWidth > $image->width()) {
             throw new ImageWidthTooBigException();
         }
-        if ($this->maxHeight > $image->getHeight()) {
+        if ($this->maxHeight > $image->height()) {
             throw new ImageHeightTooBigException();
         }
     }
 
     /**
      * Generates target filename
-     *
-     * @param $filename
-     * @param $mimetype
-     *
-     * @return string
      */
-    private function generateTargetFileName($filename, $mimetype)
+    private function generateTargetFileName(string $filename, string $mimetype): string
     {
         if (isset($this->filenameGenerator)) {
             $gen_filename = call_user_func(
@@ -298,23 +302,26 @@ class FileType extends AbstractType
         }
         if ($this->path) {
             return $this->path . DIRECTORY_SEPARATOR . $gen_filename;
-        } else {
-            return $gen_filename;
         }
-    }
 
-    /**
-     * Upload file from URL
-     *
-     * @param string $url Uploads file from URL
-     * @return mixed|string
-     *
-     * @throws MimeTypeIsNotAllowedException
-     */
-    protected function uploadFileFromUrl($url)
+		return $gen_filename;
+	}
+
+	/**
+	 * Upload file from URL
+	 *
+	 * @param string $url Uploads file from URL
+	 * @return mixed|string
+	 *
+	 * @throws MimeTypeIsNotAllowedException
+	 * @throws ImageWidthTooBigException
+	 * @throws FileTooBigException
+	 * @throws GuzzleException
+	 */
+    protected function uploadFileFromUrl(string $url)
     {
         $tmp_file = tempnam(sys_get_temp_dir(), 'uploaded');
-        $fp = fopen($tmp_file, 'w');
+        $fp = fopen($tmp_file, 'wb');
         $client = new Client();
         $content_is_ok = false;
         $mimetype = 'unknown/unknown';
@@ -327,9 +334,9 @@ class FileType extends AbstractType
                     $this->checkFileSize($url, $response->getHeaderLine('Content-Length'));
                     if (!empty($this->allowedMimeTypes)) {
                         $content_type = $response->getHeader('Content-Type');
-                        if (isset($content_type[0]) && in_array($content_type[0], $this->allowedMimeTypes)) {
+                        if (isset($content_type[0]) && in_array($content_type[0], $this->allowedMimeTypes, true)) {
                             $content_is_ok = true;
-                            $mimetype = strtolower($content_type);
+                            $mimetype = strtolower($content_type[0]);
                         }
                     }
                 }
@@ -361,14 +368,14 @@ class FileType extends AbstractType
     }
 
     /**
-     * Detects filename from response or atleast from URL
+     * Detects filename from response or least from URL
      *
      * @param ResponseInterface $response Response
      * @param string $url URL
      *
      * @return mixed
      */
-    private function detectFileName(ResponseInterface &$response, $url)
+    private function detectFileName(ResponseInterface $response, string $url)
     {
         $content_disposition = $response->getHeader('Content-Disposition');
         if (isset($content_disposition['filename'])) {

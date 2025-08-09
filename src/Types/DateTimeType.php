@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
+use Imponeer\Properties\Helper\HtmlSanitizerHelper;
 
 /**
  * Defines date & time type
@@ -41,7 +42,7 @@ class DateTimeType extends AbstractType
      */
     public function getForEdit(): string
     {
-        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
@@ -49,7 +50,7 @@ class DateTimeType extends AbstractType
      */
     public function getForForm(): string
     {
-        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
@@ -64,12 +65,13 @@ class DateTimeType extends AbstractType
             return 0;
         }
         if (is_numeric($value)) {
-            return intval($value);
+            return (int)$value;
         }
         if (!is_string($value)) {
             return 0;
         }
         if (preg_match('/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/ui', $value, $ret)) {
+			$ret = array_map('intval', $ret);
             $time = gmmktime($ret[4], $ret[5], $ret[6], $ret[2], $ret[3], $ret[1]);
         } else {
             $time = (int) strtotime($value);

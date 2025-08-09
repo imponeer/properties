@@ -33,17 +33,17 @@ class ObjectType extends AbstractType
     /**
      * @inheritDoc
      */
-    public function getForEdit(): null|string
+    public function getForEdit(): string
     {
-        return null;
+        return '';
     }
 
     /**
      * @inheritDoc
      */
-    public function getForForm(): null|string
+    public function getForForm(): string
     {
-        return null;
+        return '';
     }
 
     /**
