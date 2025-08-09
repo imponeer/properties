@@ -18,6 +18,7 @@ use Imponeer\Properties\DeprecatedTypes\TxtboxType;
 use Imponeer\Properties\DeprecatedTypes\UrllinkType;
 use Imponeer\Properties\DeprecatedTypes\UrlType;
 use Imponeer\Properties\Exceptions\SpecifiedDataTypeNotFound;
+use Imponeer\Properties\Exceptions\UndefinedVariableException;
 use Imponeer\Properties\Types\ArrayType;
 use Imponeer\Properties\Types\BooleanType;
 use Imponeer\Properties\Types\DateTimeType;
@@ -27,6 +28,7 @@ use Imponeer\Properties\Types\ListType;
 use Imponeer\Properties\Types\ObjectType;
 use Imponeer\Properties\Types\OtherType;
 use Imponeer\Properties\Types\StringType;
+use JetBrains\PhpStorm\Deprecated;
 
 /**
  * Contains methods for dealing with object properties
@@ -70,12 +72,10 @@ trait PropertiesSupport
      * @param    string $varname Var name
      * @param    bool $displayOnForm Display on form
      * @param    string $default Default value
-     *
-     * @deprecated
      */
+	#[Deprecated(reason: '$this->initCommonVar() will be removed in the future!', replacement: '$this->initVar()')]
     public function initCommonVar(string $varname, bool $displayOnForm = true, string $default = 'notdefined'): void
     {
-        trigger_error('$this->initCommonVar() will be removed in the future!', E_USER_DEPRECATED);
         $class = "\\Imponeer\\Properties\\CommonProperties\\" . implode(
             '',
             array_map(
@@ -363,13 +363,15 @@ trait PropertiesSupport
         return $this->vars[$name]->getForForm();
     }
 
-    /**
-     * Magic function to get property value by accessing it by name
-     *
-     * @param string $name
-     *
-     * @return mixed
-     */
+	/**
+	 * Magic function to get property value by accessing it by name
+	 *
+	 * @param string $name
+	 *
+	 * @return mixed
+	 *
+	 * @throws UndefinedVariableException
+	 */
     public function __get(string $name): mixed
     {
         switch ($name) {
@@ -377,30 +379,19 @@ trait PropertiesSupport
             case 'vars':
                 if (isset($this->vars[$name])) {
                     return $this->vars[$name]->get();
-                } else {
-                    trigger_error('Use $this->getVars() of $this->' . $name . ' instead!', E_USER_DEPRECATED);
-                    return $this->vars;
                 }
-            case 'cleanVars':
-                trigger_error('Use $this->toArray() of $this->' . $name . ' instead!', E_USER_DEPRECATED);
-                return $this->toArray();
+
+				trigger_error('Use $this->getVars() of $this->' . $name . ' instead!', E_USER_DEPRECATED);
+				return $this->vars;
+			case 'cleanVars':
+                return $this->cleanVars();
             default:
                 if (!isset($this->vars[$name])) {
-                    $callers = debug_backtrace();
-                    trigger_error(
-                        sprintf(
-                            '%s undefined for %s (in line %d)',
-                            $name,
-                            $callers[0]['file'],
-                            $callers[0]['line']
-                        ),
-                        E_USER_WARNING
-                    );
-                    return null;
-                } else {
-                    return $this->vars[$name]->get();
+					throw new UndefinedVariableException($name);
                 }
-        }
+
+				return $this->vars[$name]->get();
+		}
     }
 
     /**
@@ -436,41 +427,33 @@ trait PropertiesSupport
         return $ret;
     }
 
-    /**
-     * Returns array of vars or only one var (if name specified) with selected info field
-     *
-     * @param string $key Var name
-     * @param string $info Var info to get
-     * @param mixed $default Default response
-     *
-     * @return mixed
-     */
-    public function getVarInfo(string $key = null, string $info = null, mixed $default = null): mixed
+	/**
+	 * Returns array of vars or only one var (if name specified) with selected info field
+	 *
+	 * @param string|null $key Var name
+	 * @param string|null $info Var info to get
+	 * @param mixed $default Default response
+	 *
+	 * @return mixed
+	 *
+	 * @throws UndefinedVariableException
+	 */
+    public function getVarInfo(?string $key = null, ?string $info = null, mixed $default = null): mixed
     {
-        if ($key === null) {
-            return $this->vars;
-        } elseif ($info === null) {
-            if (isset($this->vars[$key])) {
-                return $this->vars[$key];
-            } else {
-                $callers = debug_backtrace();
-                trigger_error(
-                    sprintf(
-                        '%s in %s on line %d doesn\'t exist',
-                        $key,
-                        $callers[0]['file'],
-                        $callers[0]['line']
-                    ),
-                    E_USER_ERROR
-                );
-                return $default;
-            }
-        } elseif (isset($this->vars[$key]->$info)) {
-            return $this->vars[$key]->$info;
-        } else {
-            return $default;
-        }
-    }
+		if ($key === null) {
+			return $this->vars;
+		}
+
+		if ($info === null) {
+			if (isset($this->vars[$key])) {
+				return $this->vars[$key];
+			}
+
+			throw new UndefinedVariableException($key);
+		}
+
+		return $this->vars[$key]->$info ?? $default;
+	}
 
     /**
      * returns all variables for the object
@@ -493,18 +476,18 @@ trait PropertiesSupport
     public function setVars(array $var_arr, bool $not_gpc = false): void
     {
         foreach ($var_arr as $key => $value) {
-            $this->setVar($key, $value, $not_gpc);
+            $this->setVar($key, $value, ['not_gpc' => $not_gpc]);
         }
     }
 
-    /**
-     * Sets var value
-     *
-     * @param string $name Var name
-     * @param mixed $value New value
-     * @param array $options Options to apply when settings values
-     */
-    public function setVar(string $name, mixed $value, array $options = null): void
+	/**
+	 * Sets var value
+	 *
+	 * @param string $name Var name
+	 * @param mixed $value New value
+	 * @param bool|array|null $options Options to apply when settings values
+	 */
+    public function setVar(string $name, mixed $value, bool|array|null $options = null): void
     {
         if ($options !== null) {
             if (is_bool($options)) {
@@ -518,14 +501,14 @@ trait PropertiesSupport
         $this->__set($name, $value);
     }
 
-    /**
-     * Sets var info
-     *
-     * @param string $key Var name
-     * @param string $info Var option
-     * @param mixed $value Options value
-     */
-    public function setVarInfo(string $key, string $info, mixed $value): void
+	/**
+	 * Sets var info
+	 *
+	 * @param string|null $key Var name
+	 * @param string $info Var option
+	 * @param mixed $value Options value
+	 */
+    public function setVarInfo(?string $key, string $info, mixed $value): void
     {
         if ($key === null) {
             $key = array_keys($this->vars);
@@ -544,15 +527,9 @@ trait PropertiesSupport
         }
 
         $this->vars[$key][$info] = $value;
-        switch ($info) {
-            case 'changed':
-                if ($value) {
-                    $this->changed++;
-                } else {
-                    $this->changed--;
-                }
-                break;
-        }
+		if ($info === 'changed') {
+			$this->changed += $value ? 1 : -1;
+		}
     }
 
     /**
@@ -570,12 +547,10 @@ trait PropertiesSupport
      *
      * @param string $key Var name
      * @param bool $is_required Is required?
-     *
-     * @deprecated
      */
+	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
     public function doSetFieldAsRequired(string $key, bool $is_required = true): void
     {
-        trigger_error('Use not $this->doSetFieldAsRequired() but $this->setVarInfo() instead!', E_USER_DEPRECATED);
         $this->setVarInfo($key, 'required', $is_required);
     }
 
@@ -583,12 +558,10 @@ trait PropertiesSupport
      * Returns cleaned vars array
      *
      * @return array
-     *
-     * @deprecated
      */
+	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->toArray()')]
     public function cleanVars(): array
     {
-        trigger_error('Use not $this->cleanVars() but $this->toArray() instead!', E_USER_DEPRECATED);
         return $this->toArray();
     }
 
