@@ -6,6 +6,7 @@ namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
+use Imponeer\Properties\Helper\HtmlSanitizerHelper;
 use JsonException;
 use stdClass;
 
@@ -19,15 +20,15 @@ class StringType extends AbstractType
 
     public function isDefined(): bool
     {
-        return strlen($this->value) > 0;
+        return $this->value !== '' && $this->value !== null;
     }
 
     public function getForDisplay(): string
     {
         if ($this->autoFormatingDisabled) {
-            $ret = \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
+            $ret = HtmlSanitizerHelper::prepareForHtml($this->value);
             if (method_exists($this->parent, 'formatForML')) {
-                return $this->formatForML($ret);
+                return $this->parent->formatForML($ret);
             }
             return $ret;
         }
@@ -46,12 +47,12 @@ class StringType extends AbstractType
 
     public function getForEdit(): string
     {
-        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     public function getForForm(): string
     {
-        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**

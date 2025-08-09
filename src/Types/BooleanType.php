@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
+use Imponeer\Properties\Helper\HtmlSanitizerHelper;
 
 class BooleanType extends AbstractType
 {
@@ -20,12 +21,12 @@ class BooleanType extends AbstractType
 
     public function getForEdit(): string
     {
-        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     public function getForForm(): string
     {
-        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     protected function clean(mixed $value): bool
@@ -34,14 +35,18 @@ class BooleanType extends AbstractType
             return $value;
         }
         if (!is_string($value)) {
-            if (is_object($value)) {
-                return true;
-            } elseif (is_null($value)) {
-                return false;
-            }
-            return (bool) intval($value);
+			if (is_object($value)) {
+				return true;
+			}
+
+			if (is_null($value)) {
+				return false;
+			}
+
+			return (bool)(int)$value;
         }
+
         $value = strtolower($value);
-        return ($value == 'yes') || ($value == 'true');
+        return ($value === 'yes') || ($value === 'true');
     }
 }

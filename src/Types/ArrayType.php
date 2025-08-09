@@ -49,9 +49,11 @@ class ArrayType extends AbstractType
         return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
-    /**
-     * @inheritDoc
-     */
+	/**
+	 * @inheritDoc
+	 *
+	 * @throws JsonException
+	 */
     protected function clean(mixed $value): array
     {
         if (((array) $value) === $value) {

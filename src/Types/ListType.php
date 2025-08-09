@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
+use Imponeer\Properties\Helper\HtmlSanitizerHelper;
+use Stringable;
 
 /**
  * Defines list type
@@ -49,7 +51,7 @@ class ListType extends AbstractType
      */
     public function getForForm(): string
     {
-        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
@@ -64,9 +66,12 @@ class ListType extends AbstractType
             return [];
         }
         if (is_string($value)) {
-            return explode($this->separator, strval($value));
-        } else {
-            return [$value];
+            return explode($this->separator, $value);
         }
-    }
+		if ($value instanceof Stringable) {
+			return explode($this->separator, (string)$value);
+		}
+
+		return [$value];
+	}
 }

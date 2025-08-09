@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
+use Imponeer\Properties\Helper\HtmlSanitizerHelper;
 
 /**
  * Defines date & time type
@@ -41,7 +42,7 @@ class DateTimeType extends AbstractType
      */
     public function getForEdit(): string
     {
-        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
@@ -49,7 +50,7 @@ class DateTimeType extends AbstractType
      */
     public function getForForm(): string
     {
-        return \Imponeer\Properties\Helper\HtmlSanitizerHelper::prepareForHtml($this->value);
+        return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
     /**
@@ -64,14 +65,16 @@ class DateTimeType extends AbstractType
             return 0;
         }
         if (is_numeric($value)) {
-            return intval($value);
+            return (int)$value;
         }
         if (!is_string($value)) {
             return 0;
         }
-        if (preg_match('/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/ui', $value, $ret)) {
-            $time = gmmktime($ret[4], $ret[5], $ret[6], $ret[2], $ret[3], $ret[1]);
-        } else {
+        if (preg_match('/(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)/u', $value, $ret)) {
+			[, $year, $month, $day, $hour, $min, $sec] = array_map('intval', $ret);
+			$ts = gmmktime($hour, $min, $sec, $month, $day, $year);
+			$time = ($ts === false || $ts < 0) ? 0 : $ts;
+		} else {
             $time = (int) strtotime($value);
         }
         return ($time < 0) ? 0 : $time;

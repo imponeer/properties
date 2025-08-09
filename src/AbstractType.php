@@ -89,18 +89,21 @@ abstract class AbstractType
      * @param bool $required Is required?
      * @param null|array $otherCfg Other config data
      */
-    public function __construct(&$parent, $defaultValue = null, $required = false, $otherCfg = null)
-    {
+    public function __construct(
+		&$parent,
+		mixed $defaultValue = null,
+		bool $required = false,
+		null|array $otherCfg = null
+	) {
         $this->parent = &$parent;
         if ($otherCfg !== null) {
             foreach ($otherCfg as $key => $value) {
                 if (isset($this->$key)) {
-                    $this->$key = $value;
+					$this->$key = match ($key) {
+						'possibleOptions' => is_array($value) ? $value : explode('|', $value),
+						default => $value,
+					};
                 }
-            }
-            $this->_vars[$key] = $otherCfg;
-            if (is_string($this->possibleOptions)) {
-                $this->possibleOptions = explode('|', $this->possibleOptions);
             }
         }
         $this->defaultValue = $this->clean($defaultValue);
@@ -123,7 +126,7 @@ abstract class AbstractType
      * @throws PropertyIsLockedException
      * @throws ValueIsNotInPossibleValuesListException
      */
-    public function setFromRequest($key)
+    public function setFromRequest(array|string $key)
     {
         if (is_array($key)) {
             $value = &$_REQUEST;
@@ -167,8 +170,6 @@ abstract class AbstractType
 
     /**
      * Returns if current type is one of deprecated types
-     *
-     * @return bool
      */
     public function isDeprecatedType(): bool
     {
@@ -181,39 +182,31 @@ abstract class AbstractType
     /**
      * Reset value to default
      */
-    public function reset()
-    {
+    public function reset(): void
+	{
         $this->value = $this->defaultValue;
         $this->changed = false;
     }
 
     /**
      * Is defined (is set)?
-     *
-     * @return boolean
      */
-    abstract public function isDefined();
+    abstract public function isDefined(): bool;
 
     /**
      * Return for display
-     *
-     * @return string
      */
-    abstract public function getForDisplay();
+    abstract public function getForDisplay(): string;
 
     /**
      * Return value for editing
-     *
-     * @return string
      */
-    abstract public function getForEdit();
+    abstract public function getForEdit(): string;
 
     /**
      * Get value for form
-     *
-     * @return string
      */
-    abstract public function getForForm();
+    abstract public function getForForm(): string;
 
     /**
      * Get value without formating
