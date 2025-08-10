@@ -120,10 +120,14 @@ trait PropertiesSupport
         if ($dataType instanceof DataType) {
             $class = $dataType->getTypeClass();
         } elseif (is_int($dataType)) {
-			$class = DataType::from($dataType)->getTypeClass();
+            $case = DataType::tryFrom($dataType);
+            if ($case === null) {
+                throw new SpecifiedDataTypeNotFoundException($dataType);
+            }
+            $class = $case->getTypeClass();
         } else {
-			$class = $dataType;
-		}
+            $class = $dataType;
+        }
 
         $this->vars[$key] = new $class($this, $defaultValue, $required, $otherCfg);
     }
