@@ -15,12 +15,13 @@ enum Format: string
     case FORM_PREVIEW = 'f';
     case RAW = '';
 
-	public static function fromString(string $format): self
+    public static function fromString(string $format): self
     {
-		return match (strlen($format)) {
-			0 => self::RAW,
-			1 => self::tryFrom(strtolower($format)) ?? self::RAW,
-			default => self::tryFrom(strtolower($format[0])) ?? self::RAW,
-		};
+        $format = trim($format);
+        return match (strlen($format)) {
+            0 => self::RAW,
+            1 => self::tryFrom(strtolower($format)) ?? self::RAW,
+            default => self::tryFrom(strtolower($format[0])) ?? self::RAW,
+        };
     }
 }
