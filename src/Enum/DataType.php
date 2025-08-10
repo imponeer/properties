@@ -129,8 +129,9 @@ enum DataType: int
 				continue;
 			}
 
-			assert($attributes[0] instanceof LinkedCaseType);
-			$result[$case->getBackingValue()] = $attributes[0]->class;
+			$attrInstance = $attributes[0]->newInstance();
+			assert($attrInstance instanceof LinkedCaseType);
+			$result[$case->getBackingValue()] = $attrInstance->class;
 		}
 
 		return $result;
