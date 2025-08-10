@@ -17,7 +17,8 @@ use Imponeer\Properties\DeprecatedTypes\TimeOnlyType;
 use Imponeer\Properties\DeprecatedTypes\TxtboxType;
 use Imponeer\Properties\DeprecatedTypes\UrllinkType;
 use Imponeer\Properties\DeprecatedTypes\UrlType;
-use Imponeer\Properties\Exceptions\SpecifiedDataTypeNotFound;
+use Imponeer\Properties\Enum\DataType;
+use Imponeer\Properties\Exceptions\SpecifiedDataTypeNotFoundException;
 use Imponeer\Properties\Exceptions\UndefinedVariableException;
 use Imponeer\Properties\Types\ArrayType;
 use Imponeer\Properties\Types\BooleanType;
@@ -104,86 +105,31 @@ trait PropertiesSupport
      * Initialize var (property) for the object
      *
      * @param string $key Var name
-     * @param int|string $dataType Var data type (use constants DTYPE_* for specifing it!)
+     * @param DataType|int|string $dataType Var data type (use DType enum or legacy constants DTYPE_* for specifying it!)
      * @param mixed $defaultValue Default value
      * @param bool $required Is Required?
      * @param array|null $otherCfg /null $otherCfg  If there is, an assoc array with other configuration for var
      */
     protected function initVar(
-        string $key,
-        int|string $dataType,
-        mixed $defaultValue = null,
-        bool $required = false,
-        array|null $otherCfg = null
+		string              $key,
+		DataType|int|string $dataType,
+		mixed               $defaultValue = null,
+		bool                $required = false,
+		array|null          $otherCfg = null
     ): void {
-        if (is_int($dataType)) {
-            $types = static::getPossibleVarTypes();
-            if (!isset($types[$dataType])) {
-                throw new SpecifiedDataTypeNotFound();
+        if ($dataType instanceof DataType) {
+            $class = $dataType->getTypeClass();
+        } elseif (is_int($dataType)) {
+            $case = DataType::tryFrom($dataType);
+            if ($case === null) {
+                throw new SpecifiedDataTypeNotFoundException($dataType);
             }
-            $class = $types[$dataType];
-        } elseif (stripos($dataType, 'DEP_') === 0) {
-            $class = "\\Imponeer\\Properties\\DeprecatedTypes\\" . implode(
-                '',
-                array_map(
-                    'ucfirst',
-                    array_map(
-                        'strtolower',
-                        explode(
-                            '_',
-                            substr($dataType, 4)
-                        )
-                    )
-                )
-            ) . 'Type';
-        } elseif (!class_exists($dataType)) {
-            $class = "\\Imponeer\\Properties\\Types\\" . implode(
-                '',
-                array_map(
-                    'ucfirst',
-                    array_map(
-                        'strtolower',
-                        explode('_', $dataType)
-                    )
-                )
-            ) . 'Type';
+            $class = $case->getTypeClass();
+        } else {
+            $class = $dataType;
         }
 
         $this->vars[$key] = new $class($this, $defaultValue, $required, $otherCfg);
-    }
-
-    /**
-     * Gets class map with possible data types
-     *
-     * @return array
-     */
-    protected static function getPossibleVarTypes(): array
-    {
-        return [
-            PropertiesInterface::DTYPE_DEP_CURRENCY => CurrencyType::class,
-            PropertiesInterface::DTYPE_DEP_EMAIL => EmailType::class,
-            PropertiesInterface::DTYPE_DEP_FILE => FileType::class,
-            PropertiesInterface::DTYPE_DEP_FORM_SECTION => FormSectionType::class,
-            PropertiesInterface::DTYPE_DEP_FORM_SECTION_CLOSE => FormSectionCloseType::class,
-            PropertiesInterface::DTYPE_DEP_IMAGE => ImageType::class,
-            PropertiesInterface::DTYPE_DEP_MTIME => MtimeType::class,
-            PropertiesInterface::DTYPE_DEP_SOURCE => SourceType::class,
-            PropertiesInterface::DTYPE_DEP_STIME => StimeType::class,
-            PropertiesInterface::DTYPE_DEP_TIME_ONLY => TimeOnlyType::class,
-            PropertiesInterface::DTYPE_DEP_TXTBOX => TxtboxType::class,
-            PropertiesInterface::DTYPE_DEP_URL => UrlType::class,
-            PropertiesInterface::DTYPE_DEP_URLLINK => UrllinkType::class,
-            PropertiesInterface::DTYPE_ARRAY => ArrayType::class,
-            PropertiesInterface::DTYPE_BOOLEAN => BooleanType::class,
-            PropertiesInterface::DTYPE_DATETIME => DateTimeType::class,
-            PropertiesInterface::DTYPE_FILE => \Imponeer\Properties\Types\FileType::class,
-            PropertiesInterface::DTYPE_FLOAT => FloatType::class,
-            PropertiesInterface::DTYPE_INTEGER => IntegerType::class,
-            PropertiesInterface::DTYPE_LIST => ListType::class,
-            PropertiesInterface::DTYPE_OBJECT => ObjectType::class,
-            PropertiesInterface::DTYPE_OTHER => OtherType::class,
-            PropertiesInterface::DTYPE_STRING => StringType::class
-        ];
     }
 
     /**
@@ -259,7 +205,7 @@ trait PropertiesSupport
      */
     public function getDefaultVars(): array
     {
-        $ret = array();
+        $ret = [];
         foreach ($this->vars as $key => $var) {
             $ret[$key] = $var->defaultValue;
         }
@@ -279,7 +225,7 @@ trait PropertiesSupport
         if (!isset($keys)) {
             $keys = array_keys($this->vars);
         }
-        $vars = array();
+        $vars = [];
         foreach ($keys as $key) {
             if (isset($this->vars[$key])) {
                 if (is_object($this->vars[$key]->value) && ($this->vars[$key]->value instanceof PropertiesSupport)) {
@@ -504,11 +450,11 @@ trait PropertiesSupport
 	/**
 	 * Sets var info
 	 *
-	 * @param string|null $key Var name
+	 * @param string|string[]|null $key Var name
 	 * @param string $info Var option
 	 * @param mixed $value Options value
 	 */
-    public function setVarInfo(?string $key, string $info, mixed $value): void
+    public function setVarInfo(string|array|null $key, string $info, mixed $value): void
     {
         if ($key === null) {
             $key = array_keys($this->vars);
@@ -563,35 +509,5 @@ trait PropertiesSupport
     public function cleanVars(): array
     {
         return $this->toArray();
-    }
-
-    /**
-     * Creates instance from name
-     *
-     * @param string $namespace Namespace where class to be found
-     * @param string $name Name from what instance must be created
-     * @param string $suffix Sufix for class name
-     *
-     * @return object
-     *
-     * @throws SpecifiedDataTypeNotFound
-     */
-    private function createInstanceFromName(string $namespace, string $name, string $suffix = ''): object
-    {
-        $class = $namespace . implode(
-            '',
-            array_map(
-                'ucfirst',
-                array_map(
-                    'strtolower',
-                    explode('_', $name)
-                )
-            )
-        ) . $suffix;
-        if (class_exists($class, true)) {
-            return new $class();
-        } else {
-            throw new SpecifiedDataTypeNotFound();
-        }
     }
 }
