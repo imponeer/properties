@@ -13,13 +13,13 @@ use Imponeer\Properties\AbstractType;
 #[Attribute(Attribute::TARGET_CLASS_CONSTANT)]
 class LinkedCaseType
 {
-	/**
-	 * @param class-string<AbstractType> $class
-	 */
+class LinkedCaseType
+{
+    /**
+     * @param class-string<AbstractType> $class
+     */
     public function __construct(
         public readonly string $class,
     ) {
     }
-
-
 }
