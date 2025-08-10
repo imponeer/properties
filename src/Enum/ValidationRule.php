@@ -18,5 +18,4 @@ enum ValidationRule: string
      * Validation rule for links
      */
     case LINKS = '#^http(s)?://[a-z0-9-_.]+\.[a-z]{2,4}#i';
-
 }
