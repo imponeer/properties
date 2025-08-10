@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
-use Imponeer\Properties\Helper\HtmlSanitizerHelper;
 
 class IntegerType extends AbstractType
 {

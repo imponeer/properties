@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
-use Imponeer\Properties\ConfigOption;
-use Imponeer\Properties\DataType;
+use Imponeer\Properties\Helper\ServiceHelper;
 use Imponeer\Properties\Types\IntegerType;
 
 /**
@@ -45,11 +44,8 @@ class Dohtml implements CommonPropertyInterface
      */
     public function getOtherConfig(): ?array
     {
-        if (!defined('_CM_DOAUTOWRAP')) {
-            icms_loadLanguageFile('core', 'comment');
-        }
         return [
-            'form_caption' => _CM_DOHTML,
+            'form_caption' =>  ServiceHelper::getTranslator()->trans('_CM_DOHTML', [], 'comment'),
             'maxLength' => null,
             'options' => '',
             'multilingual' => false,

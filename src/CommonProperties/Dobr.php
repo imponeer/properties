@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
-use Imponeer\Properties\ConfigOption;
-use Imponeer\Properties\DataType;
+use Imponeer\Properties\Helper\ServiceHelper;
 use Imponeer\Properties\Types\IntegerType;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Do br field type
@@ -42,14 +43,14 @@ class Dobr implements CommonPropertyInterface
 
     /**
      * @inheritDoc
+	 *
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
      */
     public function getOtherConfig(): ?array
     {
-        if (!defined('_CM_DOAUTOWRAP')) {
-            icms_loadLanguageFile('core', 'comment');
-        }
         return [
-            'form_caption' => _CM_DOAUTOWRAP,
+            'form_caption' => ServiceHelper::getTranslator()->trans('_CM_DOAUTOWRAP', [], 'comment'),
             'maxLength' => null,
             'options' => '',
             'multilingual' => false,

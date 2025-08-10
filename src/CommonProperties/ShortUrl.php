@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
-use Imponeer\Properties\ConfigOption;
-use Imponeer\Properties\DataType;
+use Imponeer\Properties\Helper\ServiceHelper;
 use Imponeer\Properties\Types\StringType;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Short URL field type
@@ -40,17 +41,19 @@ class ShortUrl implements CommonPropertyInterface
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getOtherConfig(): ?array
+
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
+	public function getOtherConfig(): ?array
     {
         return [
-            'form_caption' => _CO_ICMS_SHORT_URL,
+            'form_caption' => ServiceHelper::getTranslator()->trans('_CO_ICMS_SHORT_URL', [], 'common'),
             'maxLength' => 255,
             'options' => '',
             'multilingual' => false,
-            'form_desc' => _CO_ICMS_SHORT_URL_DSC,
+            'form_desc' => ServiceHelper::getTranslator()->trans('_CO_ICMS_SHORT_URL_DSC', [], 'common'),
             'sortby' => false,
             'persistent' => true
         ];

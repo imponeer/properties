@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
-use Imponeer\Properties\ConfigOption;
-use Imponeer\Properties\DataType;
+use Imponeer\Properties\Helper\ServiceHelper;
 use Imponeer\Properties\Types\StringType;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Meta description field type
@@ -40,17 +41,18 @@ class MetaDescription implements CommonPropertyInterface
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getOtherConfig(): ?array
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
+	public function getOtherConfig(): ?array
     {
         return [
-            'form_caption' => _CO_ICMS_META_DESCRIPTION,
+            'form_caption' => ServiceHelper::getTranslator()->trans('_CO_ICMS_META_DESCRIPTION', [], 'common'),
             'maxLength' => 160,
             'options' => '',
             'multilingual' => false,
-            'form_desc' => _CO_ICMS_META_DESCRIPTION_DSC,
+            'form_desc' => ServiceHelper::getTranslator()->trans('_CO_ICMS_META_DESCRIPTION_DSC', [], 'common'),
             'sortby' => false,
             'persistent' => true
         ];
