@@ -319,6 +319,7 @@ class FileType extends AbstractType
 	 * @throws ImageWidthTooBigException
 	 * @throws FileTooBigException
 	 * @throws GuzzleException
+	 * @throws ImageHeightTooBigException
 	 */
     protected function uploadFileFromUrl(string $url)
     {
@@ -333,7 +334,7 @@ class FileType extends AbstractType
             [
                 'save_to' => $fp,
                 'on_headers' => function (ResponseInterface $response) use ($url, &$content_is_ok, &$mimetype) {
-                    $this->checkFileSize($url, $response->getHeaderLine('Content-Length'));
+                    $this->checkFileSize($url, (int) $response->getHeaderLine('Content-Length'));
                     if (!empty($this->allowedMimeTypes)) {
                         $content_type = $response->getHeader('Content-Type');
                         if (isset($content_type[0]) && in_array($content_type[0], $this->allowedMimeTypes, true)) {

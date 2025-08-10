@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
-use Imponeer\Properties\ConfigOption;
-use Imponeer\Properties\DataType;
+use Imponeer\Properties\Helper\ServiceHelper;
 use Imponeer\Properties\Types\IntegerType;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Weight field type
@@ -40,13 +41,15 @@ class Weight implements CommonPropertyInterface
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getOtherConfig(): ?array
+
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
+	public function getOtherConfig(): ?array
     {
         return [
-            'form_caption' => _CO_ICMS_WEIGHT_FORM_CAPTION,
+            'form_caption' => ServiceHelper::getTranslator()->trans('_CO_ICMS_WEIGHT_FORM_CAPTION', [], 'common'),
             'maxLength' => null,
             'options' => '',
             'multilingual' => false,

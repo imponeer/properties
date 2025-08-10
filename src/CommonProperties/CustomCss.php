@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
-use Imponeer\Properties\ConfigOption;
-use Imponeer\Properties\DataType;
+use Imponeer\Properties\Helper\ServiceHelper;
 use Imponeer\Properties\Types\StringType;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Custom CSS field type
@@ -40,17 +41,20 @@ class CustomCss implements CommonPropertyInterface
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
+	/**
+	 * @inheritDoc
+	 *
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
     public function getOtherConfig(): ?array
     {
         return [
-            'form_caption' => _CO_ICMS_CUSTOM_CSS,
+            'form_caption' => ServiceHelper::getTranslator()->trans('_CO_ICMS_CUSTOM_CSS', [], 'common'),
             'maxLength' => null,
             'options' => '',
             'multilingual' => false,
-            'form_desc' => _CO_ICMS_CUSTOM_CSS_DSC,
+            'form_desc' => ServiceHelper::getTranslator()->trans('_CO_ICMS_CUSTOM_CSS_DSC', [], 'common'),
             'sortby' => false,
             'persistent' => true
         ];
