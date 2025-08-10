@@ -4,31 +4,10 @@ declare(strict_types=1);
 
 namespace Imponeer\Properties;
 
-use Imponeer\Properties\DeprecatedTypes\CurrencyType;
-use Imponeer\Properties\DeprecatedTypes\EmailType;
-use Imponeer\Properties\DeprecatedTypes\FileType;
-use Imponeer\Properties\DeprecatedTypes\FormSectionCloseType;
-use Imponeer\Properties\DeprecatedTypes\FormSectionType;
-use Imponeer\Properties\DeprecatedTypes\ImageType;
-use Imponeer\Properties\DeprecatedTypes\MtimeType;
-use Imponeer\Properties\DeprecatedTypes\SourceType;
-use Imponeer\Properties\DeprecatedTypes\StimeType;
-use Imponeer\Properties\DeprecatedTypes\TimeOnlyType;
-use Imponeer\Properties\DeprecatedTypes\TxtboxType;
-use Imponeer\Properties\DeprecatedTypes\UrllinkType;
-use Imponeer\Properties\DeprecatedTypes\UrlType;
 use Imponeer\Properties\Enum\DataType;
+use Imponeer\Properties\Enum\Format;
 use Imponeer\Properties\Exceptions\SpecifiedDataTypeNotFoundException;
 use Imponeer\Properties\Exceptions\UndefinedVariableException;
-use Imponeer\Properties\Types\ArrayType;
-use Imponeer\Properties\Types\BooleanType;
-use Imponeer\Properties\Types\DateTimeType;
-use Imponeer\Properties\Types\FloatType;
-use Imponeer\Properties\Types\IntegerType;
-use Imponeer\Properties\Types\ListType;
-use Imponeer\Properties\Types\ObjectType;
-use Imponeer\Properties\Types\OtherType;
-use Imponeer\Properties\Types\StringType;
 use JetBrains\PhpStorm\Deprecated;
 
 /**
@@ -212,15 +191,17 @@ trait PropertiesSupport
         return $ret;
     }
 
-    /**
-     * Returns the values of the specified variables
-     *
-     * @param mixed $keys An array containing the names of the keys to retrieve, or null to get all of them
-     * @param string $format Format to use (see getVar)
-     * @param int $maxDepth Maximum level of recursion to use if some vars are objects themselves
-     * @return array associative array of key->value pairs
-     */
-    public function getValues(mixed $keys = null, string $format = 's', int $maxDepth = 1): array
+	/**
+	 * Returns the values of the specified variables
+	 *
+	 * @param mixed $keys An array containing the names of the keys to retrieve, or null to get all of them
+	 * @param string|Format $format Format to use (see getVar)
+	 * @param int $maxDepth Maximum level of recursion to use if some vars are objects themselves
+	 * @return array associative array of key->value pairs
+	 *
+	 * @throws UndefinedVariableException
+	 */
+    public function getValues(mixed $keys = null, string|Format $format = Format::SHOW, int $maxDepth = 1): array
     {
         if (!isset($keys)) {
             $keys = array_keys($this->vars);
@@ -240,37 +221,28 @@ trait PropertiesSupport
         return $vars;
     }
 
-    /**
-     * Returns a specific variable for the object in a proper format
-     *
-     * @access public
-     * @param string $name key of the object's variable to be returned
-     * @param string $format format to use for the output
-     * @return mixed formatted value of the variable
-     */
-    public function getVar(string $name, string $format = 's'): mixed
+	/**
+	 * Returns a specific variable for the object in a proper format
+	 *
+	 * @access public
+	 * @param string $name key of the object's variable to be returned
+	 * @param string|Format $format format to use for the output
+	 * @return mixed formatted value of the variable
+	 *
+	 * @throws UndefinedVariableException
+	 */
+    public function getVar(string $name, string|Format $format = Format::SHOW): mixed
     {
-        switch (strtolower($format)) {
-            case 's':
-            case 'show':
-            case 'p':
-            case 'preview':
-                $ret = $this->getVarForDisplay($name);
-                break;
-            case 'e':
-            case 'edit':
-                $ret = $this->getVarForEdit($name);
-                break;
-            case 'f':
-            case 'formpreview':
-                $ret = $this->getVarForForm($name);
-                break;
-            case 'n':
-            case 'none':
-            default:
-                $ret = $this->__get($name);
-        }
-        return $ret;
+		if (!($format instanceof Format)) {
+			$format = Format::fromString($format);
+		}
+
+		return match ($format) {
+			Format::SHOW, Format::PREVIEW => $this->getVarForDisplay($name),
+			Format::EDIT => $this->getVarForEdit($name),
+			Format::FORM_PREVIEW => $this->getVarForForm($name),
+			default => $this->__get($name),
+		};
     }
 
     /**
