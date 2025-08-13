@@ -40,20 +40,6 @@ abstract class AbstractType
     public bool $not_loaded = false;
 
     /**
-     * Default value
-     *
-     * @var mixed
-     */
-    public mixed $defaultValue = null;
-
-    /**
-     * Is required?
-     *
-     * @var bool
-     */
-    public bool $required = false;
-
-    /**
      * Data handler (used for linking data with database)
      *
      * @var string|null
@@ -76,10 +62,6 @@ abstract class AbstractType
 
     /**
      * Parent
-     *
-     * @var object|null
-     */
-    protected object|null $parent = null;
 
     /**
      * Constructor.
@@ -90,9 +72,10 @@ abstract class AbstractType
      * @param null|array $otherCfg Other config data
      */
     public function __construct(
-		&$parent,
-		mixed $defaultValue = null,
-		bool $required = false,
+		protected object $parent,
+		protected readonly string $name,
+		protected mixed $defaultValue = null,
+		protected bool $required = false,
 		null|array $otherCfg = null
 	) {
         $this->parent = &$parent;
@@ -107,7 +90,6 @@ abstract class AbstractType
             }
         }
         $this->defaultValue = $this->clean($defaultValue);
-        $this->required = $required;
         $this->value = $defaultValue;
     }
 
@@ -121,23 +103,42 @@ abstract class AbstractType
     /**
      * Set var from request
      *
-     * @param mixed $key Key to read
+     * @param array<string|int>|string $key Key to read
      *
      * @throws PropertyIsLockedException
      * @throws ValueIsNotInPossibleValuesListException
      */
-    public function setFromRequest(array|string $key)
-    {
+    public function setFromRequest(array|string $key): void
+	{
+		$parsedBody = PropertiesSettings::getRequest()->getParsedBody() ?? [];
+
+		$requestValues = [
+			...PropertiesSettings::getRequest()->getQueryParams(),
+			...(array)$parsedBody
+		];
+
         if (is_array($key)) {
-            $value = &$_REQUEST;
-            foreach ($key as $k) {
-                $value = &$value[$k];
-            }
-            $this->set($value);
+			$value = $this->resolveArrayPath($requestValues, $key);
         } else {
-            $this->set($_REQUEST[$key]);
+			$value = $requestValues[$key];
         }
-    }
+
+		$this->set($value);
+	}
+
+	protected function resolveArrayPath(array $data, array $path): mixed
+	{
+		$value = $data;
+		foreach ($path as $k) {
+			if (!is_array($value) || !array_key_exists($k, $value)) {
+				$value = null;
+				break;
+			}
+			$value = $value[$k];
+		}
+
+		return $value;
+	}
 
     /**
      * Set value
@@ -150,10 +151,10 @@ abstract class AbstractType
     public function set($value)
     {
         if ($this->locked) {
-            throw new PropertyIsLockedException();
+            throw new PropertyIsLockedException($this->name);
         }
         if (!empty($this->possibleOptions) && !in_array($value, $this->possibleOptions, true)) {
-            throw new ValueIsNotInPossibleValuesListException();
+            throw new ValueIsNotInPossibleValuesListException($this->name);
         }
 
         $clean = $this->clean($value);

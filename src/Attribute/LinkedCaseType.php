@@ -13,8 +13,6 @@ use Imponeer\Properties\AbstractType;
 #[Attribute(Attribute::TARGET_CLASS_CONSTANT)]
 class LinkedCaseType
 {
-class LinkedCaseType
-{
     /**
      * @param class-string<AbstractType> $class
      */

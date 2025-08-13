@@ -11,9 +11,8 @@ use Imponeer\Properties\Exceptions\FileTooBigException;
 use Imponeer\Properties\Exceptions\ImageHeightTooBigException;
 use Imponeer\Properties\Exceptions\ImageWidthTooBigException;
 use Imponeer\Properties\Exceptions\MimeTypeIsNotAllowedException;
-use Imponeer\Properties\Exceptions\PropertyIsLockedException;
-use Imponeer\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
 use Imponeer\Properties\Helper\HtmlSanitizerHelper;
+use Imponeer\Properties\PropertiesSettings;
 use Intervention\Image\ImageManager;
 use Psr\Http\Message\ResponseInterface;
 
@@ -85,20 +84,24 @@ class FileType extends AbstractType
         'http_errors' => true
     ];
 
-    /**
-     * @inheritDoc
-     */
-    public function __construct(&$parent, $defaultValue, $required, $otherCfg)
-    {
-        if (!isset($otherCfg['prefix'])) {
-            $parts = explode('//', str_replace(['icms_ipf_', 'mod_'], '', get_class($parent)));
-            $otherCfg['prefix'] = $parts[count($parts) - 1];
-            unset($parts);
-        }
-        if (!isset($otherCfg['path']) && defined('ICMS_UPLOAD_PATH')) {
-            $otherCfg['path'] = ICMS_UPLOAD_PATH;
-        }
-        parent::__construct($parent, $defaultValue, $required, $otherCfg);
+	public function __construct(
+		object $parent,
+		string $name,
+		mixed $defaultValue = null,
+		bool $required = false,
+		?array $otherCfg = null
+	)
+	{
+		if (!isset($otherCfg['prefix'])) {
+			$parts = explode('//', str_replace(['icms_ipf_', 'mod_'], '', get_class($parent)));
+			$otherCfg['prefix'] = $parts[count($parts) - 1];
+			unset($parts);
+		}
+		if (!isset($otherCfg['path']) && defined('ICMS_UPLOAD_PATH')) {
+			$otherCfg['path'] = ICMS_UPLOAD_PATH;
+		}
+
+		parent::__construct($parent, $name, $defaultValue, $required, $otherCfg);
     }
 
     /**
@@ -136,24 +139,19 @@ class FileType extends AbstractType
     }
 
 	/**
-	 * Set var from request
-	 *
-	 * @param mixed $key Key to read
-	 *
-	 * @throws PropertyIsLockedException
-	 * @throws ValueIsNotInPossibleValuesListException
+	 * @inheritDoc
 	 */
-    public function setFromRequest(string|array $key)
+    public function setFromRequest(string|array $key): void
     {
-        if (is_array($key)) {
-            $value = &$_FILES;
-            foreach ($key as $k) {
-                $value = &$value[$k];
-            }
-            $this->set($value);
-        } else {
-            $this->set($_FILES[$key]);
-        }
+		$files = PropertiesSettings::getRequest()->getUploadedFiles();
+
+		if (is_array($key)) {
+			$value = $this->resolveArrayPath($files, $key);
+		} else {
+			$value = $files[$key];
+		}
+
+		$this->set($value);
     }
 
 	/**
