@@ -8,6 +8,7 @@ use Imponeer\Properties\Enum\DataType;
 use Imponeer\Properties\Enum\Format;
 use Imponeer\Properties\Exceptions\SpecifiedDataTypeNotFoundException;
 use Imponeer\Properties\Exceptions\UndefinedVariableException;
+use Imponeer\Properties\Helper\ServiceHelper;
 use JetBrains\PhpStorm\Deprecated;
 
 /**
@@ -80,15 +81,17 @@ trait PropertiesSupport
         $this->hideFieldFromSingleView($varname);
     }
 
-    /**
-     * Initialize var (property) for the object
-     *
-     * @param string $key Var name
-     * @param DataType|int|string $dataType Var data type (use DType enum or legacy constants DTYPE_* for specifying it!)
-     * @param mixed $defaultValue Default value
-     * @param bool $required Is Required?
-     * @param array|null $otherCfg /null $otherCfg  If there is, an assoc array with other configuration for var
-     */
+	/**
+	 * Initialize var (property) for the object
+	 *
+	 * @param string $key Var name
+	 * @param DataType|int|string $dataType Var data type (use DType enum or legacy constants DTYPE_* for specifying it!)
+	 * @param mixed $defaultValue Default value
+	 * @param bool $required Is Required?
+	 * @param array|null $otherCfg /null $otherCfg  If there is, an assoc array with other configuration for var
+	 *
+	 * @throws SpecifiedDataTypeNotFoundException
+	 */
     protected function initVar(
 		string              $key,
 		DataType|int|string $dataType,
@@ -299,7 +302,6 @@ trait PropertiesSupport
                     return $this->vars[$name]->get();
                 }
 
-				trigger_error('Use $this->getVars() of $this->' . $name . ' instead!', E_USER_DEPRECATED);
 				return $this->vars;
 			case 'cleanVars':
                 return $this->cleanVars();
@@ -440,7 +442,10 @@ trait PropertiesSupport
         }
 
         if (!isset($this->vars[$key])) {
-            trigger_error('Variable ' . get_class($this) . '::$' . $key . ' not found', E_USER_WARNING);
+			ServiceHelper::getLogger()?->warning(
+				sprintf("Variable %s::\$%s not found", get_class($this), $key)
+			);
+
             return;
         }
 

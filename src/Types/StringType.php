@@ -7,6 +7,7 @@ namespace Imponeer\Properties\Types;
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
 use Imponeer\Properties\Helper\HtmlSanitizerHelper;
+use Imponeer\Properties\Helper\ServiceHelper;
 use JsonException;
 use stdClass;
 
@@ -80,8 +81,13 @@ class StringType extends AbstractType
             }
         }
         if (($this->maxLength > 0) && (mb_strlen($value) > $this->maxLength)) {
-            trigger_error('Value was shortered', E_USER_WARNING);
+			$originalValue = $value;
             $value = mb_substr($value, 0, $this->maxLength);
+
+			ServiceHelper::getLogger()?->warning('Value was shortened', [
+				'original' => $originalValue,
+				'shortened' => $value
+			]);
         }
         return $value;
     }
