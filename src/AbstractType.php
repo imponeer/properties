@@ -120,7 +120,7 @@ abstract class AbstractType
         if (is_array($key)) {
 			$value = $this->resolveArrayPath($requestValues, $key);
         } else {
-			$value = $requestValues[$key];
+			$value = $requestValues[$key] ?? null;
         }
 
 		$this->set($value);

@@ -148,7 +148,7 @@ class FileType extends AbstractType
 		if (is_array($key)) {
 			$value = $this->resolveArrayPath($files, $key);
 		} else {
-			$value = $files[$key];
+			$value = $files[$key] ?? null;
 		}
 
 		$this->set($value);
