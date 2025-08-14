@@ -111,7 +111,13 @@ trait PropertiesSupport
             $class = $dataType;
         }
 
-        $this->vars[$key] = new $class($this, $defaultValue, $required, $otherCfg);
+        $this->vars[$key] = new $class(
+			$this,
+			$key,
+			$defaultValue,
+			$required,
+			$otherCfg
+		);
     }
 
     /**
