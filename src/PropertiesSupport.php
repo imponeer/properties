@@ -91,7 +91,7 @@ trait PropertiesSupport
 	/**
 	 * @param string|string[] $field
 	 */
-	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
 	public function hideFieldFromSingleView(string|array $field): void
 	{
 		$this->setVarInfo($field, 'displayOnSingleView', false);
@@ -100,7 +100,7 @@ trait PropertiesSupport
 	/**
 	 * @param string|string[] $field
 	 */
-	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
 	public function makeFieldReadOnly(string|array $field): void {
 		$this->setVarInfo($field, 'readonly', true);
 		$this->setVarInfo($field, 'displayOnForm', true);
@@ -109,7 +109,7 @@ trait PropertiesSupport
 	/**
 	 * @param string|string[] $field
 	 */
-	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
 	public function hideFieldFromForm(array|string $field): void
 	{
 		$this->setVarInfo($field, 'displayOnForm', false);
@@ -118,7 +118,7 @@ trait PropertiesSupport
 	/**
 	 * @param string|string[] $field
 	 */
-	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
 	public function setFieldAsRequired(array|string $field, $required = true): void
 	{
 		$this->setVarInfo($field, 'required', $required);
@@ -127,7 +127,7 @@ trait PropertiesSupport
 	/**
 	 * @param string|string[] $field
 	 */
-	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
 	public function setFieldForSorting(array|string $field): void
 	{
 		$this->setVarInfo($field, 'sortby', true);
@@ -136,7 +136,7 @@ trait PropertiesSupport
 	/**
 	 * @param string|string[] $field
 	 */
-	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
 	public function showFieldOnForm(array|string $field): void {
 		$this->setVarInfo($field, 'displayOnForm', true);
 	}
@@ -144,7 +144,7 @@ trait PropertiesSupport
 	/**
 	 * @param string|string[] $field
 	 */
-	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
 	public function setAdvancedFormFields(array|string $field): void
 	{
 		$this->setVarInfo($field, 'advancedform', true);
@@ -546,7 +546,7 @@ trait PropertiesSupport
      * @param string $key Var name
      * @param bool $is_required Is required?
      */
-	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
     public function doSetFieldAsRequired(string $key, bool $is_required = true): void
     {
         $this->setVarInfo($key, 'required', $is_required);
@@ -557,7 +557,7 @@ trait PropertiesSupport
      *
      * @return array
      */
-	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->toArray()')]
+	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->toArray()')]
     public function cleanVars(): array
     {
         return $this->toArray();
