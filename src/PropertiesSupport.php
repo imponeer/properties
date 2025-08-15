@@ -6,8 +6,10 @@ namespace Imponeer\Properties;
 
 use Imponeer\Properties\Enum\DataType;
 use Imponeer\Properties\Enum\Format;
+use Imponeer\Properties\Exceptions\PropertyIsLockedException;
 use Imponeer\Properties\Exceptions\SpecifiedDataTypeNotFoundException;
 use Imponeer\Properties\Exceptions\UndefinedVariableException;
+use Imponeer\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
 use Imponeer\Properties\Helper\ServiceHelper;
 use JetBrains\PhpStorm\Deprecated;
 
@@ -23,7 +25,7 @@ trait PropertiesSupport
     /**
      * Vars configuration
      *
-     * @var AbstractType[string]
+     * @var array<string, AbstractType>
      */
     protected array $vars = [];
 
@@ -34,11 +36,14 @@ trait PropertiesSupport
      */
     protected int $changed = 0;
 
-    /**
-     * Assigns values from array to vars
-     *
-     * @param array $values Assoc arary with keys and values to assign
-     */
+	/**
+	 * Assigns values from array to vars
+	 *
+	 * @param array $values Assoc array with keys and values to assign
+	 *
+	 * @throws PropertyIsLockedException
+	 * @throws ValueIsNotInPossibleValuesListException
+	 */
     public function assignVars(array $values): void
     {
         foreach ($this->vars as $key => $var) {
@@ -47,13 +52,15 @@ trait PropertiesSupport
         }
     }
 
-    /**
-     * Inits common var
-     *
-     * @param    string $varname Var name
-     * @param    bool $displayOnForm Display on form
-     * @param    string $default Default value
-     */
+	/**
+	 * Inits common var
+	 *
+	 * @param string $varname Var name
+	 * @param bool $displayOnForm Display on form
+	 * @param string $default Default value
+	 *
+	 * @throws SpecifiedDataTypeNotFoundException
+	 */
 	#[Deprecated(reason: '$this->initCommonVar() will be removed in the future!', replacement: '$this->initVar()')]
     public function initCommonVar(string $varname, bool $displayOnForm = true, string $default = 'notdefined'): void
     {
@@ -78,8 +85,70 @@ trait PropertiesSupport
         if (method_exists($this, 'setControl') && ($control = $instance->getControl())) {
             $this->setControl($varname, $control);
         }
-        $this->hideFieldFromSingleView($varname);
+		$this->setVarInfo($varname, 'displayOnSingleView', false);
     }
+
+	/**
+	 * @param string|string[] $field
+	 */
+	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	public function hideFieldFromSingleView(string|array $field): void
+	{
+		$this->setVarInfo($field, 'displayOnSingleView', false);
+	}
+
+	/**
+	 * @param string|string[] $field
+	 */
+	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	public function makeFieldReadOnly(string|array $field): void {
+		$this->setVarInfo($field, 'readonly', true);
+		$this->setVarInfo($field, 'displayOnForm', true);
+	}
+
+	/**
+	 * @param string|string[] $field
+	 */
+	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	public function hideFieldFromForm(array|string $field): void
+	{
+		$this->setVarInfo($field, 'displayOnForm', false);
+	}
+
+	/**
+	 * @param string|string[] $field
+	 */
+	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	public function setFieldAsRequired(array|string $field, $required = true): void
+	{
+		$this->setVarInfo($field, 'required', $required);
+	}
+
+	/**
+	 * @param string|string[] $field
+	 */
+	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	public function setFieldForSorting(array|string $field): void
+	{
+		$this->setVarInfo($field, 'sortby', true);
+	}
+
+	/**
+	 * @param string|string[] $field
+	 */
+	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	public function showFieldOnForm(array|string $field): void {
+		$this->setVarInfo($field, 'displayOnForm', true);
+	}
+
+	/**
+	 * @param string|string[] $field
+	 */
+	#[Deprecated(reason: 'This shortcut will ber removed', replacement: '$this->setVarInfo()')]
+	public function setAdvancedFormFields(array|string $field): void
+	{
+		$this->setVarInfo($field, 'advancedform', true);
+	}
 
 	/**
 	 * Initialize var (property) for the object
