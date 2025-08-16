@@ -6,8 +6,8 @@ namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
-use Imponeer\Properties\Helper\HtmlSanitizerHelper;
-use Imponeer\Properties\Helper\ServiceHelper;
+use Imponeer\Properties\Internal\Facades\Logger;
+use Imponeer\Properties\Internal\Helper\HtmlSanitizerHelper;
 use JsonException;
 use stdClass;
 
@@ -84,7 +84,7 @@ class StringType extends AbstractType
 			$originalValue = $value;
             $value = mb_substr($value, 0, $this->maxLength);
 
-			ServiceHelper::getLogger()?->warning('Value was shortened', [
+			Logger::warning('Value was shortened', [
 				'original' => $originalValue,
 				'shortened' => $value
 			]);

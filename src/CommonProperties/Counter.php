@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
-use Imponeer\Properties\Helper\ServiceHelper;
+use Imponeer\Properties\Internal\Facades\Translator;
 use Imponeer\Properties\Types\IntegerType;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class Counter implements CommonPropertyInterface
 {
@@ -27,14 +25,10 @@ class Counter implements CommonPropertyInterface
         return false;
     }
 
-	/**
-	 * @throws ContainerExceptionInterface
-	 * @throws NotFoundExceptionInterface
-	 */
 	public function getOtherConfig(): ?array
     {
         return [
-            'form_caption' => ServiceHelper::getTranslator()->trans('_CO_ICMS_COUNTER_FORM_CAPTION', [], 'common'),
+            'form_caption' => Translator::trans('_CO_ICMS_COUNTER_FORM_CAPTION', [], 'common'),
             'maxLength' => null,
             'options' => '',
             'multilingual' => false,

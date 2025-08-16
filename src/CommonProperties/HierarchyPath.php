@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
-use Imponeer\Properties\Helper\ServiceHelper;
+use Imponeer\Properties\Internal\Facades\Translator;
 use Imponeer\Properties\Types\ArrayType;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Hierarchy path field type
@@ -41,19 +39,14 @@ class HierarchyPath implements CommonPropertyInterface
         return false;
     }
 
-
-	/**
-	 * @throws ContainerExceptionInterface
-	 * @throws NotFoundExceptionInterface
-	 */
 	public function getOtherConfig(): ?array
     {
         return [
-            'form_caption' => ServiceHelper::getTranslator()->trans('_CO_ICMS_HIERARCHY_PATH', [], 'common'),
+            'form_caption' => Translator::trans('_CO_ICMS_HIERARCHY_PATH', [], 'common'),
             'maxLength' => null,
             'options' => '',
             'multilingual' => false,
-            'form_desc' => ServiceHelper::getTranslator()->trans('_CO_ICMS_HIERARCHY_PATH_DSC', [], 'common'),
+            'form_desc' => Translator::trans('_CO_ICMS_HIERARCHY_PATH_DSC', [], 'common'),
             'sortby' => false,
             'persistent' => true
         ];

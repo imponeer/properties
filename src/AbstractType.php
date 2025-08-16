@@ -6,6 +6,7 @@ namespace Imponeer\Properties;
 
 use Imponeer\Properties\Exceptions\PropertyIsLockedException;
 use Imponeer\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
+use Imponeer\Properties\Internal\Facades\Request;
 use JetBrains\PhpStorm\Deprecated;
 use ReflectionClass;
 
@@ -110,10 +111,10 @@ abstract class AbstractType
      */
     public function setFromRequest(array|string $key): void
 	{
-		$parsedBody = PropertiesSettings::getRequest()->getParsedBody() ?? [];
+		$parsedBody = Request::getParsedBody() ?? [];
 
 		$requestValues = [
-			...PropertiesSettings::getRequest()->getQueryParams(),
+			...Request::getQueryParams(),
 			...(array)$parsedBody
 		];
 
