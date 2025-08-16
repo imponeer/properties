@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
-use Imponeer\Properties\Facades\Translator;
+use Imponeer\Properties\Internal\Facades\Translator;
 use Imponeer\Properties\Types\IntegerType;
 
 /**

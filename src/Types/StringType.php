@@ -6,8 +6,8 @@ namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
-use Imponeer\Properties\Facades\Logger;
-use Imponeer\Properties\Helper\HtmlSanitizerHelper;
+use Imponeer\Properties\Internal\Facades\Logger;
+use Imponeer\Properties\Internal\Helper\HtmlSanitizerHelper;
 use JsonException;
 use stdClass;
 

@@ -6,7 +6,7 @@ namespace Imponeer\Properties;
 
 use Imponeer\Properties\Exceptions\PropertyIsLockedException;
 use Imponeer\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
-use Imponeer\Properties\Facades\Request;
+use Imponeer\Properties\Internal\Facades\Request;
 use JetBrains\PhpStorm\Deprecated;
 use ReflectionClass;
 

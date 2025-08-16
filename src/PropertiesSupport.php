@@ -11,7 +11,7 @@ use Imponeer\Properties\Exceptions\PropertyIsLockedException;
 use Imponeer\Properties\Exceptions\SpecifiedDataTypeNotFoundException;
 use Imponeer\Properties\Exceptions\UndefinedVariableException;
 use Imponeer\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
-use Imponeer\Properties\Facades\Logger;
+use Imponeer\Properties\Internal\Facades\Logger;
 use Imponeer\Properties\Service\ServiceLocator;
 use JetBrains\PhpStorm\Deprecated;
 use Throwable;
