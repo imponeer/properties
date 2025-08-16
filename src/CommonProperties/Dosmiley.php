@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Imponeer\Properties\CommonProperties;
 
 use Imponeer\Properties\CommonPropertyInterface;
-use Imponeer\Properties\Helper\ServiceHelper;
+use Imponeer\Properties\Facades\Translator;
 use Imponeer\Properties\Types\IntegerType;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class Dosmiley implements CommonPropertyInterface
 {
@@ -27,14 +25,10 @@ class Dosmiley implements CommonPropertyInterface
         return false;
     }
 
-	/**
-	 * @throws ContainerExceptionInterface
-	 * @throws NotFoundExceptionInterface
-	 */
 	public function getOtherConfig(): ?array
     {
         return [
-            'form_caption' => ServiceHelper::getTranslator()->trans('_CM_DOSMILEY', [], 'comment'),
+            'form_caption' => Translator::trans('_CM_DOSMILEY', [], 'comment'),
             'maxLength' => null,
             'options' => '',
             'multilingual' => false,

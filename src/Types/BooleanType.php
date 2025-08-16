@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
+use Imponeer\Properties\Facades\Translator;
 use Imponeer\Properties\Helper\HtmlSanitizerHelper;
-use Imponeer\Properties\Helper\ServiceHelper;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class BooleanType extends AbstractType
 {
@@ -17,17 +15,13 @@ class BooleanType extends AbstractType
         return true;
     }
 
-	/**
-	 * @throws ContainerExceptionInterface
-	 * @throws NotFoundExceptionInterface
-	 */
 	public function getForDisplay(): string
     {
 		if ($this->value) {
-			return ServiceHelper::getTranslator()->trans('_YES', [], 'common');
+			return Translator::trans('_YES', [], 'common');
 		}
 
-		return ServiceHelper::getTranslator()->trans('_NO', [], 'common');
+		return Translator::trans('_NO', [], 'common');
 	}
 
     public function getForEdit(): string

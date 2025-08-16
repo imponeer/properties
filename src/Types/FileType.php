@@ -11,6 +11,7 @@ use Imponeer\Properties\Exceptions\FileTooBigException;
 use Imponeer\Properties\Exceptions\ImageHeightTooBigException;
 use Imponeer\Properties\Exceptions\ImageWidthTooBigException;
 use Imponeer\Properties\Exceptions\MimeTypeIsNotAllowedException;
+use Imponeer\Properties\Facades\Request;
 use Imponeer\Properties\Helper\HtmlSanitizerHelper;
 use Imponeer\Properties\PropertiesSettings;
 use Intervention\Image\ImageManager;
@@ -143,7 +144,7 @@ class FileType extends AbstractType
 	 */
     public function setFromRequest(string|array $key): void
     {
-		$files = PropertiesSettings::getRequest()->getUploadedFiles();
+		$files = Request::getUploadedFiles();
 
 		if (is_array($key)) {
 			$value = $this->resolveArrayPath($files, $key);

@@ -6,12 +6,15 @@ namespace Imponeer\Properties;
 
 use Imponeer\Properties\Enum\DataType;
 use Imponeer\Properties\Enum\Format;
+use Imponeer\Properties\Exceptions\CommonDataTypeNotFoundException;
 use Imponeer\Properties\Exceptions\PropertyIsLockedException;
 use Imponeer\Properties\Exceptions\SpecifiedDataTypeNotFoundException;
 use Imponeer\Properties\Exceptions\UndefinedVariableException;
 use Imponeer\Properties\Exceptions\ValueIsNotInPossibleValuesListException;
-use Imponeer\Properties\Helper\ServiceHelper;
+use Imponeer\Properties\Facades\Logger;
+use Imponeer\Properties\Service\ServiceLocator;
 use JetBrains\PhpStorm\Deprecated;
+use Throwable;
 
 /**
  * Contains methods for dealing with object properties
@@ -59,22 +62,22 @@ trait PropertiesSupport
 	 * @param bool $displayOnForm Display on form
 	 * @param string $default Default value
 	 *
+	 * @throws CommonDataTypeNotFoundException
 	 * @throws SpecifiedDataTypeNotFoundException
 	 */
 	#[Deprecated(reason: '$this->initCommonVar() will be removed in the future!', replacement: '$this->initVar()')]
     public function initCommonVar(string $varname, bool $displayOnForm = true, string $default = 'notdefined'): void
     {
-        $class = "\\Imponeer\\Properties\\CommonProperties\\" . implode(
-            '',
-            array_map(
-                'ucfirst',
-                array_map(
-                    'strtolower',
-                    explode('_', $varname)
-                )
-            )
-        );
-        $instance = new $class();
+		try {
+			if (class_exists($varname)) {
+				$instance = ServiceLocator::getInstance()->get($varname);
+			} else {
+				$instance = ServiceLocator::getInstance()->get('properties.common_type.' . strtolower($varname));
+			}
+		} catch (Throwable $e) {
+			throw new CommonDataTypeNotFoundException($varname);
+		}
+
         $this->initVar(
             $varname,
             $instance->getDataType(),
@@ -262,11 +265,7 @@ trait PropertiesSupport
      */
     public function getDefaultVars(): array
     {
-        $ret = [];
-        foreach ($this->vars as $key => $var) {
-            $ret[$key] = $var->defaultValue;
-        }
-        return $ret;
+		return array_map(static fn($var) => $var->defaultValue, $this->vars);
     }
 
 	/**
@@ -306,8 +305,6 @@ trait PropertiesSupport
 	 * @param string $name key of the object's variable to be returned
 	 * @param string|Format $format format to use for the output
 	 * @return mixed formatted value of the variable
-	 *
-	 * @throws UndefinedVariableException
 	 */
     public function getVar(string $name, string|Format $format = Format::SHOW): mixed
     {
@@ -319,42 +316,30 @@ trait PropertiesSupport
 			Format::SHOW, Format::PREVIEW => $this->getVarForDisplay($name),
 			Format::EDIT => $this->getVarForEdit($name),
 			Format::FORM_PREVIEW => $this->getVarForForm($name),
-			default => $this->__get($name),
+			default => $this->$name,
 		};
     }
 
     /**
      * Gets var value for displaying
-     *
-     * @param string $name
-     *
-     * @return mixed
      */
-    public function getVarForDisplay(string $name): mixed
+    public function getVarForDisplay(string $name): string
     {
         return $this->vars[$name]->getForDisplay();
     }
 
     /**
      * Gets var value for editing
-     *
-     * @param string $name
-     *
-     * @return mixed
      */
-    public function getVarForEdit(string $name): mixed
+    public function getVarForEdit(string $name): string
     {
         return $this->vars[$name]->getForEdit();
     }
 
     /**
      * Gets var value for form
-     *
-     * @param string $name
-     *
-     * @return mixed
      */
-    public function getVarForForm(string $name): mixed
+    public function getVarForForm(string $name): string
     {
         return $this->vars[$name]->getForForm();
     }
@@ -389,12 +374,15 @@ trait PropertiesSupport
 		}
     }
 
-    /**
-     * Magic function to work with properties as class variables (set them)
-     *
-     * @param string $name Var name
-     * @param mixed $value New value
-     */
+	/**
+	 * Magic function to work with properties as class variables (set them)
+	 *
+	 * @param string $name Var name
+	 * @param mixed $value New value
+	 *
+	 * @throws PropertyIsLockedException
+	 * @throws ValueIsNotInPossibleValuesListException
+	 */
     public function __set(string $name, mixed $value): void
     {
         $this->vars[$name]->set($value);
@@ -493,7 +481,8 @@ trait PropertiesSupport
                 }
             }
         }
-        $this->__set($name, $value);
+
+        $this->$name = $value;
     }
 
 	/**
@@ -517,7 +506,7 @@ trait PropertiesSupport
         }
 
         if (!isset($this->vars[$key])) {
-			ServiceHelper::getLogger()?->warning(
+			Logger::warning(
 				sprintf("Variable %s::\$%s not found", get_class($this), $key)
 			);
 

@@ -4,6 +4,9 @@ namespace Imponeer\Properties\Helper;
 
 use const Imponeer\Properties\_CHARSET;
 
+/**
+ * @internal
+ */
 class HtmlSanitizerHelper
 {
     /**
