@@ -1,6 +1,6 @@
 <?php
 
-namespace Imponeer\Properties\Facades;
+namespace Imponeer\Properties\Internal\Facades;
 
 use Imponeer\Properties\Service\ServiceLocator;
 use Symfony\Contracts\Translation\TranslatorInterface;

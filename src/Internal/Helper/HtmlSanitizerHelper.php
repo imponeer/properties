@@ -1,6 +1,6 @@
 <?php
 
-namespace Imponeer\Properties\Helper;
+namespace Imponeer\Properties\Internal\Helper;
 
 use const Imponeer\Properties\_CHARSET;
 
