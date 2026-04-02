@@ -6,7 +6,7 @@ namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Contracts\CensorStringInterface;
-use Imponeer\Properties\Contracts\TextSanitizerInterface;
+use Imponeer\Properties\Contracts\TextDisplayFilterInterface;
 use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
 use Imponeer\Properties\Internal\Facades\Logger;
 use Imponeer\Properties\Internal\Helper\HtmlSanitizerHelper;
@@ -46,9 +46,9 @@ class StringType extends AbstractType
         $br = (!isset($this->parent->dobr) || $this->parent->dobr) ? 1 : 0;
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        $ts = ServiceLocator::getInstance()->get(TextSanitizerInterface::class);
-        assert($ts instanceof TextSanitizerInterface);
-        return $ts->displayTarea($this->value, $html, $smiley, $xcode, $image, $br);
+        $filter = ServiceLocator::getInstance()->get(TextDisplayFilterInterface::class);
+        assert($filter instanceof TextDisplayFilterInterface);
+        return $filter($this->value, $html, $smiley, $xcode, $image, $br);
     }
 
     public function getForEdit(): string

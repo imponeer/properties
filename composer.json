@@ -38,8 +38,7 @@
 			"Imponeer\\Properties\\": "src/"
 		},
 		"files": [
-			"src/old-constants.php",
-			"src/legacy-stubs.php"
+			"src/old-constants.php"
 		]
 	},
 	"autoload-dev": {
