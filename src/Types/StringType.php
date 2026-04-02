@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
+use Imponeer\Properties\Contracts\CensorStringInterface;
 use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
 use Imponeer\Properties\Internal\Facades\Logger;
 use Imponeer\Properties\Internal\Helper\HtmlSanitizerHelper;
+use Imponeer\Properties\Service\ServiceLocator;
 use JsonException;
 use stdClass;
 
@@ -85,7 +87,10 @@ class StringType extends AbstractType
             }
 
             if (empty($this->sourceFormating)) {
-                $value = \icms_core_DataFilter::censorString($value);
+                /** @noinspection PhpUnhandledExceptionInspection */
+                $censor = ServiceLocator::getInstance()->get(CensorStringInterface::class);
+                assert($censor instanceof CensorStringInterface);
+                $value = $censor($value);
             }
         }
         if (($this->maxLength > 0) && (mb_strlen($value) > $this->maxLength)) {
