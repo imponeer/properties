@@ -8,6 +8,7 @@
 
     <!-- Exclude patterns -->
     <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>src/legacy-stubs.php</exclude-pattern>
 
     <!-- Include PSR-12 coding standard -->
     <rule ref="PSR12"/>
