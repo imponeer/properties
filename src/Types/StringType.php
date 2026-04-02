@@ -6,6 +6,7 @@ namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Contracts\CensorStringInterface;
+use Imponeer\Properties\Contracts\TextSanitizerInterface;
 use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
 use Imponeer\Properties\Internal\Facades\Logger;
 use Imponeer\Properties\Internal\Helper\HtmlSanitizerHelper;
@@ -44,7 +45,9 @@ class StringType extends AbstractType
         $image = (!isset($this->parent->doimage) || $this->parent->doimage) ? 1 : 0;
         $br = (!isset($this->parent->dobr) || $this->parent->dobr) ? 1 : 0;
 
-        $ts = \icms_core_Textsanitizer::getInstance();
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $ts = ServiceLocator::getInstance()->get(TextSanitizerInterface::class);
+        assert($ts instanceof TextSanitizerInterface);
         return $ts->displayTarea($this->value, $html, $smiley, $xcode, $image, $br);
     }
 
