@@ -10,12 +10,12 @@ use Imponeer\Properties\Contracts\TextDisplayFilterInterface;
  * Default implementation of text display filter
  *
  * Provides basic text filtering with HTML escaping and line break conversion.
- * Users can configure their own implementation (e.g., ImpressCMS sanitizer)
- * by registering it with the ServiceLocator.
+ * Users can extend this class for partial functionality or configure their own
+ * implementation (e.g., ImpressCMS sanitizer) by registering it with the ServiceLocator.
  *
  * @internal
  */
-final class DefaultTextDisplayFilter implements TextDisplayFilterInterface
+class DefaultTextDisplayFilter implements TextDisplayFilterInterface
 {
     public function __invoke(
         string $text,
