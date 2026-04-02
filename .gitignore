@@ -8,3 +8,5 @@ vendor/
 !composer.lock
 /.phpunit.result.cache
 phpstan.phar
+Wikipedia-logo-v2.svg
+data*.gif
