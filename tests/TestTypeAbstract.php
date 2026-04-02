@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Imponeer\Properties\Tests;
 
-use Imponeer\Properties\PropertiesSupport;
+use Imponeer\Properties\Tests\Fixtures\PropertiesSupportStub;
 use PHPUnit\Framework\TestCase;
 
 abstract class TestTypeAbstract extends TestCase
@@ -19,9 +19,9 @@ abstract class TestTypeAbstract extends TestCase
     /**
      * Current mock
      *
-     * @var PropertiesSupport
+     * @var PropertiesSupportStub
      */
-    protected PropertiesSupport $mock;
+    protected PropertiesSupportStub $mock;
 
     /**
      * SetsUp
@@ -39,10 +39,7 @@ abstract class TestTypeAbstract extends TestCase
      */
     private function createQuickMock(): void
     {
-        $this->mock = $this->getMockBuilder(PropertiesSupport::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods([])
-            ->getMock();
+        $this->mock = new PropertiesSupportStub();
         $reflection_method = new \ReflectionMethod($this->mock, 'initVar');
         $reflection_method->setAccessible(true);
         $reflection_method->invoke(

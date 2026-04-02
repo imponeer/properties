@@ -216,7 +216,7 @@ class PropertiesSupport implements PropertiesInterface
      */
     public function assignVar(string $key, mixed &$value): void
     {
-        $this->vars[$key]->value = $value;
+        $this->vars[$key]->set($value);
     }
 
     /**
@@ -254,7 +254,7 @@ class PropertiesSupport implements PropertiesInterface
     {
         $names = array();
         foreach ($this->vars as $key => $var) {
-            if ($var->required && ($var->isDefined() === false)) {
+            if ($var->isRequired() && ($var->isDefined() === false)) {
                 $names[] = $key;
             }
         }
@@ -268,7 +268,7 @@ class PropertiesSupport implements PropertiesInterface
      */
     public function getDefaultVars(): array
     {
-        return array_map(static fn($var) => $var->defaultValue, $this->vars);
+        return array_map(static fn($var) => $var->getDefaultValue(), $this->vars);
     }
 
     /**
@@ -289,13 +289,15 @@ class PropertiesSupport implements PropertiesInterface
         $vars = [];
         foreach ($keys as $key) {
             if (isset($this->vars[$key])) {
-                if (is_object($this->vars[$key]->value) && ($this->vars[$key]->value instanceof PropertiesSupport)) {
-                    if ($maxDepth) {
-                        $vars[$key] = $this->vars[$key]->getValues(null, $format, $maxDepth - 1);
-                    }
-                } else {
-                    $vars[$key] = $this->getVar($key, $format);
+                $currentValue = $this->vars[$key]->get();
+                if (is_object($currentValue) && method_exists($currentValue, 'getValues') && $maxDepth > 0) {
+                    /** @var callable $getter */
+                    $getter = [$currentValue, 'getValues'];
+                    $vars[$key] = $getter(null, $format, $maxDepth - 1);
+                    continue;
                 }
+
+                $vars[$key] = $this->getVar($key, $format);
             }
         }
         return $vars;
@@ -404,11 +406,8 @@ class PropertiesSupport implements PropertiesInterface
                 continue;
             }
 
-            if (is_object($this->vars[$name]->value)) {
-                $ret[$name] = serialize($this->vars[$name]->value);
-            } else {
-                $ret[$name] = $this->vars[$name]->value;
-            }
+            $value = $this->vars[$name]->get();
+            $ret[$name] = is_object($value) ? serialize($value) : $value;
         }
         return $ret;
     }
@@ -438,7 +437,7 @@ class PropertiesSupport implements PropertiesInterface
             throw new UndefinedVariableException($key);
         }
 
-        return $this->vars[$key]->$info ?? $default;
+        return $this->vars[$key]->getInfo($info, $default);
     }
 
     /**
@@ -516,7 +515,7 @@ class PropertiesSupport implements PropertiesInterface
             return;
         }
 
-        $this->vars[$key][$info] = $value;
+        $this->vars[$key]->setInfo($info, $value);
         if ($info === 'changed') {
             $this->changed += $value ? 1 : -1;
         }

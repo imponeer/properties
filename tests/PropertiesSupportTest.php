@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Imponeer\Properties\Tests;
 
 use Imponeer\Properties\PropertiesInterface;
-use Imponeer\Properties\PropertiesSupport;
+use Imponeer\Properties\Tests\Fixtures\PropertiesSupportStub;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 
@@ -15,14 +15,11 @@ use ReflectionMethod;
  */
 class PropertiesSupportTest extends TestCase
 {
-    protected PropertiesSupport $mock;
+    protected PropertiesSupportStub $mock;
 
     protected function setUp(): void
     {
-        $this->mock = $this->getMockBuilder(PropertiesSupport::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods([])
-            ->getMock();
+        $this->mock = new PropertiesSupportStub();
         parent::setUp();
     }
 
