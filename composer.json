@@ -55,6 +55,9 @@
 	"config": {
 		"optimize-autoloader": true,
 		"sort-packages": true,
-		"preferred-install": "source"
+		"preferred-install": "source",
+		"platform": {
+			"php": "8.3.0"
+		}
 	}
 }
