@@ -275,7 +275,7 @@ class FileType extends AbstractType
         $intervention = new ImageManager(
             extension_loaded('imagick') ? new \Intervention\Image\Drivers\Imagick\Driver() : new GdDriver()
         );
-        $image = $intervention->read($file);
+        $image = $intervention->decodePath($file);
         if ($this->maxWidth < $image->width()) {
             throw new ImageWidthTooBigException();
         }
