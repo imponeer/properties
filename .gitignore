@@ -5,5 +5,6 @@
 *.bak
 vendor/
 *.lock
+!composer.lock
 /.phpunit.result.cache
 phpstan.phar

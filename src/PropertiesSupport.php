@@ -23,7 +23,7 @@ use Throwable;
  * @license     MIT https://opensource.org/licenses/MIT
  * @author      mekdrop@impresscms.org
  */
-trait PropertiesSupport
+class PropertiesSupport implements PropertiesInterface
 {
     /**
      * Vars configuration
@@ -311,7 +311,7 @@ trait PropertiesSupport
      * @param string|Format $format format to use for the output
      * @return mixed formatted value of the variable
      */
-    public function getVar(string $name, string|Format $format = Format::SHOW): mixed
+    public function getVar(string $name, string|Format $format = Format::RAW): mixed
     {
         if (!($format instanceof Format)) {
             $format = Format::fromString($format);

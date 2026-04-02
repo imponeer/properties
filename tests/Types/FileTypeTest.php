@@ -41,7 +41,7 @@ class FileTypeTest extends TestTypeAbstract
     {
         return [
             'path' => sys_get_temp_dir(),
-            'prefix' => crc32(microtime(true))
+            'prefix' => crc32((string)microtime(true))
         ];
     }
 }
