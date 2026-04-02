@@ -5,7 +5,6 @@
 *.bak
 vendor/
 *.lock
-!composer.lock
 /.phpunit.result.cache
 phpstan.phar
 Wikipedia-logo-v2.svg
