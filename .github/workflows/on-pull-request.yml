@@ -6,7 +6,19 @@ on:
       - main
 
 jobs:
+  php-versions:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.php-versions.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Determine supported PHP versions
+        id: php-versions
+        uses: antfroger/php-version-action@v1
+
   tests:
+    needs: php-versions
     runs-on: ${{ matrix.operating-system }}
     strategy:
       max-parallel: 3
@@ -15,9 +27,7 @@ jobs:
           - ubuntu-latest
           #- windows-latest # Todo: make it work also for windows
           #- macOS-latest # Todo: make it work also for macos
-        php-versions:
-          - 8.3
-          - 8.4
+        php-versions: ${{ fromJson(needs.php-versions.outputs.matrix) }}
     name: PHP ${{ matrix.php-versions }} test on ${{ matrix.operating-system }}
     steps:
       - name: Checkout
