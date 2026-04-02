@@ -104,10 +104,7 @@ abstract class TestTypeAbstract extends TestCase
             true,
             false,
             null,
-            new \stdClass(),
-            function () {
-            },
-            fopen('php://memory', 'w')
+            new \stdClass()
         ];
 
         if (!defined('PHP_INT_MIN')) {

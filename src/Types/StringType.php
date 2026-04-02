@@ -64,9 +64,17 @@ class StringType extends AbstractType
     {
         if (!is_string($value)) {
             if (is_array($value)) {
-                $value = json_encode($value, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+                try {
+                    $value = json_encode($value, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+                } catch (JsonException) {
+                    $value = (string)print_r($value, true);
+                }
             } elseif ($value instanceof stdClass) {
-                $value = json_encode((array)$value, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+                try {
+                    $value = json_encode((array)$value, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+                } catch (JsonException) {
+                    $value = (string)print_r((array)$value, true);
+                }
             } else {
                 $value = (string)$value;
             }

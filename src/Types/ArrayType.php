@@ -15,6 +15,17 @@ use JsonException;
  */
 class ArrayType extends AbstractType
 {
+    public function __construct(
+        object $parent,
+        string $name,
+        mixed $defaultValue = null,
+        bool $required = false,
+        ?array $otherCfg = null
+    ) {
+        parent::__construct($parent, $name, $defaultValue, $required, $otherCfg);
+        $this->value = $this->defaultValue;
+    }
+
     /**
      * @inheritDoc
      */
@@ -56,15 +67,14 @@ class ArrayType extends AbstractType
      */
     protected function clean(mixed $value): array
     {
-        if (((array) $value) === $value) {
+        if (is_array($value)) {
             return $value;
         }
-        if (empty($value) && !is_numeric($value)) {
-            return [];
-        }
+
         if (is_string($value)) {
             return $this->unserializeValue($value);
         }
+
         return (array) $value;
     }
 
@@ -79,6 +89,10 @@ class ArrayType extends AbstractType
      */
     protected function unserializeValue(string $value): array|null
     {
+        if ($value === '') {
+            return [];
+        }
+
         if ($value[0] === '{' || $value[0] === '[') {
             return (array)json_decode($value, true, 512, JSON_THROW_ON_ERROR);
         }
