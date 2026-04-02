@@ -8,6 +8,18 @@
 
 use Imponeer\Properties\Enum\DataType;
 
+if (!defined('_CHARSET')) {
+    define('_CHARSET', 'UTF-8');
+}
+
+if (!defined('_SHORTDATESTRING')) {
+    define('_SHORTDATESTRING', 'Y/n/j');
+}
+
+if (!defined('_MEDIUMDATESTRING')) {
+    define('_MEDIUMDATESTRING', 'Y/n/j G:i');
+}
+
 const XOBJ_DTYPE_TXTBOX = DataType::DEP_TXTBOX->value;
 const XOBJ_DTYPE_TXTAREA = DataType::STRING->value;
 const XOBJ_DTYPE_STRING = DataType::STRING->value;

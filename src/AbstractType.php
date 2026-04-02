@@ -195,6 +195,11 @@ abstract class AbstractType
      */
     abstract public function isDefined(): bool;
 
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
+
     /**
      * Return for display
      */
@@ -218,5 +223,22 @@ abstract class AbstractType
     public function get()
     {
         return $this->value;
+    }
+
+    public function getDefaultValue(): mixed
+    {
+        return $this->defaultValue;
+    }
+
+    public function getInfo(string $info, mixed $default = null): mixed
+    {
+        return property_exists($this, $info) ? $this->$info : $default;
+    }
+
+    public function setInfo(string $info, mixed $value): void
+    {
+        if (property_exists($this, $info)) {
+            $this->$info = $value;
+        }
     }
 }

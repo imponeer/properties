@@ -42,7 +42,7 @@ class StringType extends AbstractType
         $image = (!isset($this->parent->doimage) || $this->parent->doimage) ? 1 : 0;
         $br = (!isset($this->parent->dobr) || $this->parent->dobr) ? 1 : 0;
 
-        $ts = icms_core_Textsanitizer::getInstance();
+        $ts = \icms_core_Textsanitizer::getInstance();
         return $ts->displayTarea($this->value, $html, $smiley, $xcode, $image, $br);
     }
 
@@ -77,7 +77,7 @@ class StringType extends AbstractType
             }
 
             if (empty($this->sourceFormating)) {
-                $value = icms_core_DataFilter::censorString($value);
+                $value = \icms_core_DataFilter::censorString($value);
             }
         }
         if (($this->maxLength > 0) && (mb_strlen($value) > $this->maxLength)) {
