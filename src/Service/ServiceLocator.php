@@ -6,7 +6,9 @@ namespace Imponeer\Properties\Service;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use Imponeer\Properties\CommonProperties;
+use Imponeer\Properties\Contracts\CensorStringInterface;
 use Imponeer\Properties\Exceptions\ServiceNotFoundException;
+use Imponeer\Properties\Internal\DefaultCensorString;
 use MetaSyntactical\Log\InMemoryLogger\InMemoryLogger;
 use Psr\Container\ContainerInterface;
 use Psr\Container\ContainerInterface as PsrContainerInterface;
@@ -36,6 +38,7 @@ class ServiceLocator implements PsrContainerInterface
         'properties.common_type.short_url' => CommonProperties\ShortUrl::class,
         'properties.common_type.weight' => CommonProperties\Weight::class,
         // for interfaces
+        CensorStringInterface::class => DefaultCensorString::class,
         LoggerInterface::class => InMemoryLogger::class,
         TranslatorInterface::class => static fn (): TranslatorInterface => new Translator('en'),
         ServerRequestInterface::class => [ServerRequest::class, 'fromGlobals'],

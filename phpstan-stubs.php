@@ -23,11 +23,3 @@ class icms_core_Textsanitizer
         return $text;
     }
 }
-
-class icms_core_DataFilter
-{
-    public static function censorString(string $text): string
-    {
-        return $text;
-    }
-}

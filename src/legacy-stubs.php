@@ -22,13 +22,3 @@ if (!class_exists('icms_core_Textsanitizer')) {
         }
     }
 }
-
-if (!class_exists('icms_core_DataFilter')) {
-    class icms_core_DataFilter
-    {
-        public static function censorString(string $text): string
-        {
-            return $text;
-        }
-    }
-}

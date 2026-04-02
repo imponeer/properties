@@ -6,6 +6,7 @@ namespace Imponeer\Properties\Types;
 
 use Imponeer\Properties\AbstractType;
 use Imponeer\Properties\Exceptions\ValidationRuleNotPassedException;
+use Imponeer\Properties\Internal\Facades\CensorString;
 use Imponeer\Properties\Internal\Facades\Logger;
 use Imponeer\Properties\Internal\Helper\HtmlSanitizerHelper;
 use JsonException;
@@ -85,7 +86,7 @@ class StringType extends AbstractType
             }
 
             if (empty($this->sourceFormating)) {
-                $value = \icms_core_DataFilter::censorString($value);
+                $value = CensorString::censorString($value);
             }
         }
         if (($this->maxLength > 0) && (mb_strlen($value) > $this->maxLength)) {
