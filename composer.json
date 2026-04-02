@@ -49,7 +49,7 @@
 	},
 	"scripts": {
 		"test": "phpunit",
-		"phpstan": "php phpstan.phar analyse -c phpstan.neon.dist",
+		"phpstan": "vendor/bin/phpstan analyse -c phpstan.neon.dist",
 		"phpcs": "phpcs",
 		"phpcbf": "phpcbf"
 	},
