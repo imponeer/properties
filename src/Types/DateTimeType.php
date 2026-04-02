@@ -34,7 +34,7 @@ class DateTimeType extends AbstractType
      */
     public function getForDisplay(): string
     {
-        return date($this->format ?? 'r', $this->value);
+        return date($this->format, $this->value);
     }
 
     /**

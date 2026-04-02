@@ -122,15 +122,12 @@ enum DataType: int
         $result = [];
         $refl = new ReflectionEnum(self::class);
         foreach ($refl->getCases() as $case) {
-            assert($case instanceof ReflectionEnumBackedCase);
-
             $attributes = $case->getAttributes(LinkedCaseType::class);
             if (empty($attributes)) {
                 continue;
             }
 
             $attrInstance = $attributes[0]->newInstance();
-            assert($attrInstance instanceof LinkedCaseType);
             $result[$case->getBackingValue()] = $attrInstance->class;
         }
 

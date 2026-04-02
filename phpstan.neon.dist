@@ -1,0 +1,16 @@
+parameters:
+	level: 5
+	paths:
+		- src
+	bootstrapFiles:
+		- vendor/autoload.php
+	stubFiles:
+		- phpstan-stubs.php
+	ignoreErrors:
+		-
+			message: '#Trait Imponeer\\Properties\\PropertiesSupport is used zero times and is not analysed#'
+			path: src/PropertiesSupport.php
+		-
+			message: '#Trait Imponeer\\Properties\\SerializableTrait is used zero times and is not analysed#'
+			path: src/SerializableTrait.php
+	reportUnmatchedIgnoredErrors: false

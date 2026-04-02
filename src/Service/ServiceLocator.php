@@ -15,8 +15,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Translation\Translator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-use const GuzzleHttp\Psr7\ServerRequest;
-
 /**
  * @internal
  */
@@ -39,11 +37,8 @@ class ServiceLocator implements PsrContainerInterface
         'properties.common_type.weight' => CommonProperties\Weight::class,
         // for interfaces
         LoggerInterface::class => InMemoryLogger::class,
-        TranslatorInterface::class => Translator::class,
-        ServerRequestInterface::class => [
-            ServerRequest::class,
-            'fromGlobals',
-        ],
+        TranslatorInterface::class => static fn (): TranslatorInterface => new Translator('en'),
+        ServerRequestInterface::class => [ServerRequest::class, 'fromGlobals'],
     ];
 
     /**
@@ -80,11 +75,14 @@ class ServiceLocator implements PsrContainerInterface
         }
 
         if (isset(self::SERVICES[$id])) {
-            if (is_array(self::SERVICES[$id])) {
-                [$class, $method] = self::SERVICES[$id][0];
+            $service = self::SERVICES[$id];
+            if (is_array($service)) {
+                [$class, $method] = $service;
                 $instances[$id] = $class::$method();
+            } elseif (is_callable($service)) {
+                $instances[$id] = $service();
             } else {
-                $instances[$id] = new (self::SERVICES[$id])();
+                $instances[$id] = new ($service)();
             }
 
             return $instances[$id];

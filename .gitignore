@@ -6,3 +6,4 @@
 vendor/
 *.lock
 /.phpunit.result.cache
+phpstan.phar
