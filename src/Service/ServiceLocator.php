@@ -37,9 +37,9 @@ class ServiceLocator implements PsrContainerInterface
     /**
      * Set the container instance
      *
-     * @param ContainerInterface $container The PSR-11 container instance
+     * @param ContainerInterface|null $container The PSR-11 container instance, or null to reset
      */
-    public static function setContainer(ContainerInterface $container): void
+    public static function setContainer(?ContainerInterface $container): void
     {
         self::$container = $container;
     }
