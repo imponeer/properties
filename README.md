@@ -1,8 +1,8 @@
-[![License](https://img.shields.io/github/license/imponeer/properties.svg?maxAge=2592000)](LICENSE.md) [![GitHub release](https://img.shields.io/github/release/imponeer/properties.svg?maxAge=2592000)](https://github.com/imponeer/properties/releases) [![Build Status](https://travis-ci.org/imponeer/properties.svg?branch=master)](https://travis-ci.org/imponeer/properties) [![Packagist](https://img.shields.io/packagist/dm/imponeer/properties.svg)](https://packagist.org/packages/imponeer/properties) [![Maintainability](https://api.codeclimate.com/v1/badges/0555227870650dcaa3f2/maintainability)](https://codeclimate.com/github/imponeer/properties/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/0555227870650dcaa3f2/test_coverage)](https://codeclimate.com/github/imponeer/properties/test_coverage)
+[![License](https://img.shields.io/github/license/imponeer/properties.svg?maxAge=2592000)](LICENSE.md) [![GitHub release](https://img.shields.io/github/release/imponeer/properties.svg?maxAge=2592000)](https://github.com/imponeer/properties/releases) [![Tests](https://github.com/imponeer/properties/actions/workflows/on-pull-request.yml/badge.svg?branch=main)](https://github.com/imponeer/properties/actions/workflows/on-pull-request.yml) [![Packagist](https://img.shields.io/packagist/dm/imponeer/properties.svg)](https://packagist.org/packages/imponeer/properties)
 
 # Properties
 
-PHP library for handling strict type class variables. This package can be used only for adding functionality for other classes.
+PHP library that lets you define strict, validated class variables (with change tracking and serialization helpers) in one place and reuse them across your own domain classes.
 
 ## Installation
 
@@ -10,52 +10,35 @@ PHP library for handling strict type class variables. This package can be used o
 
 ## Usage
 
-To add some custom properties support to a class first you need to extend that class. Here is example how to do it:
-```php5
-use Imponeer\Properties;
+Quick start:
+1. Extend `Imponeer\Properties\PropertiesSupport` (or implement `PropertiesInterface` yourself).
+2. Define each property in the constructor with `initVar()` using a `DataType` enum (or the legacy `DTYPE_*` constants available on `PropertiesInterface`).
+3. Use the generated magic accessors or helper methods like `toArray()`/`assignVars()` as you would with normal public properties.
 
-class Base extends Properties {
+```php
+use DateTimeImmutable;
+use Imponeer\Properties\Enum\DataType;
+use Imponeer\Properties\PropertiesSupport;
 
+final class Article extends PropertiesSupport
+{
+    public function __construct()
+    {
+        $this->initVar('id', DataType::INTEGER, null, true);
+        $this->initVar('title', DataType::STRING, 'Untitled', true, ['maxlength' => 150]);
+        $this->initVar('published_at', DataType::DATETIME, null, false);
+    }
 }
-```
-Next thing what you need is to define variables in class constructor. Here an example how to do:
-```php5
-use Imponeer\Properties;
 
-class Base extends Properties {
+$article = new Article();
+$article->title = 'Hello world';
+$article->published_at = new DateTimeImmutable();
 
-  public function __construct() {
-    $this->initVar('varA', self::DTYPE_INTEGER, null, false);
-    $this->initVar('varB', self::DTYPE_STRING, null, true, 150);
-    $this->initVar('varC', self::DTYPE_INTEGER, 100, false);
-  }
-}
-```
-Than is possible to use such vars. This would work for previous example in such way:
-```php5
-
-// Creates instance
-$obj = new Base();
-
-// Print current objects vars
-var_dump($obj->toArray());
-
-// Modify vars with some integer values and prints
-$obj->varA = 57;
-$obj->varB = 58;
-$obj->varC = 59;
-var_dump($obj->toArray());
-
-// Modify vars with some string values and prints
-$obj->varA = "A";
-$obj->varB = "B";
-$obj->varC = "C";
-var_dump($obj->toArray());
-
+var_dump($article->toArray()); // Strictly typed values, ready to persist or render
 ```
 
 ## How to contribute?
 
-If you want to add some functionality or fix bugs, you can fork, change and create pull request. If you not sure how this works, try[interactive GitHub tutorial](https://skills.github.com).
+If you want to add some functionality or fix bugs, you can fork, change and create pull request. If you are new to Git or GitHub, start with the [GitHub Skills “Introduction to GitHub” course](https://skills.github.com/).
 
 If you found any bug or have some questions, use [issues tab](https://github.com/imponeer/properties/issues) and write there your questions.
