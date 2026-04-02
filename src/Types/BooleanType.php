@@ -15,14 +15,14 @@ class BooleanType extends AbstractType
         return true;
     }
 
-	public function getForDisplay(): string
+    public function getForDisplay(): string
     {
-		if ($this->value) {
-			return Translator::trans('_YES', [], 'common');
-		}
+        if ($this->value) {
+            return Translator::trans('_YES', [], 'common');
+        }
 
-		return Translator::trans('_NO', [], 'common');
-	}
+        return Translator::trans('_NO', [], 'common');
+    }
 
     public function getForEdit(): string
     {
@@ -40,15 +40,15 @@ class BooleanType extends AbstractType
             return $value;
         }
         if (!is_string($value)) {
-			if (is_object($value)) {
-				return true;
-			}
+            if (is_object($value)) {
+                return true;
+            }
 
-			if (is_null($value)) {
-				return false;
-			}
+            if (is_null($value)) {
+                return false;
+            }
 
-			return (bool)(int)$value;
+            return (bool)(int)$value;
         }
 
         $value = strtolower($value);

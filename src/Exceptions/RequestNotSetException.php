@@ -13,15 +13,15 @@ use Throwable;
  */
 class RequestNotSetException extends RuntimeException
 {
-
     public function __construct(
         int $code = 0,
         ?Throwable $previous = null
     ) {
         parent::__construct(
-			'No PSR-7 request has been set. Call setRequest() or ensure a ServerRequestInterface is available in the container.',
-			$code,
-			$previous
-		);
+            'No PSR-7 request has been set. Call setRequest() or ensure a '
+            . 'ServerRequestInterface is available in the container.',
+            $code,
+            $previous
+        );
     }
 }

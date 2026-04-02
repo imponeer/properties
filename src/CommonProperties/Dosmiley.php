@@ -25,7 +25,7 @@ class Dosmiley implements CommonPropertyInterface
         return false;
     }
 
-	public function getOtherConfig(): ?array
+    public function getOtherConfig(): ?array
     {
         return [
             'form_caption' => Translator::trans('_CM_DOSMILEY', [], 'comment'),

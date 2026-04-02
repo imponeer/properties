@@ -25,7 +25,7 @@ class Counter implements CommonPropertyInterface
         return false;
     }
 
-	public function getOtherConfig(): ?array
+    public function getOtherConfig(): ?array
     {
         return [
             'form_caption' => Translator::trans('_CO_ICMS_COUNTER_FORM_CAPTION', [], 'common'),

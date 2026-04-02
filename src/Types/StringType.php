@@ -81,13 +81,13 @@ class StringType extends AbstractType
             }
         }
         if (($this->maxLength > 0) && (mb_strlen($value) > $this->maxLength)) {
-			$originalValue = $value;
+            $originalValue = $value;
             $value = mb_substr($value, 0, $this->maxLength);
 
-			Logger::warning('Value was shortened', [
-				'original' => $originalValue,
-				'shortened' => $value
-			]);
+            Logger::warning('Value was shortened', [
+                'original' => $originalValue,
+                'shortened' => $value
+            ]);
         }
         return $value;
     }

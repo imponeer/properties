@@ -73,20 +73,20 @@ abstract class AbstractType
      * @param null|array $otherCfg Other config data
      */
     public function __construct(
-		protected object $parent,
-		protected readonly string $name,
-		protected mixed $defaultValue = null,
-		protected bool $required = false,
-		null|array $otherCfg = null
-	) {
+        protected object $parent,
+        protected readonly string $name,
+        protected mixed $defaultValue = null,
+        protected bool $required = false,
+        null|array $otherCfg = null
+    ) {
         $this->parent = &$parent;
         if ($otherCfg !== null) {
             foreach ($otherCfg as $key => $value) {
                 if (isset($this->$key)) {
-					$this->$key = match ($key) {
-						'possibleOptions' => is_array($value) ? $value : explode('|', $value),
-						default => $value,
-					};
+                    $this->$key = match ($key) {
+                        'possibleOptions' => is_array($value) ? $value : explode('|', $value),
+                        default => $value,
+                    };
                 }
             }
         }
@@ -110,36 +110,36 @@ abstract class AbstractType
      * @throws ValueIsNotInPossibleValuesListException
      */
     public function setFromRequest(array|string $key): void
-	{
-		$parsedBody = Request::getParsedBody() ?? [];
+    {
+        $parsedBody = Request::getParsedBody() ?? [];
 
-		$requestValues = [
-			...Request::getQueryParams(),
-			...(array)$parsedBody
-		];
+        $requestValues = [
+            ...Request::getQueryParams(),
+            ...(array)$parsedBody
+        ];
 
         if (is_array($key)) {
-			$value = $this->resolveArrayPath($requestValues, $key);
+            $value = $this->resolveArrayPath($requestValues, $key);
         } else {
-			$value = $requestValues[$key] ?? null;
+            $value = $requestValues[$key] ?? null;
         }
 
-		$this->set($value);
-	}
+        $this->set($value);
+    }
 
-	protected function resolveArrayPath(array $data, array $path): mixed
-	{
-		$value = $data;
-		foreach ($path as $k) {
-			if (!is_array($value) || !array_key_exists($k, $value)) {
-				$value = null;
-				break;
-			}
-			$value = $value[$k];
-		}
+    protected function resolveArrayPath(array $data, array $path): mixed
+    {
+        $value = $data;
+        foreach ($path as $k) {
+            if (!is_array($value) || !array_key_exists($k, $value)) {
+                $value = null;
+                break;
+            }
+            $value = $value[$k];
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 
     /**
      * Set value
@@ -185,7 +185,7 @@ abstract class AbstractType
      * Reset value to default
      */
     public function reset(): void
-	{
+    {
         $this->value = $this->defaultValue;
         $this->changed = false;
     }
