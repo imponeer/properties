@@ -40,7 +40,7 @@ class Doxcode implements CommonPropertyInterface
     }
 
 
-	public function getOtherConfig(): ?array
+    public function getOtherConfig(): ?array
     {
         return [
             'form_caption' => Translator::trans('_CO_ICMS_DOXCODE_FORM_CAPTION', [], 'common'),

@@ -39,14 +39,14 @@ trait PropertiesSupport
      */
     protected int $changed = 0;
 
-	/**
-	 * Assigns values from array to vars
-	 *
-	 * @param array $values Assoc array with keys and values to assign
-	 *
-	 * @throws PropertyIsLockedException
-	 * @throws ValueIsNotInPossibleValuesListException
-	 */
+    /**
+     * Assigns values from array to vars
+     *
+     * @param array $values Assoc array with keys and values to assign
+     *
+     * @throws PropertyIsLockedException
+     * @throws ValueIsNotInPossibleValuesListException
+     */
     public function assignVars(array $values): void
     {
         foreach ($this->vars as $key => $var) {
@@ -55,28 +55,28 @@ trait PropertiesSupport
         }
     }
 
-	/**
-	 * Inits common var
-	 *
-	 * @param string $varname Var name
-	 * @param bool $displayOnForm Display on form
-	 * @param string $default Default value
-	 *
-	 * @throws CommonDataTypeNotFoundException
-	 * @throws SpecifiedDataTypeNotFoundException
-	 */
-	#[Deprecated(reason: '$this->initCommonVar() will be removed in the future!', replacement: '$this->initVar()')]
+    /**
+     * Inits common var
+     *
+     * @param string $varname Var name
+     * @param bool $displayOnForm Display on form
+     * @param string $default Default value
+     *
+     * @throws CommonDataTypeNotFoundException
+     * @throws SpecifiedDataTypeNotFoundException
+     */
+    #[Deprecated(reason: '$this->initCommonVar() will be removed in the future!', replacement: '$this->initVar()')]
     public function initCommonVar(string $varname, bool $displayOnForm = true, string $default = 'notdefined'): void
     {
-		try {
-			if (class_exists($varname)) {
-				$instance = ServiceLocator::getInstance()->get($varname);
-			} else {
-				$instance = ServiceLocator::getInstance()->get('properties.common_type.' . strtolower($varname));
-			}
-		} catch (Throwable $e) {
-			throw new CommonDataTypeNotFoundException($varname);
-		}
+        try {
+            if (class_exists($varname)) {
+                $instance = ServiceLocator::getInstance()->get($varname);
+            } else {
+                $instance = ServiceLocator::getInstance()->get('properties.common_type.' . strtolower($varname));
+            }
+        } catch (Throwable $e) {
+            throw new CommonDataTypeNotFoundException($varname);
+        }
 
         $this->initVar(
             $varname,
@@ -88,88 +88,91 @@ trait PropertiesSupport
         if (method_exists($this, 'setControl') && ($control = $instance->getControl())) {
             $this->setControl($varname, $control);
         }
-		$this->setVarInfo($varname, 'displayOnSingleView', false);
+        $this->setVarInfo($varname, 'displayOnSingleView', false);
     }
 
-	/**
-	 * @param string|string[] $field
-	 */
-	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
-	public function hideFieldFromSingleView(string|array $field): void
-	{
-		$this->setVarInfo($field, 'displayOnSingleView', false);
-	}
+    /**
+     * @param string|string[] $field
+     */
+    #[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
+    public function hideFieldFromSingleView(string|array $field): void
+    {
+        $this->setVarInfo($field, 'displayOnSingleView', false);
+    }
 
-	/**
-	 * @param string|string[] $field
-	 */
-	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
-	public function makeFieldReadOnly(string|array $field): void {
-		$this->setVarInfo($field, 'readonly', true);
-		$this->setVarInfo($field, 'displayOnForm', true);
-	}
+    /**
+     * @param string|string[] $field
+     */
+    #[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
+    public function makeFieldReadOnly(string|array $field): void
+    {
+        $this->setVarInfo($field, 'readonly', true);
+        $this->setVarInfo($field, 'displayOnForm', true);
+    }
 
-	/**
-	 * @param string|string[] $field
-	 */
-	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
-	public function hideFieldFromForm(array|string $field): void
-	{
-		$this->setVarInfo($field, 'displayOnForm', false);
-	}
+    /**
+     * @param string|string[] $field
+     */
+    #[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
+    public function hideFieldFromForm(array|string $field): void
+    {
+        $this->setVarInfo($field, 'displayOnForm', false);
+    }
 
-	/**
-	 * @param string|string[] $field
-	 */
-	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
-	public function setFieldAsRequired(array|string $field, $required = true): void
-	{
-		$this->setVarInfo($field, 'required', $required);
-	}
+    /**
+     * @param string|string[] $field
+     */
+    #[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
+    public function setFieldAsRequired(array|string $field, $required = true): void
+    {
+        $this->setVarInfo($field, 'required', $required);
+    }
 
-	/**
-	 * @param string|string[] $field
-	 */
-	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
-	public function setFieldForSorting(array|string $field): void
-	{
-		$this->setVarInfo($field, 'sortby', true);
-	}
+    /**
+     * @param string|string[] $field
+     */
+    #[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
+    public function setFieldForSorting(array|string $field): void
+    {
+        $this->setVarInfo($field, 'sortby', true);
+    }
 
-	/**
-	 * @param string|string[] $field
-	 */
-	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
-	public function showFieldOnForm(array|string $field): void {
-		$this->setVarInfo($field, 'displayOnForm', true);
-	}
+    /**
+     * @param string|string[] $field
+     */
+    #[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
+    public function showFieldOnForm(array|string $field): void
+    {
+        $this->setVarInfo($field, 'displayOnForm', true);
+    }
 
-	/**
-	 * @param string|string[] $field
-	 */
-	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
-	public function setAdvancedFormFields(array|string $field): void
-	{
-		$this->setVarInfo($field, 'advancedform', true);
-	}
+    /**
+     * @param string|string[] $field
+     */
+    #[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
+    public function setAdvancedFormFields(array|string $field): void
+    {
+        $this->setVarInfo($field, 'advancedform', true);
+    }
 
-	/**
-	 * Initialize var (property) for the object
-	 *
-	 * @param string $key Var name
-	 * @param DataType|int|string $dataType Var data type (use DType enum or legacy constants DTYPE_* for specifying it!)
-	 * @param mixed $defaultValue Default value
-	 * @param bool $required Is Required?
-	 * @param array|null $otherCfg /null $otherCfg  If there is, an assoc array with other configuration for var
-	 *
-	 * @throws SpecifiedDataTypeNotFoundException
-	 */
+    /**
+     * Initialize var (property) for the object
+     *
+     * @param string $key Var name
+     * @param DataType|int|string $dataType Var data type (use DType enum or legacy constants DTYPE_* for
+     *     specifying it!)
+     * @param mixed $defaultValue Default value
+     * @param bool $required Is Required?
+     * @param array|null $otherCfg /null $otherCfg  If there is, an assoc array with other configuration for var
+     *
+     * @throws SpecifiedDataTypeNotFoundException
+     */
     protected function initVar(
-		string              $key,
-		DataType|int|string $dataType,
-		mixed               $defaultValue = null,
-		bool                $required = false,
-		array|null          $otherCfg = null
+        string $key,
+        DataType|int|string $dataType,
+        mixed $defaultValue = null,
+        bool $required = false,
+        array|null $otherCfg = null
     ): void {
         if ($dataType instanceof DataType) {
             $class = $dataType->getTypeClass();
@@ -184,12 +187,12 @@ trait PropertiesSupport
         }
 
         $this->vars[$key] = new $class(
-			$this,
-			$key,
-			$defaultValue,
-			$required,
-			$otherCfg
-		);
+            $this,
+            $key,
+            $defaultValue,
+            $required,
+            $otherCfg
+        );
     }
 
     /**
@@ -265,19 +268,19 @@ trait PropertiesSupport
      */
     public function getDefaultVars(): array
     {
-		return array_map(static fn($var) => $var->defaultValue, $this->vars);
+        return array_map(static fn($var) => $var->defaultValue, $this->vars);
     }
 
-	/**
-	 * Returns the values of the specified variables
-	 *
-	 * @param mixed $keys An array containing the names of the keys to retrieve, or null to get all of them
-	 * @param string|Format $format Format to use (see getVar)
-	 * @param int $maxDepth Maximum level of recursion to use if some vars are objects themselves
-	 * @return array associative array of key->value pairs
-	 *
-	 * @throws UndefinedVariableException
-	 */
+    /**
+     * Returns the values of the specified variables
+     *
+     * @param mixed $keys An array containing the names of the keys to retrieve, or null to get all of them
+     * @param string|Format $format Format to use (see getVar)
+     * @param int $maxDepth Maximum level of recursion to use if some vars are objects themselves
+     * @return array associative array of key->value pairs
+     *
+     * @throws UndefinedVariableException
+     */
     public function getValues(mixed $keys = null, string|Format $format = Format::SHOW, int $maxDepth = 1): array
     {
         if (!isset($keys)) {
@@ -298,26 +301,26 @@ trait PropertiesSupport
         return $vars;
     }
 
-	/**
-	 * Returns a specific variable for the object in a proper format
-	 *
-	 * @access public
-	 * @param string $name key of the object's variable to be returned
-	 * @param string|Format $format format to use for the output
-	 * @return mixed formatted value of the variable
-	 */
+    /**
+     * Returns a specific variable for the object in a proper format
+     *
+     * @access public
+     * @param string $name key of the object's variable to be returned
+     * @param string|Format $format format to use for the output
+     * @return mixed formatted value of the variable
+     */
     public function getVar(string $name, string|Format $format = Format::SHOW): mixed
     {
-		if (!($format instanceof Format)) {
-			$format = Format::fromString($format);
-		}
+        if (!($format instanceof Format)) {
+            $format = Format::fromString($format);
+        }
 
-		return match ($format) {
-			Format::SHOW, Format::PREVIEW => $this->getVarForDisplay($name),
-			Format::EDIT => $this->getVarForEdit($name),
-			Format::FORM_PREVIEW => $this->getVarForForm($name),
-			default => $this->$name,
-		};
+        return match ($format) {
+            Format::SHOW, Format::PREVIEW => $this->getVarForDisplay($name),
+            Format::EDIT => $this->getVarForEdit($name),
+            Format::FORM_PREVIEW => $this->getVarForForm($name),
+            default => $this->$name,
+        };
     }
 
     /**
@@ -344,15 +347,15 @@ trait PropertiesSupport
         return $this->vars[$name]->getForForm();
     }
 
-	/**
-	 * Magic function to get property value by accessing it by name
-	 *
-	 * @param string $name
-	 *
-	 * @return mixed
-	 *
-	 * @throws UndefinedVariableException
-	 */
+    /**
+     * Magic function to get property value by accessing it by name
+     *
+     * @param string $name
+     *
+     * @return mixed
+     *
+     * @throws UndefinedVariableException
+     */
     public function __get(string $name): mixed
     {
         switch ($name) {
@@ -362,27 +365,27 @@ trait PropertiesSupport
                     return $this->vars[$name]->get();
                 }
 
-				return $this->vars;
-			case 'cleanVars':
+                return $this->vars;
+            case 'cleanVars':
                 return $this->cleanVars();
             default:
                 if (!isset($this->vars[$name])) {
-					throw new UndefinedVariableException($name);
+                    throw new UndefinedVariableException($name);
                 }
 
-				return $this->vars[$name]->get();
-		}
+                return $this->vars[$name]->get();
+        }
     }
 
-	/**
-	 * Magic function to work with properties as class variables (set them)
-	 *
-	 * @param string $name Var name
-	 * @param mixed $value New value
-	 *
-	 * @throws PropertyIsLockedException
-	 * @throws ValueIsNotInPossibleValuesListException
-	 */
+    /**
+     * Magic function to work with properties as class variables (set them)
+     *
+     * @param string $name Var name
+     * @param mixed $value New value
+     *
+     * @throws PropertyIsLockedException
+     * @throws ValueIsNotInPossibleValuesListException
+     */
     public function __set(string $name, mixed $value): void
     {
         $this->vars[$name]->set($value);
@@ -410,33 +413,33 @@ trait PropertiesSupport
         return $ret;
     }
 
-	/**
-	 * Returns array of vars or only one var (if name specified) with selected info field
-	 *
-	 * @param string|null $key Var name
-	 * @param string|null $info Var info to get
-	 * @param mixed $default Default response
-	 *
-	 * @return mixed
-	 *
-	 * @throws UndefinedVariableException
-	 */
+    /**
+     * Returns array of vars or only one var (if name specified) with selected info field
+     *
+     * @param string|null $key Var name
+     * @param string|null $info Var info to get
+     * @param mixed $default Default response
+     *
+     * @return mixed
+     *
+     * @throws UndefinedVariableException
+     */
     public function getVarInfo(?string $key = null, ?string $info = null, mixed $default = null): mixed
     {
-		if ($key === null) {
-			return $this->vars;
-		}
+        if ($key === null) {
+            return $this->vars;
+        }
 
-		if ($info === null) {
-			if (isset($this->vars[$key])) {
-				return $this->vars[$key];
-			}
+        if ($info === null) {
+            if (isset($this->vars[$key])) {
+                return $this->vars[$key];
+            }
 
-			throw new UndefinedVariableException($key);
-		}
+            throw new UndefinedVariableException($key);
+        }
 
-		return $this->vars[$key]->$info ?? $default;
-	}
+        return $this->vars[$key]->$info ?? $default;
+    }
 
     /**
      * returns all variables for the object
@@ -463,13 +466,13 @@ trait PropertiesSupport
         }
     }
 
-	/**
-	 * Sets var value
-	 *
-	 * @param string $name Var name
-	 * @param mixed $value New value
-	 * @param bool|array|null $options Options to apply when settings values
-	 */
+    /**
+     * Sets var value
+     *
+     * @param string $name Var name
+     * @param mixed $value New value
+     * @param bool|array|null $options Options to apply when settings values
+     */
     public function setVar(string $name, mixed $value, bool|array|null $options = null): void
     {
         if ($options !== null) {
@@ -485,13 +488,13 @@ trait PropertiesSupport
         $this->$name = $value;
     }
 
-	/**
-	 * Sets var info
-	 *
-	 * @param string|string[]|null $key Var name
-	 * @param string $info Var option
-	 * @param mixed $value Options value
-	 */
+    /**
+     * Sets var info
+     *
+     * @param string|string[]|null $key Var name
+     * @param string $info Var option
+     * @param mixed $value Options value
+     */
     public function setVarInfo(string|array|null $key, string $info, mixed $value): void
     {
         if ($key === null) {
@@ -506,17 +509,17 @@ trait PropertiesSupport
         }
 
         if (!isset($this->vars[$key])) {
-			Logger::warning(
-				sprintf("Variable %s::\$%s not found", get_class($this), $key)
-			);
+            Logger::warning(
+                sprintf("Variable %s::\$%s not found", get_class($this), $key)
+            );
 
             return;
         }
 
         $this->vars[$key][$info] = $value;
-		if ($info === 'changed') {
-			$this->changed += $value ? 1 : -1;
-		}
+        if ($info === 'changed') {
+            $this->changed += $value ? 1 : -1;
+        }
     }
 
     /**
@@ -535,7 +538,7 @@ trait PropertiesSupport
      * @param string $key Var name
      * @param bool $is_required Is required?
      */
-	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
+    #[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->setVarInfo()')]
     public function doSetFieldAsRequired(string $key, bool $is_required = true): void
     {
         $this->setVarInfo($key, 'required', $is_required);
@@ -546,7 +549,7 @@ trait PropertiesSupport
      *
      * @return array
      */
-	#[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->toArray()')]
+    #[Deprecated(reason: 'This shortcut will be removed', replacement: '$this->toArray()')]
     public function cleanVars(): array
     {
         return $this->toArray();

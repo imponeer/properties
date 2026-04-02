@@ -68,10 +68,10 @@ class ListType extends AbstractType
         if (is_string($value)) {
             return explode($this->separator, $value);
         }
-		if ($value instanceof Stringable) {
-			return explode($this->separator, (string)$value);
-		}
+        if ($value instanceof Stringable) {
+            return explode($this->separator, (string)$value);
+        }
 
-		return [$value];
-	}
+        return [$value];
+    }
 }

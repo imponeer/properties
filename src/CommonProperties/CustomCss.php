@@ -39,9 +39,9 @@ class CustomCss implements CommonPropertyInterface
         return false;
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getOtherConfig(): ?array
     {
         return [

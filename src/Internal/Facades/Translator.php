@@ -10,22 +10,25 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 final class Translator
 {
-	private function __construct()
-	{
-	}
+    private function __construct()
+    {
+    }
 
-	public static function trans(string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
-	{
-		return self::getTranslator()->trans($id, $parameters, $domain, $locale);
-	}
+    public static function trans(
+        string $id,
+        array $parameters = [],
+        ?string $domain = null,
+        ?string $locale = null
+    ): string {
+        return self::getTranslator()->trans($id, $parameters, $domain, $locale);
+    }
 
-	private static function getTranslator(): TranslatorInterface
-	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		$translator = ServiceLocator::getInstance()->get(TranslatorInterface::class);
-		assert($translator instanceof TranslatorInterface);
+    private static function getTranslator(): TranslatorInterface
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $translator = ServiceLocator::getInstance()->get(TranslatorInterface::class);
+        assert($translator instanceof TranslatorInterface);
 
-		return $translator;
-	}
-
+        return $translator;
+    }
 }

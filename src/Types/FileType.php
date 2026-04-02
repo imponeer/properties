@@ -85,31 +85,30 @@ class FileType extends AbstractType
         'http_errors' => true
     ];
 
-	public function __construct(
-		object $parent,
-		string $name,
-		mixed $defaultValue = null,
-		bool $required = false,
-		?array $otherCfg = null
-	)
-	{
-		if (!isset($otherCfg['prefix'])) {
-			$parts = explode('//', str_replace(['icms_ipf_', 'mod_'], '', get_class($parent)));
-			$otherCfg['prefix'] = $parts[count($parts) - 1];
-			unset($parts);
-		}
-		if (!isset($otherCfg['path']) && defined('ICMS_UPLOAD_PATH')) {
-			$otherCfg['path'] = ICMS_UPLOAD_PATH;
-		}
+    public function __construct(
+        object $parent,
+        string $name,
+        mixed $defaultValue = null,
+        bool $required = false,
+        ?array $otherCfg = null
+    ) {
+        if (!isset($otherCfg['prefix'])) {
+            $parts = explode('//', str_replace(['icms_ipf_', 'mod_'], '', get_class($parent)));
+            $otherCfg['prefix'] = $parts[count($parts) - 1];
+            unset($parts);
+        }
+        if (!isset($otherCfg['path']) && defined('ICMS_UPLOAD_PATH')) {
+            $otherCfg['path'] = ICMS_UPLOAD_PATH;
+        }
 
-		parent::__construct($parent, $name, $defaultValue, $required, $otherCfg);
+        parent::__construct($parent, $name, $defaultValue, $required, $otherCfg);
     }
 
     /**
      * @inheritDoc
      */
     public function isDefined(): bool
-	{
+    {
         return (isset($this->value['filename']) && !empty($this->value['filename']));
     }
 
@@ -117,53 +116,53 @@ class FileType extends AbstractType
      * @inheritDoc
      */
     public function getForDisplay(): string
-	{
+    {
         return HtmlSanitizerHelper::prepareForHtml(
-			$this->isDefined() ? $this->value['filename'] : null
-		);
+            $this->isDefined() ? $this->value['filename'] : null
+        );
     }
 
     /**
      * @inheritDoc
      */
     public function getForEdit(): string
-	{
-		return $this->getForDisplay();
+    {
+        return $this->getForDisplay();
     }
 
     /**
      * @inheritDoc
      */
     public function getForForm(): string
-	{
+    {
         return HtmlSanitizerHelper::prepareForHtml($this->value);
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function setFromRequest(string|array $key): void
     {
-		$files = Request::getUploadedFiles();
+        $files = Request::getUploadedFiles();
 
-		if (is_array($key)) {
-			$value = $this->resolveArrayPath($files, $key);
-		} else {
-			$value = $files[$key] ?? null;
-		}
+        if (is_array($key)) {
+            $value = $this->resolveArrayPath($files, $key);
+        } else {
+            $value = $files[$key] ?? null;
+        }
 
-		$this->set($value);
+        $this->set($value);
     }
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @throws FileTooBigException
-	 * @throws GuzzleException
-	 * @throws ImageHeightTooBigException
-	 * @throws ImageWidthTooBigException
-	 * @throws MimeTypeIsNotAllowedException
-	 */
+    /**
+     * @inheritDoc
+     *
+     * @throws FileTooBigException
+     * @throws GuzzleException
+     * @throws ImageHeightTooBigException
+     * @throws ImageWidthTooBigException
+     * @throws MimeTypeIsNotAllowedException
+     */
     protected function clean($value)
     {
         if (is_string($value)) {
@@ -209,17 +208,17 @@ class FileType extends AbstractType
         return str_starts_with($url, 'data:');
     }
 
-	/**
-	 * Upload from data URI
-	 *
-	 * @param string $url data:// url from where to upload content
-	 * @return array
-	 *
-	 * @throws FileTooBigException
-	 * @throws ImageHeightTooBigException
-	 * @throws ImageWidthTooBigException
-	 * @throws MimeTypeIsNotAllowedException
-	 */
+    /**
+     * Upload from data URI
+     *
+     * @param string $url data:// url from where to upload content
+     * @return array
+     *
+     * @throws FileTooBigException
+     * @throws ImageHeightTooBigException
+     * @throws ImageWidthTooBigException
+     * @throws MimeTypeIsNotAllowedException
+     */
     protected function uploadFromDataURI(string $url)
     {
         $fp = fopen($url, 'rb');
@@ -252,7 +251,7 @@ class FileType extends AbstractType
      * @throws FileTooBigException
      */
     private function checkFileSize(string $url, int $current_size): void
-	{
+    {
         if ($this->maxFileSize > 0 && $current_size > $this->maxFileSize) {
             throw new FileTooBigException($url, $this->maxFileSize, $current_size);
         }
@@ -305,21 +304,21 @@ class FileType extends AbstractType
             return $this->path . DIRECTORY_SEPARATOR . $gen_filename;
         }
 
-		return $gen_filename;
-	}
+        return $gen_filename;
+    }
 
-	/**
-	 * Upload file from URL
-	 *
-	 * @param string $url Uploads file from URL
-	 * @return mixed|string
-	 *
-	 * @throws MimeTypeIsNotAllowedException
-	 * @throws ImageWidthTooBigException
-	 * @throws FileTooBigException
-	 * @throws GuzzleException
-	 * @throws ImageHeightTooBigException
-	 */
+    /**
+     * Upload file from URL
+     *
+     * @param string $url Uploads file from URL
+     * @return mixed|string
+     *
+     * @throws MimeTypeIsNotAllowedException
+     * @throws ImageWidthTooBigException
+     * @throws FileTooBigException
+     * @throws GuzzleException
+     * @throws ImageHeightTooBigException
+     */
     protected function uploadFileFromUrl(string $url)
     {
         $tmp_file = tempnam(sys_get_temp_dir(), 'uploaded');

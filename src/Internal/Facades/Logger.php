@@ -10,17 +10,16 @@ use Psr\Log\LoggerInterface;
  */
 final class Logger
 {
-	private function __construct()
-	{
-	}
+    private function __construct()
+    {
+    }
 
-	public static function warning(string $message, array $context = []): void
-	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		$logger = ServiceLocator::getInstance()->get(LoggerInterface::class);
-		assert($logger instanceof LoggerInterface);
+    public static function warning(string $message, array $context = []): void
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $logger = ServiceLocator::getInstance()->get(LoggerInterface::class);
+        assert($logger instanceof LoggerInterface);
 
-		$logger->warning($message, $context);
-	}
-
+        $logger->warning($message, $context);
+    }
 }
