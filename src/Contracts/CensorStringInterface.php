@@ -15,5 +15,5 @@ interface CensorStringInterface
      * @param string $text The text to censor
      * @return string The censored text
      */
-    public function censorString(string $text): string;
+    public function __invoke(string $text): string;
 }

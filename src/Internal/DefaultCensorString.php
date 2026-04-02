@@ -13,7 +13,7 @@ use Imponeer\Properties\Contracts\CensorStringInterface;
  */
 final class DefaultCensorString implements CensorStringInterface
 {
-    public function censorString(string $text): string
+    public function __invoke(string $text): string
     {
         return $text;
     }
